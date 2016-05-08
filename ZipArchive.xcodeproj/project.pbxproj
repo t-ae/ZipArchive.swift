@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0391FF1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
 		0E241CB91CDE5635000E8BAB /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E241CB81CDE5635000E8BAB /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E241CC71CDE5727000E8BAB /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CC61CDE5727000E8BAB /* ZipArchiveTests.swift */; };
 		0E241CC91CDE5727000E8BAB /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E241CB51CDE5635000E8BAB /* ZipArchive.framework */; };
@@ -22,6 +23,9 @@
 		0E241D421CDE5C56000E8BAB /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3C1CDE5C56000E8BAB /* ZipArchiveStream.swift */; };
 		0E241D431CDE5C56000E8BAB /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3D1CDE5C56000E8BAB /* ZipConstants.swift */; };
 		0E241D441CDE5C56000E8BAB /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3E1CDE5C56000E8BAB /* ZipUtility.swift */; };
+		0E241D4F1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */; };
+		0E241D501CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */; };
+		0E241D511CDE64BE000E8BAB /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
 		0E241CB51CDE5635000E8BAB /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E241CB81CDE5635000E8BAB /* ZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		0E241CBA1CDE5635000E8BAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +65,9 @@
 		0E241D3D1CDE5C56000E8BAB /* ZipConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipConstants.swift; sourceTree = "<group>"; };
 		0E241D3E1CDE5C56000E8BAB /* ZipUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipUtility.swift; sourceTree = "<group>"; };
 		0E241D4B1CDE61EA000E8BAB /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveExtension.swift; sourceTree = "<group>"; };
+		0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +121,10 @@
 				0E241D3B1CDE5C56000E8BAB /* ZipArchiveEntryStream.swift */,
 				0E241D3C1CDE5C56000E8BAB /* ZipArchiveStream.swift */,
 				0E241D3D1CDE5C56000E8BAB /* ZipConstants.swift */,
+				0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */,
+				0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */,
+				0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */,
+				0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */,
 				0E241D3E1CDE5C56000E8BAB /* ZipUtility.swift */,
 			);
 			path = ZipArchive;
@@ -254,16 +266,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E241D411CDE5C56000E8BAB /* ZipArchiveEntryStream.swift in Sources */,
+				0E241D501CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift in Sources */,
 				0E241D1F1CDE596F000E8BAB /* ioapi_mem.c in Sources */,
 				0E241D421CDE5C56000E8BAB /* ZipArchiveStream.swift in Sources */,
+				0E0391FF1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
 				0E241D1D1CDE596F000E8BAB /* ioapi_buf.c in Sources */,
 				0E241D2D1CDE596F000E8BAB /* unzip.c in Sources */,
 				0E241D441CDE5C56000E8BAB /* ZipUtility.swift in Sources */,
 				0E241D2F1CDE596F000E8BAB /* zip.c in Sources */,
 				0E241D1B1CDE596F000E8BAB /* ioapi.c in Sources */,
+				0E241D511CDE64BE000E8BAB /* ZipFile.swift in Sources */,
 				0E241D3F1CDE5C56000E8BAB /* ZipArchive.swift in Sources */,
 				0E241D431CDE5C56000E8BAB /* ZipConstants.swift in Sources */,
 				0E241D401CDE5C56000E8BAB /* ZipArchiveEntry.swift in Sources */,
+				0E241D4F1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +478,7 @@
 				0E241CCD1CDE5727000E8BAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
