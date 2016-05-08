@@ -51,24 +51,23 @@ public class ZipFile {
         }
     }
     
-    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding) {
-        extractToDirectory(sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: "", passwordEncoding: NSASCIIStringEncoding)
+    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding) throws {
+        try extractToDirectory(sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: "", passwordEncoding: NSASCIIStringEncoding)
     }
 
-    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, password: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding, passwordEncoding: NSStringEncoding = NSASCIIStringEncoding) {
-        extractToDirectory(sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: password, passwordEncoding: passwordEncoding)
+    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, password: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding, passwordEncoding: NSStringEncoding = NSASCIIStringEncoding) throws {
+        try extractToDirectory(sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: password, passwordEncoding: passwordEncoding)
     }
     
-    private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding, password: String, passwordEncoding: NSStringEncoding) {
+    private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding, password: String, passwordEncoding: NSStringEncoding) throws {
         guard let unzip = ZipArchive(path: sourceArchiveFileName, mode: .Read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            // ERROR
-            return
+            throw ZipError.IO
         }
         defer {
             unzip.dispose()
         }
         
-        unzip.extractToDirectory(destinationDirectoryName, password: password)
+        try unzip.extractToDirectory(destinationDirectoryName, password: password)
     }
     
     public class func openRead(archiveFileName: String) -> ZipArchive? {

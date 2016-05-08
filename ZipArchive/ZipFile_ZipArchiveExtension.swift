@@ -154,11 +154,11 @@ extension ZipArchive {
         return entry
     }
 
-    public func extractToDirectory(destinationDirectoryName: String) {
-        extractToDirectory(destinationDirectoryName, password: "")
+    public func extractToDirectory(destinationDirectoryName: String) throws {
+        try extractToDirectory(destinationDirectoryName, password: "")
     }
 
-    public func extractToDirectory(destinationDirectoryName: String, password: String) {
+    public func extractToDirectory(destinationDirectoryName: String, password: String) throws {
         var directories = [ZipArchiveEntry]()
         var symbolicLinks = [ZipArchiveEntry]()
         var files = [ZipArchiveEntry]()
@@ -178,62 +178,42 @@ extension ZipArchive {
         let fm = NSFileManager.defaultManager()
         let directory = destinationDirectoryName as NSString
 
-        let createBaseDirectory = { (entry: ZipArchiveEntry) in
+        let createBaseDirectory = { (entry: ZipArchiveEntry) throws in
             if entry.fullName.containsString("/") {
                 let lastIndex = entry.fullName.rangeOfString("/", options: NSStringCompareOptions.BackwardsSearch)!.startIndex
                 let dir = entry.fullName.substringToIndex(lastIndex)
                 let path = directory.stringByAppendingPathComponent(dir)
                 if !fm.fileExistsAtPath(path) {
-                    do {
-                        try fm.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
-                    }
-                    catch {
-                        // ERROR
-                        return
-                    }
+                    try fm.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
                 }
             }
         }
 
         for entry in files {
             let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
-            createBaseDirectory(entry)
+            try createBaseDirectory(entry)
+            
+            try entry.extractToFile(fullPath, overwrite: false, password: password)
 
-            entry.extractToFile(fullPath, overwrite: false, password: password)
-
-            do {
-                var attributes = try fm.attributesOfItemAtPath(fullPath)
-                attributes[NSFileModificationDate] = entry.lastWriteTime
-                attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
-                attributes[NSFileType] = entry.fileType.toNSFileType()
-                try fm.setAttributes(attributes, ofItemAtPath: fullPath)
-            }
-            catch {
-                // ERROR
-                return
-            }
+            var attributes = try fm.attributesOfItemAtPath(fullPath)
+            attributes[NSFileModificationDate] = entry.lastWriteTime
+            attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
+            attributes[NSFileType] = entry.fileType.toNSFileType()
+            try fm.setAttributes(attributes, ofItemAtPath: fullPath)
         }
 
         for entry in symbolicLinks {
             let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
             guard let data = entry.extractToData() else {
-                // ERROR
-                return
+                throw ZipError.IO
             }
             guard let destination = String(data: data, encoding: NSUTF8StringEncoding) else {
-                // ERROR
-                return
+                throw ZipError.IO
             }
             
-            createBaseDirectory(entry)
+            try createBaseDirectory(entry)
             
-            do {
-                try fm.createSymbolicLinkAtPath(fullPath, withDestinationPath: destination)
-            }
-            catch {
-                // ERROR
-                return
-            }
+            try fm.createSymbolicLinkAtPath(fullPath, withDestinationPath: destination)
 
 //            var path1 = [CChar](count: data.length + 1, repeatedValue: 0)
 //            memcpy(&path1, data.bytes, data.length)
@@ -250,24 +230,19 @@ extension ZipArchive {
 
         for entry in directories {
             let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
-            do {
-                if !fm.fileExistsAtPath(fullPath) {
-                    let attributes = [
-                        NSFileModificationDate : entry.lastWriteTime,
-                        NSFilePosixPermissions : NSNumber(unsignedShort: entry.filePermissions)
-                    ]
-                    try fm.createDirectoryAtPath(fullPath, withIntermediateDirectories: true, attributes: attributes)
-                }
-                else {
-                    var attributes = try fm.attributesOfItemAtPath(fullPath)
-                    attributes[NSFileModificationDate] = entry.lastWriteTime
-                    attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
-                    try fm.setAttributes(attributes, ofItemAtPath: fullPath)
-                }
+
+            if !fm.fileExistsAtPath(fullPath) {
+                let attributes = [
+                    NSFileModificationDate : entry.lastWriteTime,
+                    NSFilePosixPermissions : NSNumber(unsignedShort: entry.filePermissions)
+                ]
+                try fm.createDirectoryAtPath(fullPath, withIntermediateDirectories: true, attributes: attributes)
             }
-            catch {
-                // ERROR
-                return
+            else {
+                var attributes = try fm.attributesOfItemAtPath(fullPath)
+                attributes[NSFileModificationDate] = entry.lastWriteTime
+                attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
+                try fm.setAttributes(attributes, ofItemAtPath: fullPath)
             }
         }
     }

@@ -10,34 +10,31 @@ import Foundation
 
 extension ZipArchiveEntry {
 
-    public func extractToFile(destinationFileName: String) {
-        extractToFile(destinationFileName, overwrite: false, password: "")
+    public func extractToFile(destinationFileName: String) throws {
+        try extractToFile(destinationFileName, overwrite: false, password: "")
     }
     
-    public func extractToFile(destinationFileName: String, overwrite: Bool) {
-        extractToFile(destinationFileName, overwrite: overwrite, password: "")
+    public func extractToFile(destinationFileName: String, overwrite: Bool) throws {
+        try extractToFile(destinationFileName, overwrite: overwrite, password: "")
     }
     
-    public func extractToFile(destinationFileName: String, overwrite: Bool, password: String) {
+    public func extractToFile(destinationFileName: String, overwrite: Bool, password: String) throws {
         let fm = NSFileManager.defaultManager()
         if fm.fileExistsAtPath(destinationFileName) {
             if !overwrite {
-                // Do Nothing
-                return
+                throw ZipError.IO
             }
         }
 
         guard let unzipStream = open(password) else {
-            // ERROR
-            return
+            throw ZipError.IO
         }
         defer {
             unzipStream.close()
         }
         
         guard let fileOutputStream = NSOutputStream(toFileAtPath: destinationFileName, append: false) else {
-            // ERROR
-            return
+            throw ZipError.IO
         }
         fileOutputStream.open()
         defer {
@@ -53,8 +50,7 @@ extension ZipArchiveEntry {
         while true {
             let len = unzipStream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
             if len < 0 {
-                // ERROR
-                break
+                throw ZipError.IO
             }
             if len == 0 {
                 // END
@@ -62,8 +58,7 @@ extension ZipArchiveEntry {
             }
             let err = fileOutputStream.write(buffer, maxLength: len)
             if err < 0 {
-                // ERROR
-                break
+                throw ZipError.IO
             }
         }
     }
