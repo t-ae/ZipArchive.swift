@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   #s.module_map = "Source/module.modulemap"
 
-  s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/' }
+  s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/ZipArchive.swift' }
 
 
   s.preserve_paths = "module.modulemap"
