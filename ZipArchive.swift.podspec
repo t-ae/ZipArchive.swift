@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "ZipArchive.swift"
-  s.version = "0.1.2"
+  s.version = "0.1.3"
   s.summary = "Zip archiving library written in Swift."
   s.homepage = "https://github.com/yaslab/ZipArchive.swift"
   s.license = "MIT"
@@ -12,9 +12,9 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'ZipArchive/*.swift', 'Minizip/crypt.h', 'Minizip/ioapi_buf.{h,c}', 'Minizip/ioapi_mem.{h,c}', 'Minizip/ioapi.{h,c}', 'Minizip/unzip.{h,c}', 'Minizip/zip.{h,c}'
-  s.private_header_files = 'Source/Minizip/*.h'
+  s.private_header_files = 'Minizip/*.h'
   #s.frameworks = 'Foundation'
-  #s.libraries = 'z'
+  s.libraries = 'z'
   s.module_name = 'ZipArchive'
 
   #s.module_map = "Source/module.modulemap"
