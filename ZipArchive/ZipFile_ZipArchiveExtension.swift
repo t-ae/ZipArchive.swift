@@ -10,15 +10,15 @@ import Foundation
 
 extension ZipArchive {
 
-    public func createEntryFromFile(sourceFileName: String, entryName: String) -> ZipArchiveEntry? {
-        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: .Default, password: "")
-    }
+//    public func createEntryFromFile(sourceFileName: String, entryName: String) -> ZipArchiveEntry? {
+//        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: .Default, password: nil)
+//    }
+//
+//    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
+//        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: compressionLevel, password: nil)
+//    }
 
-    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
-        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: compressionLevel, password: "")
-    }
-
-    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel, password: String) -> ZipArchiveEntry? {
+    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .Default, password: String? = nil) -> ZipArchiveEntry? {
         //let url = NSURL(fileURLWithPath: sourceFileName)
         //guard let fileWrapper = try? NSFileWrapper(URL: url, options: NSFileWrapperReadingOptions(rawValue: 0)) else {
         //    // ERROR
@@ -60,12 +60,14 @@ extension ZipArchive {
             // Nothing to do
         }
         else if fileType == .Regular {
-            if !password.isEmpty {
-                do {
-                    crc = try crc32__(withFilePath: sourceFileName)
-                }
-                catch {
-                    return nil
+            if let password = password {
+                if !password.isEmpty {
+                    do {
+                        crc = try crc32__(withFilePath: sourceFileName)
+                    }
+                    catch {
+                        return nil
+                    }
                 }
             }
             if let fileSize = fileAttributes[NSFileSize] {
@@ -154,11 +156,11 @@ extension ZipArchive {
         return entry
     }
 
-    public func extractToDirectory(destinationDirectoryName: String) throws {
-        try extractToDirectory(destinationDirectoryName, password: "")
-    }
+//    public func extractToDirectory(destinationDirectoryName: String) throws {
+//        try extractToDirectory(destinationDirectoryName, password: "")
+//    }
 
-    public func extractToDirectory(destinationDirectoryName: String, password: String) throws {
+    public func extractToDirectory(destinationDirectoryName: String, password: String? = nil) throws {
         var directories = [ZipArchiveEntry]()
         var symbolicLinks = [ZipArchiveEntry]()
         var files = [ZipArchiveEntry]()

@@ -63,7 +63,7 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
 }
 
 /* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
-public func crc32__(withFilePath path: String) throws -> UInt {
+internal func crc32__(withFilePath path: String) throws -> UInt {
     let fm = NSFileManager.defaultManager()
     if !fm.fileExistsAtPath(path) {
         throw ZipError.FileNotFound

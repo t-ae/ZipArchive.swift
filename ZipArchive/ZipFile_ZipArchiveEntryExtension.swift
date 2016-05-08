@@ -10,15 +10,15 @@ import Foundation
 
 extension ZipArchiveEntry {
 
-    public func extractToFile(destinationFileName: String) throws {
-        try extractToFile(destinationFileName, overwrite: false, password: "")
-    }
+//    public func extractToFile(destinationFileName: String) throws {
+//        try extractToFile(destinationFileName, overwrite: false, password: "")
+//    }
+//    
+//    public func extractToFile(destinationFileName: String, overwrite: Bool) throws {
+//        try extractToFile(destinationFileName, overwrite: overwrite, password: "")
+//    }
     
-    public func extractToFile(destinationFileName: String, overwrite: Bool) throws {
-        try extractToFile(destinationFileName, overwrite: overwrite, password: "")
-    }
-    
-    public func extractToFile(destinationFileName: String, overwrite: Bool, password: String) throws {
+    public func extractToFile(destinationFileName: String, overwrite: Bool = false, password: String? = nil) throws {
         let fm = NSFileManager.defaultManager()
         if fm.fileExistsAtPath(destinationFileName) {
             if !overwrite {

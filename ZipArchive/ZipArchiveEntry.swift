@@ -118,22 +118,28 @@ public class ZipArchiveEntry {
         self.filePermissions = 0777
         self.fileType = .Regular
     }
-
-    public func open() -> ZipArchiveStream? {
-        return open("")
-    }
     
-    public func open(password: String, crc32: UInt = 0, isLargeFile: Bool = false) -> ZipArchiveStream? {
+    /// Open zip archive entry as `ZipArchiveStream`.
+    /// - parameter password:
+    /// - parameter crc32:
+    /// - parameter isLargeFile:
+    /// - returns:
+    public func open(password: String? = nil, crc32: UInt = 0, isLargeFile: Bool = false) -> ZipArchiveStream? {
         guard let archive = archive else {
             return nil
         }
+        
         var passwordCString: [CChar]? = nil
-        if !password.isEmpty {
-            passwordCString = password.cStringUsingEncoding(archive.passwordEncoding)
-            if passwordCString == nil {
-                return nil
+        if let password = password {
+            if !password.isEmpty {
+                passwordCString = password.cStringUsingEncoding(archive.passwordEncoding)
+                if passwordCString == nil {
+                    // CString encoding error
+                    return nil
+                }
             }
         }
+
         var stream: ZipArchiveStream?
         switch archive.mode {
         case .Read:

@@ -12,24 +12,59 @@ public class ZipFile {
     
     private init() {}
 
-    public class func createFromDirectory(sourceDirectoryName: String, destinationArchiveFileName: String, compressionLevel: CompressionLevel = .Default, includeBaseDirectory: Bool = false, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding) {
-        createFromDirectory(sourceDirectoryName, destinationArchiveFileName: destinationArchiveFileName, compressionLevel: compressionLevel, includeBaseDirectory: includeBaseDirectory, entryNameEncoding: entryNameEncoding, password: "", passwordEncoding: NSASCIIStringEncoding)
+    public class func createFromDirectory(
+        sourceDirectoryName: String,
+        destinationArchiveFileName: String,
+        compressionLevel: CompressionLevel = .Default,
+        includeBaseDirectory: Bool = false,
+        entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding)
+        throws
+    {
+        try createFromDirectory(
+            sourceDirectoryName,
+            destinationArchiveFileName: destinationArchiveFileName,
+            compressionLevel: compressionLevel,
+            includeBaseDirectory: includeBaseDirectory,
+            entryNameEncoding: entryNameEncoding,
+            password: nil,
+            passwordEncoding: NSASCIIStringEncoding)
     }
     
-    public class func createFromDirectory(sourceDirectoryName: String, destinationArchiveFileName: String, password: String, compressionLevel: CompressionLevel = .Default, includeBaseDirectory: Bool = false, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding, passwordEncoding: NSStringEncoding = NSASCIIStringEncoding) {
-        createFromDirectory(sourceDirectoryName, destinationArchiveFileName: destinationArchiveFileName, compressionLevel: compressionLevel, includeBaseDirectory: includeBaseDirectory, entryNameEncoding: entryNameEncoding, password: password, passwordEncoding: passwordEncoding)
+    public class func createFromDirectory(
+        sourceDirectoryName: String,
+        destinationArchiveFileName: String,
+        password: String,
+        compressionLevel: CompressionLevel = .Default,
+        includeBaseDirectory: Bool = false,
+        entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding,
+        passwordEncoding: NSStringEncoding = NSASCIIStringEncoding)
+        throws
+    {
+        try createFromDirectory(
+            sourceDirectoryName,
+            destinationArchiveFileName: destinationArchiveFileName,
+            compressionLevel: compressionLevel,
+            includeBaseDirectory: includeBaseDirectory,
+            entryNameEncoding: entryNameEncoding,
+            password: password,
+            passwordEncoding: passwordEncoding)
     }
     
-    private class func createFromDirectory(sourceDirectoryName: String, destinationArchiveFileName: String, compressionLevel: CompressionLevel, includeBaseDirectory: Bool, entryNameEncoding: NSStringEncoding, password: String, passwordEncoding: NSStringEncoding) {
+    private class func createFromDirectory(
+        sourceDirectoryName: String,
+        destinationArchiveFileName: String,
+        compressionLevel: CompressionLevel,
+        includeBaseDirectory: Bool,
+        entryNameEncoding: NSStringEncoding,
+        password: String?,
+        passwordEncoding: NSStringEncoding)
+        throws
+    {
         let fm = NSFileManager.defaultManager()
-        guard let subpaths = try? fm.subpathsOfDirectoryAtPath(sourceDirectoryName) else {
-            // ERROR
-            return
-        }
+        let subpaths = try fm.subpathsOfDirectoryAtPath(sourceDirectoryName)
         
         guard let zip = ZipArchive(path: destinationArchiveFileName, mode: .Create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            // ERROR
-            return
+            throw ZipError.IO
         }
         defer {
             zip.dispose()
@@ -44,9 +79,9 @@ public class ZipFile {
             if includeBaseDirectory {
                 entryName = baseDirectoryName.stringByAppendingPathComponent(entryName)
             }
-            guard let _ = zip.createEntryFromFile(fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password) else {
-                // ERROR
-                break
+            let entry = zip.createEntryFromFile(fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
+            if entry == nil {
+                throw ZipError.IO
             }
         }
     }

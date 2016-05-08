@@ -11,11 +11,11 @@ import Foundation
 // In-Memory
 extension ZipArchiveEntry {
     
-    public func extractToData() -> NSData? {
-        return extractToData("")
-    }
+//    public func extractToData() -> NSData? {
+//        return extractToData(nil)
+//    }
     
-    public func extractToData(password: String) -> NSData? {
+    public func extractToData(password: String? = nil) -> NSData? {
         guard let unzipStream = open(password) else {
             // ERROR
             return nil

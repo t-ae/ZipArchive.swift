@@ -21,7 +21,7 @@ public protocol ZipArchiveStream: class {
     var canWrite: Bool { get }
     var position: UInt64 { get }
     
-    func close()
+    func close() -> Bool
     func read(buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int
     func seek(offset: Int, origin: SeekOrigin) -> Int
     func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int
@@ -116,8 +116,9 @@ public class ZipArchiveFileStream: ZipArchiveStream {
         return 0 // SUCCESS
     }
 
-    public func close() {
+    public func close() -> Bool {
         _fileHandle.closeFile()
+        return true
     }
     
     public func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
@@ -199,8 +200,8 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
         return 0 // SUCCESS
     }
     
-    public func close() {
-        return
+    public func close() -> Bool {
+        return true
     }
 
     public func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
