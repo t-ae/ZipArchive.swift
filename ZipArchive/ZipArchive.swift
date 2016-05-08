@@ -118,15 +118,16 @@ public class ZipArchive {
         return nil
     }
 
-    private func readEntries() {
+    private func readEntries() -> Bool {
         var err = unzGoToFirstFile(unzfp)
         while err == UNZ_OK {
             guard let entry = ZipArchiveEntry(owner: self) else {
-                break
+                return false
             }
             _entries.append(entry)
             err = unzGoToNextFile(unzfp)
         }
+        return true
     }
     
 }

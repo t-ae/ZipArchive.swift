@@ -8,14 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		0E0391FF1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
+		0E0392381CDF6C5600B60E7F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E03922E1CDF6C5600B60E7F /* ZipArchive.framework */; };
+		0E0392451CDF6D1400B60E7F /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E241CB81CDE5635000E8BAB /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E0392471CDF6D3E00B60E7F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0392461CDF6D3E00B60E7F /* libz.tbd */; };
+		0E0392481CDF6D5E00B60E7F /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D391CDE5C56000E8BAB /* ZipArchive.swift */; };
+		0E0392491CDF6D5E00B60E7F /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3A1CDE5C56000E8BAB /* ZipArchiveEntry.swift */; };
+		0E03924A1CDF6D5E00B60E7F /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3B1CDE5C56000E8BAB /* ZipArchiveEntryStream.swift */; };
+		0E03924B1CDF6D5E00B60E7F /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3C1CDE5C56000E8BAB /* ZipArchiveStream.swift */; };
+		0E03924C1CDF6D5E00B60E7F /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3D1CDE5C56000E8BAB /* ZipConstants.swift */; };
+		0E03924D1CDF6D5E00B60E7F /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */; };
+		0E03924E1CDF6D5E00B60E7F /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */; };
+		0E03924F1CDF6D5E00B60E7F /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */; };
+		0E0392501CDF6D5E00B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
+		0E0392511CDF6D5E00B60E7F /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3E1CDE5C56000E8BAB /* ZipUtility.swift */; };
+		0E0392521CDF6DEF00B60E7F /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0392251CDF6AA300B60E7F /* BaseTestCase.swift */; };
+		0E0392531CDF6DEF00B60E7F /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CC61CDE5727000E8BAB /* ZipArchiveTests.swift */; };
+		0E0392541CDF6DEF00B60E7F /* ZipFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0392261CDF6AA300B60E7F /* ZipFileTests.swift */; };
 		0E241CB91CDE5635000E8BAB /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E241CB81CDE5635000E8BAB /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E241CC71CDE5727000E8BAB /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CC61CDE5727000E8BAB /* ZipArchiveTests.swift */; };
-		0E241CC91CDE5727000E8BAB /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E241CB51CDE5635000E8BAB /* ZipArchive.framework */; };
-		0E241D1B1CDE596F000E8BAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CEB1CDE596F000E8BAB /* ioapi.c */; };
-		0E241D1D1CDE596F000E8BAB /* ioapi_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CED1CDE596F000E8BAB /* ioapi_buf.c */; };
-		0E241D1F1CDE596F000E8BAB /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CEF1CDE596F000E8BAB /* ioapi_mem.c */; };
-		0E241D2D1CDE596F000E8BAB /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CFD1CDE596F000E8BAB /* unzip.c */; };
-		0E241D2F1CDE596F000E8BAB /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E241CFF1CDE596F000E8BAB /* zip.c */; };
 		0E241D321CDE59F5000E8BAB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E241D311CDE59F5000E8BAB /* libz.tbd */; };
 		0E241D3F1CDE5C56000E8BAB /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D391CDE5C56000E8BAB /* ZipArchive.swift */; };
 		0E241D401CDE5C56000E8BAB /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D3A1CDE5C56000E8BAB /* ZipArchiveEntry.swift */; };
@@ -26,37 +35,44 @@
 		0E241D4F1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */; };
 		0E241D501CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */; };
 		0E241D511CDE64BE000E8BAB /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */; };
+		0EC7E3511CDF8C27005B9CAF /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34A1CDF8C26005B9CAF /* crypt.h */; };
+		0EC7E3521CDF8C27005B9CAF /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34B1CDF8C26005B9CAF /* ioapi.c */; };
+		0EC7E3531CDF8C27005B9CAF /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34C1CDF8C26005B9CAF /* ioapi.h */; };
+		0EC7E3541CDF8C27005B9CAF /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34D1CDF8C26005B9CAF /* unzip.c */; };
+		0EC7E3551CDF8C27005B9CAF /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34E1CDF8C26005B9CAF /* unzip.h */; };
+		0EC7E3561CDF8C27005B9CAF /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34F1CDF8C26005B9CAF /* zip.c */; };
+		0EC7E3571CDF8C27005B9CAF /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E3501CDF8C26005B9CAF /* zip.h */; };
+		0EC7E3581CDF8C53005B9CAF /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34B1CDF8C26005B9CAF /* ioapi.c */; };
+		0EC7E3591CDF8C53005B9CAF /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34D1CDF8C26005B9CAF /* unzip.c */; };
+		0EC7E35A1CDF8C53005B9CAF /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7E34F1CDF8C26005B9CAF /* zip.c */; };
+		0EC7E35B1CDF8C9B005B9CAF /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34A1CDF8C26005B9CAF /* crypt.h */; };
+		0EC7E35C1CDF8C9B005B9CAF /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34C1CDF8C26005B9CAF /* ioapi.h */; };
+		0EC7E35D1CDF8C9B005B9CAF /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E34E1CDF8C26005B9CAF /* unzip.h */; };
+		0EC7E35E1CDF8C9B005B9CAF /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7E3501CDF8C26005B9CAF /* zip.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0E241CCA1CDE5727000E8BAB /* PBXContainerItemProxy */ = {
+		0E0392391CDF6C5600B60E7F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E241CAC1CDE5635000E8BAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0E241CB41CDE5635000E8BAB;
-			remoteInfo = ZipArchive;
+			remoteGlobalIDString = 0E03922D1CDF6C5600B60E7F;
+			remoteInfo = "ZipArchive-macOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0E0391FE1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		0E0392251CDF6AA300B60E7F /* BaseTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		0E0392261CDF6AA300B60E7F /* ZipFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFileTests.swift; sourceTree = "<group>"; };
+		0E03922E1CDF6C5600B60E7F /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0392371CDF6C5600B60E7F /* ZipArchive-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ZipArchive-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0392461CDF6D3E00B60E7F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		0E241CB51CDE5635000E8BAB /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E241CB81CDE5635000E8BAB /* ZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		0E241CBA1CDE5635000E8BAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E241CC41CDE5727000E8BAB /* ZipArchiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZipArchiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E241CC61CDE5727000E8BAB /* ZipArchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveTests.swift; sourceTree = "<group>"; };
 		0E241CC81CDE5727000E8BAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E241CEA1CDE596F000E8BAB /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		0E241CEB1CDE596F000E8BAB /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		0E241CEC1CDE596F000E8BAB /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		0E241CED1CDE596F000E8BAB /* ioapi_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_buf.c; sourceTree = "<group>"; };
-		0E241CEE1CDE596F000E8BAB /* ioapi_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_buf.h; sourceTree = "<group>"; };
-		0E241CEF1CDE596F000E8BAB /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_mem.c; sourceTree = "<group>"; };
-		0E241CF01CDE596F000E8BAB /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
-		0E241CFD1CDE596F000E8BAB /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		0E241CFE1CDE596F000E8BAB /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		0E241CFF1CDE596F000E8BAB /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		0E241D001CDE596F000E8BAB /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		0E241D311CDE59F5000E8BAB /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0E241D391CDE5C56000E8BAB /* ZipArchive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
 		0E241D3A1CDE5C56000E8BAB /* ZipArchiveEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntry.swift; sourceTree = "<group>"; };
@@ -68,22 +84,37 @@
 		0E241D4C1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
 		0E241D4D1CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveExtension.swift; sourceTree = "<group>"; };
 		0E241D4E1CDE64BE000E8BAB /* ZipFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile.swift; sourceTree = "<group>"; };
+		0EC7E34A1CDF8C26005B9CAF /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		0EC7E34B1CDF8C26005B9CAF /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		0EC7E34C1CDF8C26005B9CAF /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		0EC7E34D1CDF8C26005B9CAF /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		0EC7E34E1CDF8C26005B9CAF /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		0EC7E34F1CDF8C26005B9CAF /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		0EC7E3501CDF8C26005B9CAF /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0E03922A1CDF6C5600B60E7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0392471CDF6D3E00B60E7F /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E0392341CDF6C5600B60E7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0392381CDF6C5600B60E7F /* ZipArchive.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E241CB11CDE5635000E8BAB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0E241D321CDE59F5000E8BAB /* libz.tbd in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E241CC11CDE5727000E8BAB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E241CC91CDE5727000E8BAB /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				0E241CB51CDE5635000E8BAB /* ZipArchive.framework */,
-				0E241CC41CDE5727000E8BAB /* ZipArchiveTests.xctest */,
+				0E03922E1CDF6C5600B60E7F /* ZipArchive.framework */,
+				0E0392371CDF6C5600B60E7F /* ZipArchive-macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,6 +147,7 @@
 			children = (
 				0E241CBA1CDE5635000E8BAB /* Info.plist */,
 				0E241D311CDE59F5000E8BAB /* libz.tbd */,
+				0E0392461CDF6D3E00B60E7F /* libz.tbd */,
 				0E241CB81CDE5635000E8BAB /* ZipArchive.h */,
 				0E241D391CDE5C56000E8BAB /* ZipArchive.swift */,
 				0E241D3A1CDE5C56000E8BAB /* ZipArchiveEntry.swift */,
@@ -133,8 +166,10 @@
 		0E241CC51CDE5727000E8BAB /* ZipArchiveTests */ = {
 			isa = PBXGroup;
 			children = (
+				0E0392251CDF6AA300B60E7F /* BaseTestCase.swift */,
 				0E241CC81CDE5727000E8BAB /* Info.plist */,
 				0E241CC61CDE5727000E8BAB /* ZipArchiveTests.swift */,
+				0E0392261CDF6AA300B60E7F /* ZipFileTests.swift */,
 			);
 			path = ZipArchiveTests;
 			sourceTree = "<group>";
@@ -142,17 +177,13 @@
 		0E241CCF1CDE596F000E8BAB /* Minizip */ = {
 			isa = PBXGroup;
 			children = (
-				0E241CEA1CDE596F000E8BAB /* crypt.h */,
-				0E241CED1CDE596F000E8BAB /* ioapi_buf.c */,
-				0E241CEE1CDE596F000E8BAB /* ioapi_buf.h */,
-				0E241CEF1CDE596F000E8BAB /* ioapi_mem.c */,
-				0E241CF01CDE596F000E8BAB /* ioapi_mem.h */,
-				0E241CEB1CDE596F000E8BAB /* ioapi.c */,
-				0E241CEC1CDE596F000E8BAB /* ioapi.h */,
-				0E241CFD1CDE596F000E8BAB /* unzip.c */,
-				0E241CFE1CDE596F000E8BAB /* unzip.h */,
-				0E241CFF1CDE596F000E8BAB /* zip.c */,
-				0E241D001CDE596F000E8BAB /* zip.h */,
+				0EC7E34A1CDF8C26005B9CAF /* crypt.h */,
+				0EC7E34B1CDF8C26005B9CAF /* ioapi.c */,
+				0EC7E34C1CDF8C26005B9CAF /* ioapi.h */,
+				0EC7E34D1CDF8C26005B9CAF /* unzip.c */,
+				0EC7E34E1CDF8C26005B9CAF /* unzip.h */,
+				0EC7E34F1CDF8C26005B9CAF /* zip.c */,
+				0EC7E3501CDF8C26005B9CAF /* zip.h */,
 			);
 			path = Minizip;
 			sourceTree = "<group>";
@@ -160,17 +191,69 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0E03922B1CDF6C5600B60E7F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0392451CDF6D1400B60E7F /* ZipArchive.h in Headers */,
+				0EC7E35B1CDF8C9B005B9CAF /* crypt.h in Headers */,
+				0EC7E35C1CDF8C9B005B9CAF /* ioapi.h in Headers */,
+				0EC7E35D1CDF8C9B005B9CAF /* unzip.h in Headers */,
+				0EC7E35E1CDF8C9B005B9CAF /* zip.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E241CB21CDE5635000E8BAB /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EC7E3531CDF8C27005B9CAF /* ioapi.h in Headers */,
 				0E241CB91CDE5635000E8BAB /* ZipArchive.h in Headers */,
+				0EC7E3511CDF8C27005B9CAF /* crypt.h in Headers */,
+				0EC7E3571CDF8C27005B9CAF /* zip.h in Headers */,
+				0EC7E3551CDF8C27005B9CAF /* unzip.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0E03922D1CDF6C5600B60E7F /* ZipArchive-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E03923F1CDF6C5600B60E7F /* Build configuration list for PBXNativeTarget "ZipArchive-macOS" */;
+			buildPhases = (
+				0E0392291CDF6C5600B60E7F /* Sources */,
+				0E03922A1CDF6C5600B60E7F /* Frameworks */,
+				0E03922B1CDF6C5600B60E7F /* Headers */,
+				0E03922C1CDF6C5600B60E7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ZipArchive-macOS";
+			productName = "ZipArchive-macOS";
+			productReference = 0E03922E1CDF6C5600B60E7F /* ZipArchive.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0E0392361CDF6C5600B60E7F /* ZipArchive-macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0392421CDF6C5600B60E7F /* Build configuration list for PBXNativeTarget "ZipArchive-macOSTests" */;
+			buildPhases = (
+				0E0392331CDF6C5600B60E7F /* Sources */,
+				0E0392341CDF6C5600B60E7F /* Frameworks */,
+				0E0392351CDF6C5600B60E7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E03923A1CDF6C5600B60E7F /* PBXTargetDependency */,
+			);
+			name = "ZipArchive-macOSTests";
+			productName = "ZipArchive-macOSTests";
+			productReference = 0E0392371CDF6C5600B60E7F /* ZipArchive-macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0E241CB41CDE5635000E8BAB /* ZipArchive */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E241CBD1CDE5635000E8BAB /* Build configuration list for PBXNativeTarget "ZipArchive" */;
@@ -189,24 +272,6 @@
 			productReference = 0E241CB51CDE5635000E8BAB /* ZipArchive.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0E241CC31CDE5727000E8BAB /* ZipArchiveTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0E241CCE1CDE5727000E8BAB /* Build configuration list for PBXNativeTarget "ZipArchiveTests" */;
-			buildPhases = (
-				0E241CC01CDE5727000E8BAB /* Sources */,
-				0E241CC11CDE5727000E8BAB /* Frameworks */,
-				0E241CC21CDE5727000E8BAB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0E241CCB1CDE5727000E8BAB /* PBXTargetDependency */,
-			);
-			name = ZipArchiveTests;
-			productName = ZipArchiveTests;
-			productReference = 0E241CC41CDE5727000E8BAB /* ZipArchiveTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -217,10 +282,13 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = yaslab;
 				TargetAttributes = {
-					0E241CB41CDE5635000E8BAB = {
+					0E03922D1CDF6C5600B60E7F = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					0E241CC31CDE5727000E8BAB = {
+					0E0392361CDF6C5600B60E7F = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					0E241CB41CDE5635000E8BAB = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -238,20 +306,28 @@
 			projectRoot = "";
 			targets = (
 				0E241CB41CDE5635000E8BAB /* ZipArchive */,
-				0E241CC31CDE5727000E8BAB /* ZipArchiveTests */,
+				0E03922D1CDF6C5600B60E7F /* ZipArchive-macOS */,
+				0E0392361CDF6C5600B60E7F /* ZipArchive-macOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0E241CB31CDE5635000E8BAB /* Resources */ = {
+		0E03922C1CDF6C5600B60E7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0E241CC21CDE5727000E8BAB /* Resources */ = {
+		0E0392351CDF6C5600B60E7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E241CB31CDE5635000E8BAB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -261,47 +337,141 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E0392291CDF6C5600B60E7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E03924A1CDF6D5E00B60E7F /* ZipArchiveEntryStream.swift in Sources */,
+				0E0392501CDF6D5E00B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
+				0E0392481CDF6D5E00B60E7F /* ZipArchive.swift in Sources */,
+				0E03924B1CDF6D5E00B60E7F /* ZipArchiveStream.swift in Sources */,
+				0E03924F1CDF6D5E00B60E7F /* ZipFile.swift in Sources */,
+				0E03924C1CDF6D5E00B60E7F /* ZipConstants.swift in Sources */,
+				0EC7E3591CDF8C53005B9CAF /* unzip.c in Sources */,
+				0E03924E1CDF6D5E00B60E7F /* ZipFile_ZipArchiveExtension.swift in Sources */,
+				0E0392491CDF6D5E00B60E7F /* ZipArchiveEntry.swift in Sources */,
+				0EC7E3581CDF8C53005B9CAF /* ioapi.c in Sources */,
+				0EC7E35A1CDF8C53005B9CAF /* zip.c in Sources */,
+				0E0392511CDF6D5E00B60E7F /* ZipUtility.swift in Sources */,
+				0E03924D1CDF6D5E00B60E7F /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E0392331CDF6C5600B60E7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0392521CDF6DEF00B60E7F /* BaseTestCase.swift in Sources */,
+				0E0392531CDF6DEF00B60E7F /* ZipArchiveTests.swift in Sources */,
+				0E0392541CDF6DEF00B60E7F /* ZipFileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E241CB01CDE5635000E8BAB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0E241D411CDE5C56000E8BAB /* ZipArchiveEntryStream.swift in Sources */,
 				0E241D501CDE64BE000E8BAB /* ZipFile_ZipArchiveExtension.swift in Sources */,
-				0E241D1F1CDE596F000E8BAB /* ioapi_mem.c in Sources */,
 				0E241D421CDE5C56000E8BAB /* ZipArchiveStream.swift in Sources */,
 				0E0391FF1CDEDC3700B60E7F /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
-				0E241D1D1CDE596F000E8BAB /* ioapi_buf.c in Sources */,
-				0E241D2D1CDE596F000E8BAB /* unzip.c in Sources */,
 				0E241D441CDE5C56000E8BAB /* ZipUtility.swift in Sources */,
-				0E241D2F1CDE596F000E8BAB /* zip.c in Sources */,
-				0E241D1B1CDE596F000E8BAB /* ioapi.c in Sources */,
 				0E241D511CDE64BE000E8BAB /* ZipFile.swift in Sources */,
+				0EC7E3541CDF8C27005B9CAF /* unzip.c in Sources */,
 				0E241D3F1CDE5C56000E8BAB /* ZipArchive.swift in Sources */,
 				0E241D431CDE5C56000E8BAB /* ZipConstants.swift in Sources */,
+				0EC7E3521CDF8C27005B9CAF /* ioapi.c in Sources */,
+				0EC7E3561CDF8C27005B9CAF /* zip.c in Sources */,
 				0E241D401CDE5C56000E8BAB /* ZipArchiveEntry.swift in Sources */,
 				0E241D4F1CDE64BE000E8BAB /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E241CC01CDE5727000E8BAB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E241CC71CDE5727000E8BAB /* ZipArchiveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0E241CCB1CDE5727000E8BAB /* PBXTargetDependency */ = {
+		0E03923A1CDF6C5600B60E7F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0E241CB41CDE5635000E8BAB /* ZipArchive */;
-			targetProxy = 0E241CCA1CDE5727000E8BAB /* PBXContainerItemProxy */;
+			target = 0E03922D1CDF6C5600B60E7F /* ZipArchive-macOS */;
+			targetProxy = 0E0392391CDF6C5600B60E7F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0E0392401CDF6C5600B60E7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
+				PRODUCT_NAME = ZipArchive;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/";
+			};
+			name = Debug;
+		};
+		0E0392411CDF6C5600B60E7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
+				PRODUCT_NAME = ZipArchive;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/";
+			};
+			name = Release;
+		};
+		0E0392431CDF6C5600B60E7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0E0392441CDF6C5600B60E7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		0E241CBB1CDE5635000E8BAB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -403,6 +573,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ZipArchive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -422,6 +593,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ZipArchive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -430,29 +602,27 @@
 			};
 			name = Release;
 		};
-		0E241CCC1CDE5727000E8BAB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		0E241CCD1CDE5727000E8BAB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E03923F1CDF6C5600B60E7F /* Build configuration list for PBXNativeTarget "ZipArchive-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0392401CDF6C5600B60E7F /* Debug */,
+				0E0392411CDF6C5600B60E7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E0392421CDF6C5600B60E7F /* Build configuration list for PBXNativeTarget "ZipArchive-macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0392431CDF6C5600B60E7F /* Debug */,
+				0E0392441CDF6C5600B60E7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0E241CAF1CDE5635000E8BAB /* Build configuration list for PBXProject "ZipArchive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -467,15 +637,6 @@
 			buildConfigurations = (
 				0E241CBE1CDE5635000E8BAB /* Debug */,
 				0E241CBF1CDE5635000E8BAB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0E241CCE1CDE5727000E8BAB /* Build configuration list for PBXNativeTarget "ZipArchiveTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E241CCC1CDE5727000E8BAB /* Debug */,
-				0E241CCD1CDE5727000E8BAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
