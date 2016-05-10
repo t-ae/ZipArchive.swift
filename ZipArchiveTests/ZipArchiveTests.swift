@@ -35,6 +35,7 @@ class ZipArchiveTestCase: BaseTestCase {
 
         let archiveFile = zipDestinationDirectory + "test.zip"
         let archive = ZipArchive(path: archiveFile, mode: .Create)!
+        defer { archive.dispose() }
         
         for fileName in files.keys {
             let entry = archive.createEntry(fileName)!
@@ -42,8 +43,6 @@ class ZipArchiveTestCase: BaseTestCase {
             let data = files[fileName]!
             stream.write(UnsafePointer<UInt8>(data.bytes), maxLength: data.length)
         }
-        
-        archive.dispose()
         
         let ret = executeCommand("unzip -d '\(unzipDestinationDirectory)' '\(archiveFile)'", workingDirectory: nil)
         XCTAssertEqual(0, ret)
@@ -70,6 +69,7 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        defer { archive.dispose() }
         
         var count = 0
         for entry in archive.entries {
@@ -80,8 +80,6 @@ class ZipArchiveTestCase: BaseTestCase {
             XCTAssertTrue(data.isEqualToData(testData))
             count += 1
         }
-        
-        archive.dispose()
         
         XCTAssertEqual(files.count, count)
     }
@@ -101,6 +99,7 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        defer { archive.dispose() }
         
         var count = 0
         for entry in archive.entries {
@@ -111,8 +110,6 @@ class ZipArchiveTestCase: BaseTestCase {
             XCTAssertTrue(data.isEqualToData(testData))
             count += 1
         }
-        
-        archive.dispose()
         
         XCTAssertEqual(files.count, count)
     }
@@ -135,11 +132,12 @@ class ZipArchiveTestCase: BaseTestCase {
         
         let archiveFile = zipDestinationDirectory + "test.zip"
         let archive = ZipArchive(path: archiveFile, mode: .Create)!
+        defer { archive.dispose() }
+        
         for fileName in files.keys {
             let testDataFilePath = testDataDirectory + fileName
             archive.createEntryFromFile(testDataFilePath, entryName: fileName)
         }
-        archive.dispose()
 
         let ret = executeCommand("unzip -d '\(unzipDestinationDirectory)' '\(archiveFile)'", workingDirectory: nil)
         XCTAssertEqual(0, ret)
@@ -174,6 +172,7 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        defer { archive.dispose() }
         
         var count = 0
         for entry in archive.entries {
@@ -184,8 +183,6 @@ class ZipArchiveTestCase: BaseTestCase {
             XCTAssertTrue(data.isEqualToData(testData))
             count += 1
         }
-        
-        archive.dispose()
         
         XCTAssertEqual(files.count, count)
     }
