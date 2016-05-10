@@ -12,7 +12,7 @@ Contains the [Minizip](http://www.winimage.com/zLibDll/minizip.html) in this lib
 
 ### Unzip
 
-```
+```swift
 import ZipArchive
 
 let sourceFile = "/path/to/archive.zip"
@@ -22,7 +22,7 @@ try! ZipFile.extractToDirectory(sourceFile, destinationDirectoryName: destinatio
 
 ### Zip
 
-```
+```swift
 import ZipArchive
 
 let sourceDirectory = "/path/to/directory"
@@ -32,7 +32,7 @@ try! ZipFile.createFromDirectory(sourceDirectory, destinationArchiveFileName: de
 
 ### Enumerate files in zip file
 
-```
+```swift
 import ZipArchive
 
 let archiveFile = "/path/to/archive.zip"
@@ -48,14 +48,7 @@ for entry in archive.entries {
 
 ### CocoaPods
 
-Podfile
-
-```
-platform :ios, '8.0'
-use_frameworks!
-
-pod 'ZipArchive.swift'
-```
+TBD
 
 ### Carthage
 
