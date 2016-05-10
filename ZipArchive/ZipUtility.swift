@@ -62,44 +62,6 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
     return filefuncDef
 }
 
-/* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
-internal func crc32__(withFilePath path: String) throws -> UInt {
-    let fm = NSFileManager.defaultManager()
-    if !fm.fileExistsAtPath(path) {
-        throw ZipError.FileNotFound
-    }
-    guard let stream = NSInputStream(fileAtPath: path) else {
-        throw ZipError.IO
-    }
-    
-    stream.open()
-    if let _ = stream.streamError {
-        throw ZipError.IO
-    }
-    
-    let buffer = UnsafeMutablePointer<UInt8>.alloc(kZipArchiveDefaultBufferSize)
-    //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
-    
-    var crc: uLong = 0
-    
-    while true {
-        let len = stream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
-        if len <= 0 {
-            break
-        }
-        crc = crc32(crc, buffer, uInt(len))
-    }
-    
-    buffer.destroy()
-    buffer.dealloc(kZipArchiveDefaultBufferSize)
-    stream.close()
-    if let _ = stream.streamError {
-        throw ZipError.IO
-    }
-    
-    return crc
-}
-
 internal func date(fromDosDate dosDateTime: uLong) -> NSDate? {
     let date = dosDateTime >> 16
     let calendar = NSCalendar.currentCalendar()
