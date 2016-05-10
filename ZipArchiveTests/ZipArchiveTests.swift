@@ -30,7 +30,7 @@ class ZipArchiveTestCase: BaseTestCase {
 
     func test圧縮ファイル() {
         let files: [String : NSData] = [
-            "test_data.dat" : createData()
+            "test_data.dat" : createFixedData()
         ]
 
         let archiveFile = zipDestinationDirectory + "test.zip"
@@ -58,10 +58,11 @@ class ZipArchiveTestCase: BaseTestCase {
 
     func test解凍ファイル() {
         let files: [String : NSData] = [
-            "test_data.dat" : createData()
+            "test_data.dat" : createFixedData()
         ]
 
-        try! createFiles(files, baseDirectory: testDataDirectory)
+        let created = createFiles(files, baseDirectory: testDataDirectory)
+        XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
         let fileArgs =  files.map { (pair) -> String in pair.0 }.joinWithSeparator(" ")
@@ -87,12 +88,13 @@ class ZipArchiveTestCase: BaseTestCase {
     
     func test解凍ファイルとディレクトリ() {
         let files: [String : NSData] = [
-            "test_data1.dat" : createData(),
-            "subdir/test_data2.dat" : createData(),
-            "subdir/" : createData(0)
+            "test_data1.dat" : createFixedData(),
+            "subdir/test_data2.dat" : createRandomData(),
+            "subdir/" : createRandomData(0)
         ]
         
-        try! createFiles(files, baseDirectory: testDataDirectory)
+        let created = createFiles(files, baseDirectory: testDataDirectory)
+        XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
         let ret = executeCommand("zip '\(archiveFile)' -r .", workingDirectory: testDataDirectory)
@@ -117,19 +119,20 @@ class ZipArchiveTestCase: BaseTestCase {
 
     func test圧縮ファイルのバッファサイズ() {
         let files: [String : NSData] = [
-            "test_data1.dat" : createData(kZipArchiveDefaultBufferSize - 1),
-            "test_data2.dat" : createData(kZipArchiveDefaultBufferSize),
-            "test_data3.dat" : createData(kZipArchiveDefaultBufferSize + 1),
-            "test_data4.dat" : createData(kZipArchiveDefaultBufferSize * 2 - 1),
-            "test_data5.dat" : createData(kZipArchiveDefaultBufferSize * 2),
-            "test_data6.dat" : createData(kZipArchiveDefaultBufferSize * 2 + 1),
-            "test_data7.dat" : createData(kZipArchiveDefaultBufferSize * 3 - 1),
-            "test_data8.dat" : createData(kZipArchiveDefaultBufferSize * 3),
-            "test_data9.dat" : createData(kZipArchiveDefaultBufferSize * 3 + 1),
+            "test_data1.dat" : createFixedData(kZipArchiveDefaultBufferSize - 1),
+            "test_data2.dat" : createFixedData(kZipArchiveDefaultBufferSize),
+            "test_data3.dat" : createFixedData(kZipArchiveDefaultBufferSize + 1),
+            "test_data4.dat" : createRandomData(kZipArchiveDefaultBufferSize * 2 - 1),
+            "test_data5.dat" : createRandomData(kZipArchiveDefaultBufferSize * 2),
+            "test_data6.dat" : createRandomData(kZipArchiveDefaultBufferSize * 2 + 1),
+            "test_data7.dat" : createFixedData(kZipArchiveDefaultBufferSize * 3 - 1),
+            "test_data8.dat" : createRandomData(kZipArchiveDefaultBufferSize * 3),
+            "test_data9.dat" : createFixedData(kZipArchiveDefaultBufferSize * 3 + 1),
         ]
         
-        try! createFiles(files, baseDirectory: testDataDirectory)
-
+        let created = createFiles(files, baseDirectory: testDataDirectory)
+        XCTAssertTrue(created)
+        
         let archiveFile = zipDestinationDirectory + "test.zip"
         let archive = ZipArchive(path: archiveFile, mode: .Create)!
         for fileName in files.keys {
@@ -151,18 +154,19 @@ class ZipArchiveTestCase: BaseTestCase {
     
     func test解凍ファイルのバッファサイズ() {
         let files: [String : NSData] = [
-            "test_data1.dat" : createData(kZipArchiveDefaultBufferSize - 1),
-            "test_data2.dat" : createData(kZipArchiveDefaultBufferSize),
-            "test_data3.dat" : createData(kZipArchiveDefaultBufferSize + 1),
-            "test_data4.dat" : createData(kZipArchiveDefaultBufferSize * 2 - 1),
-            "test_data5.dat" : createData(kZipArchiveDefaultBufferSize * 2),
-            "test_data6.dat" : createData(kZipArchiveDefaultBufferSize * 2 + 1),
-            "test_data7.dat" : createData(kZipArchiveDefaultBufferSize * 3 - 1),
-            "test_data8.dat" : createData(kZipArchiveDefaultBufferSize * 3),
-            "test_data9.dat" : createData(kZipArchiveDefaultBufferSize * 3 + 1),
+            "test_data1.dat" : createRandomData(kZipArchiveDefaultBufferSize - 1),
+            "test_data2.dat" : createRandomData(kZipArchiveDefaultBufferSize),
+            "test_data3.dat" : createRandomData(kZipArchiveDefaultBufferSize + 1),
+            "test_data4.dat" : createFixedData(kZipArchiveDefaultBufferSize * 2 - 1),
+            "test_data5.dat" : createFixedData(kZipArchiveDefaultBufferSize * 2),
+            "test_data6.dat" : createFixedData(kZipArchiveDefaultBufferSize * 2 + 1),
+            "test_data7.dat" : createRandomData(kZipArchiveDefaultBufferSize * 3 - 1),
+            "test_data8.dat" : createFixedData(kZipArchiveDefaultBufferSize * 3),
+            "test_data9.dat" : createRandomData(kZipArchiveDefaultBufferSize * 3 + 1),
         ]
         
-        try! createFiles(files, baseDirectory: testDataDirectory)
+        let created = createFiles(files, baseDirectory: testDataDirectory)
+        XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
         let fileArgs =  files.map { (pair) -> String in pair.0 }.joinWithSeparator(" ")

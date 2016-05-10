@@ -56,7 +56,16 @@ class BaseTestCase: XCTestCase {
         return ret
     }
     
-    func createData(size: Int = 1234) -> NSData {
+    func createFixedData(size: Int = 1234) -> NSData {
+        let data = NSMutableData()
+        var byte = UInt8(rand() % 0x0100)
+        for _ in 0 ..< size {
+            data.appendBytes(&byte, length: 1)
+        }
+        return data
+    }
+    
+    func createRandomData(size: Int = 1234) -> NSData {
         let data = NSMutableData()
         for _ in 0 ..< size {
             var byte = UInt8(rand() % 0x0100)
