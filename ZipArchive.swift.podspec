@@ -8,7 +8,8 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/yaslab/ZipArchive.swift.git", :tag => s.version, :submodules => true }
   #s.social_media_url = 'https://twitter.com/...'
 
-  s.platform = :ios, '8.0'
+  s.ios.deployment_target = '8.0'
+  s.osx.deployment_target = '10.9'
   s.requires_arc = true
 
   s.source_files = 'ZipArchive/*.swift', 'Minizip/crypt.h', 'Minizip/ioapi_buf.{h,c}', 'Minizip/ioapi_mem.{h,c}', 'Minizip/ioapi.{h,c}', 'Minizip/unzip.{h,c}', 'Minizip/zip.{h,c}'
