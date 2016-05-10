@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
 
   s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/ZipArchive.swift' }
 
+  s.compiler_flags = '-DUSE_FILE32API'
 
   s.preserve_paths = "module.modulemap"
 end
