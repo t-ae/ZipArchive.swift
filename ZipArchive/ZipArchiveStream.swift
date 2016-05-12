@@ -93,11 +93,15 @@ public class ZipArchiveFileStream: ZipArchiveStream {
         return _fileHandle.offsetInFile
     }
     
-    
     public func read(buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int {
-        let data = _fileHandle.readDataOfLength(len)
-        memcpy(buffer, data.bytes, data.length)
-        return data.length
+        if len <= 0 {
+            return 0
+        }
+        let readLen = Darwin.read(_fileHandle.fileDescriptor, buffer, len)
+        if readLen < 0 {
+            return 0 // ERROR
+        }
+        return readLen
     }
     
     public func seek(offset: Int, origin: SeekOrigin) -> Int {
@@ -122,9 +126,14 @@ public class ZipArchiveFileStream: ZipArchiveStream {
     }
     
     public func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
-        let data = NSData(bytes: buffer, length: len)
-        _fileHandle.writeData(data)
-        return len
+        if len <= 0 {
+            return 0
+        }
+        let writeLen = Darwin.write(_fileHandle.fileDescriptor, buffer, len)
+        if writeLen < 0 {
+            return 0 // ERROR
+        }
+        return writeLen
     }
     
 }
