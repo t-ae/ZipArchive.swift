@@ -10,28 +10,28 @@ import Foundation
 import Minizip
 
 internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def {
-    var filefuncDef = zlib_filefunc64_def()
+    var fileFuncDef = zlib_filefunc64_def()
     
-    filefuncDef.opaque = unsafeBitCast(opaque as AnyObject, UnsafeMutablePointer<Void>.self)
-    
-    filefuncDef.zopen64_file = { (opaque: voidpf, _: UnsafePointer<Void>, _: Int32) -> voidpf in
+    fileFuncDef.opaque = unsafeBitCast(opaque as AnyObject, voidpf.self)
+
+    fileFuncDef.zopen64_file = { (opaque: voidpf, _: UnsafePointer<Void>, _: Int32) -> voidpf in
         return opaque
     }
-    filefuncDef.zread_file = { (_: voidpf, _stream: voidpf, buf: UnsafeMutablePointer<Void>, size: uLong) -> uLong in
+    fileFuncDef.zread_file = { (_: voidpf, _stream: voidpf, buf: UnsafeMutablePointer<Void>, size: uLong) -> uLong in
         let stream = unsafeBitCast(_stream, AnyObject.self) as! ZipArchiveStream
         let ret = stream.read(UnsafeMutablePointer<UInt8>(buf), maxLength: Int(size))
         return uLong(ret)
     }
-    filefuncDef.zwrite_file = { (_: voidpf, _stream: voidpf, buf: UnsafePointer<Void>, size: uLong) -> uLong in
+    fileFuncDef.zwrite_file = { (_: voidpf, _stream: voidpf, buf: UnsafePointer<Void>, size: uLong) -> uLong in
         let stream = unsafeBitCast(_stream, AnyObject.self) as! ZipArchiveStream
         let ret = stream.write(UnsafePointer<UInt8>(buf), maxLength: Int(size))
         return uLong(ret)
     }
-    filefuncDef.ztell64_file = { (_: voidpf, _stream: voidpf) -> ZPOS64_T in
+    fileFuncDef.ztell64_file = { (_: voidpf, _stream: voidpf) -> ZPOS64_T in
         let stream = unsafeBitCast(_stream, AnyObject.self) as! ZipArchiveStream
         return ZPOS64_T(stream.position)
     }
-    filefuncDef.zseek64_file = { (_: voidpf, _stream: voidpf, _offset: ZPOS64_T, _origin: Int32) -> Int in
+    fileFuncDef.zseek64_file = { (_: voidpf, _stream: voidpf, _offset: ZPOS64_T, _origin: Int32) -> Int in
         let stream = unsafeBitCast(_stream, AnyObject.self) as! ZipArchiveStream
         let offset = Int(_offset)
         
@@ -50,16 +50,15 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
         }
         return stream.seek(offset, origin: origin)
     }
-    filefuncDef.zclose_file = { (_: voidpf, _stream: voidpf) -> Int32 in
+    fileFuncDef.zclose_file = { (_: voidpf, _stream: voidpf) -> Int32 in
         let stream = unsafeBitCast(_stream, AnyObject.self) as! ZipArchiveStream
-        stream.close()
-        return 0
+        return stream.close() ? 0 : EOF
     }
-    filefuncDef.zerror_file = { (_: voidpf, _stream: voidpf) -> Int32 in
+    fileFuncDef.zerror_file = { (_: voidpf, _stream: voidpf) -> Int32 in
         return 0
     }
     
-    return filefuncDef
+    return fileFuncDef
 }
 
 internal func date(fromDosDate dosDateTime: uLong) -> NSDate? {
