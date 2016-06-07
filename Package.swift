@@ -6,7 +6,5 @@ let package = Package(
         Target(name: "ZipArchive", dependencies: ["CMinizip"]),
         Target(name: "CMinizip", dependencies: [])
     ],
-    dependencies: [
-//        .Package(url: "../CZlib", majorVersion: 1)
-    ]
+    dependencies: []
 )
