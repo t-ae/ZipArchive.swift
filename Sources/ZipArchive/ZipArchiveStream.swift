@@ -219,7 +219,7 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
             mutableData.length = _offset + len
         }
         let range = NSRange(location: _offset, length: len)
-        mutableData.replaceBytesInRange(range, withBytes: buffer, length: len)
+        mutableData.replaceBytes(in: range, withBytes: buffer, length: len)
         _offset += len
         return len
     }

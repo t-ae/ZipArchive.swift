@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Minizip
+import CMinizip
 
 public class ZipArchive {
 
@@ -16,14 +16,14 @@ public class ZipArchive {
     internal let entryNameEncoding: NSStringEncoding
     internal let passwordEncoding: NSStringEncoding
 
-    internal var zipfp: zipFile = nil
-    internal var unzfp: unzFile = nil
-    
+    internal var zipfp: zipFile? = nil
+    internal var unzfp: unzFile? = nil
+
     private var _entries = [ZipArchiveEntry]()
     public var entries: AnySequence<ZipArchiveEntry> {
-        return AnySequence { [unowned self]() -> AnyGenerator<ZipArchiveEntry> in
+        return AnySequence { [unowned self]() -> AnyIterator<ZipArchiveEntry> in
             var index = 0
-            return AnyGenerator { () -> ZipArchiveEntry? in
+            return AnyIterator { () -> ZipArchiveEntry? in
                 if self._entries.count == index {
                     return nil
                 }
@@ -33,17 +33,17 @@ public class ZipArchive {
             }
         }
     }
-    
+
     private var disposed: Bool = false
-    
+
     public init?(stream: ZipArchiveStream, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding, passwordEncoding: NSStringEncoding) {
         self.stream = stream
         self.mode = mode
         self.entryNameEncoding = entryNameEncoding
         self.passwordEncoding = passwordEncoding
-        
-        var fileFuncDef = createFileFuncDef(stream)
-        
+
+        var fileFuncDef = createFileFuncDef(opaque: stream)
+
         switch mode {
         case .Read:
             if !stream.canRead {
@@ -61,25 +61,25 @@ public class ZipArchive {
             }
             zipfp = zipOpen2_64(nil, APPEND_STATUS_CREATE, nil, &fileFuncDef)
         }
-        
+
         if zipfp == nil && unzfp == nil {
             // ERROR
             return nil
         }
     }
-    
+
     deinit {
         if !disposed {
             dispose()
         }
     }
-    
+
     public func dispose() {
         if disposed {
             // ERROR
             return
         }
-        
+
         if zipfp != nil {
             zipClose(zipfp, nil)
             zipfp = nil
@@ -90,11 +90,11 @@ public class ZipArchive {
         }
         disposed = true
     }
-    
+
     public func createEntry(entryName: String) -> ZipArchiveEntry? {
-        return createEntry(entryName, compressionLevel: .Default)
+        return createEntry(entryName: entryName, compressionLevel: .Default)
     }
-    
+
     public func createEntry(entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
         if zipfp == nil || entryName == "" {
             return nil
@@ -105,7 +105,7 @@ public class ZipArchive {
         _entries.append(entry)
         return entry
     }
-    
+
     public func getEntry(entryName: String) -> ZipArchiveEntry? {
         if entryName == "" {
             return nil
@@ -129,23 +129,23 @@ public class ZipArchive {
         }
         return true
     }
-    
+
 }
 
 public extension ZipArchive {
-    
+
     public convenience init?(path: String) {
         self.init(path: path, mode: .Read, entryNameEncoding: NSUTF8StringEncoding, passwordEncoding: NSASCIIStringEncoding)
     }
-    
+
     public convenience init?(path: String, mode: ZipArchiveMode) {
         self.init(path: path, mode: mode, entryNameEncoding: NSUTF8StringEncoding, passwordEncoding: NSASCIIStringEncoding)
     }
-    
+
     public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding) {
         self.init(path: path, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: NSASCIIStringEncoding)
     }
-    
+
     public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding, passwordEncoding: NSStringEncoding) {
         var stream: ZipArchiveStream? = nil
         switch mode {
@@ -154,9 +154,9 @@ public extension ZipArchive {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
             }
         case .Create:
-            let fm = NSFileManager.defaultManager()
-            if !fm.fileExistsAtPath(path) {
-                fm.createFileAtPath(path, contents: nil, attributes: nil)
+            let fm = NSFileManager.default()
+            if !fm.fileExists(atPath: path) {
+                fm.createFile(atPath: path, contents: nil, attributes: nil)
             }
             if let fileHandle = NSFileHandle(forWritingAtPath: path) {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
@@ -167,5 +167,5 @@ public extension ZipArchive {
         }
         self.init(stream: stream!, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
     }
-    
+
 }

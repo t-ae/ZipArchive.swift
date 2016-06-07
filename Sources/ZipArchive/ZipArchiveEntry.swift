@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import Minizip
+import CMinizip
 
 public class ZipArchiveEntry {
-    
+
     public private(set) weak var archive: ZipArchive?
 
     internal let fileNameInZip: [CChar]
     public let fullName: String
     public let name: String
-    
+
     public private(set) var length: UInt64
     public private(set) var compressedLength: UInt64
     internal let compressionLevel: CompressionLevel
@@ -24,25 +24,25 @@ public class ZipArchiveEntry {
     public var lastWriteTime: NSDate
     public var filePermissions: UInt16
     public var fileType: FileType
-    
+
     // For unzip
     internal init?(owner: ZipArchive) {
         self.archive = owner
-        
+
         var fileInfo = unz_file_info64()
         var fileNameInZip = [CChar]()
         var err = unzGetCurrentFileInfo64(owner.unzfp, &fileInfo, nil, 0, nil, 0, nil, 0)
         if err == UNZ_OK {
-            fileNameInZip = [CChar](count: Int(fileInfo.size_filename) + 1, repeatedValue: 0)
+            fileNameInZip = [CChar](repeating: 0, count: Int(fileInfo.size_filename) + 1)
             err = unzGetCurrentFileInfo64(owner.unzfp, nil, &fileNameInZip, fileInfo.size_filename, nil, 0, nil, 0)
         }
         if err != UNZ_OK {
             return nil
         }
-        
+
         self.fileNameInZip = fileNameInZip
-        
-        guard let fullName = String(CString: fileNameInZip, encoding: owner.entryNameEncoding) else {
+
+        guard let fullName = String(cString: fileNameInZip, encoding: owner.entryNameEncoding) else {
             return nil
         }
         self.fullName = fullName
@@ -50,7 +50,7 @@ public class ZipArchiveEntry {
 
         self.length = fileInfo.uncompressed_size
         self.compressedLength = fileInfo.compressed_size
-        
+
         var compressionLevel = Z_DEFAULT_COMPRESSION
         var isNotSupportedCompressionMethod = false
         switch Int32(fileInfo.compression_method) {
@@ -76,8 +76,8 @@ public class ZipArchiveEntry {
         if isNotSupportedCompressionMethod {
             return nil
         }
-        self.compressionLevel = CompressionLevel.fromRawValue(compressionLevel)
-        
+        self.compressionLevel = CompressionLevel.fromRawValue(rawValue: compressionLevel)
+
         var fileDate: NSDate!
         if let date = date(fromDosDate: fileInfo.dosDate) {
             fileDate = date
@@ -87,28 +87,28 @@ public class ZipArchiveEntry {
             fileDate = NSDate(timeIntervalSinceReferenceDate: 0)
         }
         self.lastWriteTime = fileDate
-        
+
         let mode = mode_t(fileInfo.external_fa >> 16)
         self.filePermissions = mode
-        self.fileType = FileType.fromRawValue(mode)
+        self.fileType = FileType.fromRawValue(rawValue: mode)
 
         if self.fileType == .Unknown {
             return nil
         }
     }
-    
+
     // For zip
     internal init?(owner: ZipArchive, entryName: String, compressionLevel: CompressionLevel) {
         self.archive = owner
-        
+
         self.fullName = entryName
         self.name = (entryName as NSString).lastPathComponent
-        
-        guard let fileNameInZip = entryName.cStringUsingEncoding(owner.entryNameEncoding) else {
+
+        guard let fileNameInZip = entryName.cString(using: owner.entryNameEncoding) else {
             return nil
         }
         self.fileNameInZip = fileNameInZip
-        
+
         self.length = 0
         self.compressedLength = 0
 
@@ -118,7 +118,7 @@ public class ZipArchiveEntry {
         self.filePermissions = 0777
         self.fileType = .Regular
     }
-    
+
     /// Open zip archive entry as `ZipArchiveStream`.
     /// - parameter password:
     /// - parameter crc32:
@@ -128,11 +128,11 @@ public class ZipArchiveEntry {
         guard let archive = archive else {
             return nil
         }
-        
+
         var passwordCString: [CChar]? = nil
         if let password = password {
             if !password.isEmpty {
-                passwordCString = password.cStringUsingEncoding(archive.passwordEncoding)
+                passwordCString = password.cString(using: archive.passwordEncoding)
                 if passwordCString == nil {
                     // CString encoding error
                     return nil
@@ -151,10 +151,10 @@ public class ZipArchiveEntry {
         }
         return stream
     }
-    
+
     // Not supported
     //public func delete() {
     //    self.archive = nil
     //}
-    
+
 }

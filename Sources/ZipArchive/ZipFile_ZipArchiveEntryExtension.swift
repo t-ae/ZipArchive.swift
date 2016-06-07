@@ -19,14 +19,14 @@ extension ZipArchiveEntry {
 //    }
     
     public func extractToFile(destinationFileName: String, overwrite: Bool = false, password: String? = nil) throws {
-        let fm = NSFileManager.defaultManager()
-        if fm.fileExistsAtPath(destinationFileName) {
+        let fm = NSFileManager.default()
+        if fm.fileExists(atPath: destinationFileName) {
             if !overwrite {
                 throw ZipError.IO
             }
         }
 
-        guard let unzipStream = open(password) else {
+        guard let unzipStream = open(password: password) else {
             throw ZipError.IO
         }
         defer {
@@ -41,14 +41,14 @@ extension ZipArchiveEntry {
             fileOutputStream.close()
         }
         
-        let buffer = UnsafeMutablePointer<UInt8>.alloc(kZipArchiveDefaultBufferSize)
+        let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: kZipArchiveDefaultBufferSize)
         defer {
-            buffer.destroy()
-            buffer.dealloc(kZipArchiveDefaultBufferSize)
+            buffer.deinitialize()
+            buffer.deallocateCapacity(kZipArchiveDefaultBufferSize)
         }
         
         while true {
-            let len = unzipStream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+            let len = unzipStream.read(buffer: buffer, maxLength: kZipArchiveDefaultBufferSize)
             if len < 0 {
                 throw ZipError.IO
             }

@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import Minizip
+import CMinizip
 
 public let kZipArchiveDefaultBufferSize = 8192
 
-public enum ZipError: ErrorType {
+public enum ZipError: ErrorProtocol {
     case Argument
     case ArgumentNull
     case PathTooLong
@@ -35,7 +35,7 @@ public enum CompressionLevel {
     case Fastest
     case Optimal
     case Default
-    
+
     internal static func fromRawValue(rawValue: Int32) -> CompressionLevel {
         switch rawValue {
         case Z_NO_COMPRESSION: return .NoCompression
@@ -44,7 +44,7 @@ public enum CompressionLevel {
         default: return .Default
         }
     }
-    
+
     internal func toRawValue() -> Int32 {
         switch self {
         case .NoCompression: return Z_NO_COMPRESSION
@@ -56,7 +56,7 @@ public enum CompressionLevel {
 }
 
 public enum FileType {
-    
+
     //case NamedPipe
     case CharacterSpecial
     case Directory
@@ -66,7 +66,7 @@ public enum FileType {
     case Socket
     //case Whiteout
     case Unknown
-    
+
     internal static func fromRawValue(rawValue: UInt16) -> FileType {
         var type = rawValue & S_IFMT
         // TODO: when windows, type == 0 ????
@@ -85,7 +85,7 @@ public enum FileType {
         default: return .Unknown
         }
     }
-    
+
     internal static func fromNSFileType(fileType: NSString) -> FileType {
         switch fileType {
         case NSFileTypeDirectory: return .Directory
@@ -98,7 +98,7 @@ public enum FileType {
         default: return .Unknown
         }
     }
-    
+
     internal func toNSFileType() -> NSString {
         switch self {
         case .Directory: return NSFileTypeDirectory
@@ -110,5 +110,5 @@ public enum FileType {
         default: return NSFileTypeUnknown
         }
     }
-    
+
 }
