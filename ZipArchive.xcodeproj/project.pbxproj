@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EF8A6481D07254E0009E6B7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8A6471D07254E0009E6B7 /* libz.tbd */; };
+		0EF8A6501D0726810009E6B7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8A6471D07254E0009E6B7 /* libz.tbd */; };
+		_LinkFileRef_CMinizip_via_ZipArchive /* CMinizip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "_____Product_CMinizip" /* CMinizip.framework */; };
+		_LinkFileRef_CMinizip_via_ZipArchiveTestSuite /* CMinizip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "_____Product_CMinizip" /* CMinizip.framework */; };
+		_LinkFileRef_ZipArchive_via_ZipArchiveTestSuite /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "_____Product_ZipArchive" /* ZipArchive.framework */; };
+		__src_cc_ref_Sources/CMinizip/ioapi.c /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/CMinizip/ioapi.c /* ioapi.c */; };
+		__src_cc_ref_Sources/CMinizip/mztools.c /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/CMinizip/mztools.c /* mztools.c */; };
+		__src_cc_ref_Sources/CMinizip/unzip.c /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/CMinizip/unzip.c /* unzip.c */; };
+		__src_cc_ref_Sources/CMinizip/zip.c /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/CMinizip/zip.c /* zip.c */; };
+		__src_cc_ref_Sources/ZipArchive/ZipArchive.swift /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipArchive.swift /* ZipArchive.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipArchiveEntry.swift /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipArchiveEntry.swift /* ZipArchiveEntry.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipArchiveEntryStream.swift /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipArchiveEntryStream.swift /* ZipArchiveEntryStream.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipArchiveStream.swift /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipArchiveStream.swift /* ZipArchiveStream.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipConstants.swift /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipConstants.swift /* ZipConstants.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipFile.swift /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipFile.swift /* ZipFile.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipFile_ZipArchiveEntryExtension.swift /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveEntryExtension.swift /* ZipFile_ZipArchiveEntryExtension.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipFile_ZipArchiveExtension.swift /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveExtension.swift /* ZipFile_ZipArchiveExtension.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipInMemory_ZipArchiveEntryExtension.swift /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipInMemory_ZipArchiveEntryExtension.swift /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
+		__src_cc_ref_Sources/ZipArchive/ZipUtility.swift /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ZipArchive/ZipUtility.swift /* ZipUtility.swift */; };
+		__src_cc_ref_Tests/ZipArchive/BaseTestCase.swift /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Tests/ZipArchive/BaseTestCase.swift /* BaseTestCase.swift */; };
+		__src_cc_ref_Tests/ZipArchive/ZipArchiveTests.swift /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Tests/ZipArchive/ZipArchiveTests.swift /* ZipArchiveTests.swift */; };
+		__src_cc_ref_Tests/ZipArchive/ZipFileTests.swift /* ZipFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Tests/ZipArchive/ZipFileTests.swift /* ZipFileTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0EF8A6451D0724F10009E6B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = __RootObject_ /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "______Target_CMinizip";
+			remoteInfo = CMinizip;
+		};
+		0EF8A6461D0724F10009E6B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = __RootObject_ /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "______Target_ZipArchive";
+			remoteInfo = ZipArchive;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0EF8A6471D07254E0009E6B7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0EF8A64B1D0725AA0009E6B7 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		0EF8A64C1D0725AA0009E6B7 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		0EF8A64D1D0725AA0009E6B7 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		0EF8A64E1D0725AA0009E6B7 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		0EF8A64F1D0725AA0009E6B7 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		__PBXFileRef_CMinizip_Info.plist /* CMinizip_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = CMinizip_Info.plist; path = ZipArchive.xcodeproj/CMinizip_Info.plist; sourceTree = SOURCE_ROOT; };
+		__PBXFileRef_Package.swift /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/CMinizip/ioapi.c /* ioapi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/CMinizip/mztools.c /* mztools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/CMinizip/unzip.c /* unzip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/CMinizip/zip.c /* zip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipArchive.swift /* ZipArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipArchiveEntry.swift /* ZipArchiveEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntry.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipArchiveEntryStream.swift /* ZipArchiveEntryStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipArchiveStream.swift /* ZipArchiveStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveStream.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipConstants.swift /* ZipConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipConstants.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipFile.swift /* ZipFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipFile.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveEntryExtension.swift /* ZipFile_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveExtension.swift /* ZipFile_ZipArchiveExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveExtension.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipInMemory_ZipArchiveEntryExtension.swift /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ZipArchive/ZipUtility.swift /* ZipUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipUtility.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Tests/ZipArchive/BaseTestCase.swift /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Tests/ZipArchive/ZipArchiveTests.swift /* ZipArchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveTests.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Tests/ZipArchive/ZipFileTests.swift /* ZipFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipFileTests.swift; sourceTree = "<group>"; };
+		__PBXFileRef_ZipArchive.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.xcconfig; path = ZipArchive.xcodeproj/Configs/Project.xcconfig; sourceTree = "<group>"; };
+		__PBXFileRef_ZipArchiveTestSuite_Info.plist /* ZipArchiveTestSuite_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ZipArchiveTestSuite_Info.plist; path = ZipArchive.xcodeproj/ZipArchiveTestSuite_Info.plist; sourceTree = SOURCE_ROOT; };
+		__PBXFileRef_ZipArchive_Info.plist /* ZipArchive_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ZipArchive_Info.plist; path = ZipArchive.xcodeproj/ZipArchive_Info.plist; sourceTree = SOURCE_ROOT; };
+		"_____Product_CMinizip" /* CMinizip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CMinizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"_____Product_ZipArchive" /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"_____Product_ZipArchiveTestSuite" /* ZipArchiveTestSuite.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ZipArchiveTestSuite.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		"___LinkPhase_CMinizip" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				0EF8A6481D07254E0009E6B7 /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		"___LinkPhase_ZipArchive" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				0EF8A6501D0726810009E6B7 /* libz.tbd in Frameworks */,
+				_LinkFileRef_CMinizip_via_ZipArchive /* CMinizip.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		"___LinkPhase_ZipArchiveTestSuite" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				_LinkFileRef_ZipArchive_via_ZipArchiveTestSuite /* ZipArchive.framework in Frameworks */,
+				_LinkFileRef_CMinizip_via_ZipArchiveTestSuite /* CMinizip.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0EF8A64A1D0725A90009E6B7 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				0EF8A64B1D0725AA0009E6B7 /* crypt.h */,
+				0EF8A64C1D0725AA0009E6B7 /* ioapi.h */,
+				0EF8A64D1D0725AA0009E6B7 /* mztools.h */,
+				0EF8A64E1D0725AA0009E6B7 /* unzip.h */,
+				0EF8A64F1D0725AA0009E6B7 /* zip.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		TestProducts_ /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				"_____Product_ZipArchiveTestSuite" /* ZipArchiveTestSuite.xctest */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		"___RootGroup_" = {
+			isa = PBXGroup;
+			children = (
+				0EF8A6471D07254E0009E6B7 /* libz.tbd */,
+				__PBXFileRef_Package.swift /* Package.swift */,
+				"_____Configs_" /* Configs */,
+				"_____Sources_" /* Sources */,
+				"_______Tests_" /* Tests */,
+				"____Products_" /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		"____Products_" /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				TestProducts_ /* Tests */,
+				"_____Product_CMinizip" /* CMinizip.framework */,
+				"_____Product_ZipArchive" /* ZipArchive.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		"_____Configs_" /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_ZipArchive.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		"_____Sources_" /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				"_______Group_CMinizip" /* CMinizip */,
+				"_______Group_ZipArchive" /* ZipArchive */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		"_______Group_CMinizip" /* CMinizip */ = {
+			isa = PBXGroup;
+			children = (
+				0EF8A64A1D0725A90009E6B7 /* include */,
+				__PBXFileRef_Sources/CMinizip/ioapi.c /* ioapi.c */,
+				__PBXFileRef_Sources/CMinizip/mztools.c /* mztools.c */,
+				__PBXFileRef_Sources/CMinizip/unzip.c /* unzip.c */,
+				__PBXFileRef_Sources/CMinizip/zip.c /* zip.c */,
+				__PBXFileRef_CMinizip_Info.plist /* CMinizip_Info.plist */,
+			);
+			name = CMinizip;
+			path = Sources/CMinizip;
+			sourceTree = "<group>";
+		};
+		"_______Group_ZipArchive" /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Sources/ZipArchive/ZipArchive.swift /* ZipArchive.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipArchiveEntry.swift /* ZipArchiveEntry.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipArchiveEntryStream.swift /* ZipArchiveEntryStream.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipArchiveStream.swift /* ZipArchiveStream.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipConstants.swift /* ZipConstants.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipFile.swift /* ZipFile.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveEntryExtension.swift /* ZipFile_ZipArchiveEntryExtension.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipFile_ZipArchiveExtension.swift /* ZipFile_ZipArchiveExtension.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipInMemory_ZipArchiveEntryExtension.swift /* ZipInMemory_ZipArchiveEntryExtension.swift */,
+				__PBXFileRef_Sources/ZipArchive/ZipUtility.swift /* ZipUtility.swift */,
+				__PBXFileRef_ZipArchive_Info.plist /* ZipArchive_Info.plist */,
+			);
+			name = ZipArchive;
+			path = Sources/ZipArchive;
+			sourceTree = "<group>";
+		};
+		"_______Group_ZipArchiveTestSuite" /* ZipArchiveTestSuite */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Tests/ZipArchive/BaseTestCase.swift /* BaseTestCase.swift */,
+				__PBXFileRef_Tests/ZipArchive/ZipArchiveTests.swift /* ZipArchiveTests.swift */,
+				__PBXFileRef_Tests/ZipArchive/ZipFileTests.swift /* ZipFileTests.swift */,
+				__PBXFileRef_ZipArchiveTestSuite_Info.plist /* ZipArchiveTestSuite_Info.plist */,
+			);
+			name = ZipArchiveTestSuite;
+			path = Tests/ZipArchive;
+			sourceTree = "<group>";
+		};
+		"_______Tests_" /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				"_______Group_ZipArchiveTestSuite" /* ZipArchiveTestSuite */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"______Target_CMinizip" /* CMinizip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_CMinizip" /* Build configuration list for PBXNativeTarget "CMinizip" */;
+			buildPhases = (
+				CompilePhase_CMinizip /* Sources */,
+				"___LinkPhase_CMinizip" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CMinizip;
+			productName = CMinizip;
+			productReference = "_____Product_CMinizip" /* CMinizip.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"______Target_ZipArchive" /* ZipArchive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_ZipArchive" /* Build configuration list for PBXNativeTarget "ZipArchive" */;
+			buildPhases = (
+				CompilePhase_ZipArchive /* Sources */,
+				"___LinkPhase_ZipArchive" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				__Dependency_CMinizip /* PBXTargetDependency */,
+			);
+			name = ZipArchive;
+			productName = ZipArchive;
+			productReference = "_____Product_ZipArchive" /* ZipArchive.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"______Target_ZipArchiveTestSuite" /* ZipArchiveTestSuite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_ZipArchiveTestSuite" /* Build configuration list for PBXNativeTarget "ZipArchiveTestSuite" */;
+			buildPhases = (
+				CompilePhase_ZipArchiveTestSuite /* Sources */,
+				"___LinkPhase_ZipArchiveTestSuite" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				__Dependency_ZipArchive /* PBXTargetDependency */,
+			);
+			name = ZipArchiveTestSuite;
+			productName = ZipArchiveTestSuite;
+			productReference = "_____Product_ZipArchiveTestSuite" /* ZipArchiveTestSuite.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		__RootObject_ /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = "___RootConfs_" /* Build configuration list for PBXProject "ZipArchive" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = "___RootGroup_";
+			productRefGroup = "____Products_" /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"______Target_CMinizip" /* CMinizip */,
+				"______Target_ZipArchive" /* ZipArchive */,
+				"______Target_ZipArchiveTestSuite" /* ZipArchiveTestSuite */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CompilePhase_CMinizip /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Sources/CMinizip/ioapi.c /* ioapi.c in Sources */,
+				__src_cc_ref_Sources/CMinizip/mztools.c /* mztools.c in Sources */,
+				__src_cc_ref_Sources/CMinizip/unzip.c /* unzip.c in Sources */,
+				__src_cc_ref_Sources/CMinizip/zip.c /* zip.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CompilePhase_ZipArchive /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Sources/ZipArchive/ZipArchive.swift /* ZipArchive.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipArchiveEntry.swift /* ZipArchiveEntry.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipArchiveEntryStream.swift /* ZipArchiveEntryStream.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipArchiveStream.swift /* ZipArchiveStream.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipConstants.swift /* ZipConstants.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipFile.swift /* ZipFile.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipFile_ZipArchiveEntryExtension.swift /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipFile_ZipArchiveExtension.swift /* ZipFile_ZipArchiveExtension.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipInMemory_ZipArchiveEntryExtension.swift /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
+				__src_cc_ref_Sources/ZipArchive/ZipUtility.swift /* ZipUtility.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CompilePhase_ZipArchiveTestSuite /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Tests/ZipArchive/BaseTestCase.swift /* BaseTestCase.swift in Sources */,
+				__src_cc_ref_Tests/ZipArchive/ZipArchiveTests.swift /* ZipArchiveTests.swift in Sources */,
+				__src_cc_ref_Tests/ZipArchive/ZipFileTests.swift /* ZipFileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		__Dependency_CMinizip /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "______Target_CMinizip" /* CMinizip */;
+			targetProxy = 0EF8A6451D0724F10009E6B7 /* PBXContainerItemProxy */;
+		};
+		__Dependency_ZipArchive /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "______Target_ZipArchive" /* ZipArchive */;
+			targetProxy = 0EF8A6461D0724F10009E6B7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		_ReleaseConf_CMinizip /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
+				INFOPLIST_FILE = ZipArchive.xcodeproj/CMinizip_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "-DUSE_FILE32API";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+			};
+			name = Release;
+		};
+		_ReleaseConf_ZipArchive /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = ZipArchive.xcodeproj/ZipArchive_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources/CMinizip";
+			};
+			name = Release;
+		};
+		_ReleaseConf_ZipArchiveTestSuite /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = ZipArchive.xcodeproj/ZipArchiveTestSuite_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+			};
+			name = Release;
+		};
+		"___DebugConf_CMinizip" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
+				INFOPLIST_FILE = ZipArchive.xcodeproj/CMinizip_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "-DUSE_FILE32API";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"___DebugConf_ZipArchive" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = ZipArchive.xcodeproj/ZipArchive_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources/CMinizip";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"___DebugConf_ZipArchiveTestSuite" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = ZipArchive.xcodeproj/ZipArchiveTestSuite_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"_____Release_" /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = __PBXFileRef_ZipArchive.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		"_______Debug_" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = __PBXFileRef_ZipArchive.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		"___RootConfs_" /* Build configuration list for PBXProject "ZipArchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"_______Debug_" /* Debug */,
+				"_____Release_" /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_CMinizip" /* Build configuration list for PBXNativeTarget "CMinizip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_CMinizip" /* Debug */,
+				_ReleaseConf_CMinizip /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_ZipArchive" /* Build configuration list for PBXNativeTarget "ZipArchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_ZipArchive" /* Debug */,
+				_ReleaseConf_ZipArchive /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_ZipArchiveTestSuite" /* Build configuration list for PBXNativeTarget "ZipArchiveTestSuite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_ZipArchiveTestSuite" /* Debug */,
+				_ReleaseConf_ZipArchiveTestSuite /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = __RootObject_ /* Project object */;
+}
