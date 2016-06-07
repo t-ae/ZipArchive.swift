@@ -10,7 +10,7 @@ import XCTest
 
 class BaseTestCase: XCTestCase {
 
-    let fileManager = NSFileManager.defaultManager()
+    let fileManager = NSFileManager.default()
     let testBaseDirectory = "/tmp/ZipArchiveTest/"
     var testDataDirectory: String { return testBaseDirectory + "ZipArchiveData/" }
     var zipDestinationDirectory: String { return  testBaseDirectory + "Zip/" }
@@ -23,13 +23,13 @@ class BaseTestCase: XCTestCase {
     }
     
     func cleanUp() throws {
-        if fileManager.fileExistsAtPath(testBaseDirectory) {
-            try fileManager.removeItemAtPath(testBaseDirectory)
+        if fileManager.fileExists(atPath: testBaseDirectory) {
+            try fileManager.removeItem(atPath: testBaseDirectory)
         }
-        try fileManager.createDirectoryAtPath(testBaseDirectory, withIntermediateDirectories: false, attributes: nil)
-        try fileManager.createDirectoryAtPath(testDataDirectory, withIntermediateDirectories: false, attributes: nil)
-        try fileManager.createDirectoryAtPath(zipDestinationDirectory, withIntermediateDirectories: false, attributes: nil)
-        try fileManager.createDirectoryAtPath(unzipDestinationDirectory, withIntermediateDirectories: false, attributes: nil)
+        try fileManager.createDirectory(atPath: testBaseDirectory, withIntermediateDirectories: false, attributes: nil)
+        try fileManager.createDirectory(atPath: testDataDirectory, withIntermediateDirectories: false, attributes: nil)
+        try fileManager.createDirectory(atPath: zipDestinationDirectory, withIntermediateDirectories: false, attributes: nil)
+        try fileManager.createDirectory(atPath: unzipDestinationDirectory, withIntermediateDirectories: false, attributes: nil)
     }
     
     func executeCommand(command: String, workingDirectory: String?) -> Int32 {
@@ -60,7 +60,7 @@ class BaseTestCase: XCTestCase {
         let data = NSMutableData()
         var byte = UInt8(rand() % 0x0100)
         for _ in 0 ..< size {
-            data.appendBytes(&byte, length: 1)
+            data.append(&byte, length: 1)
         }
         return data
     }
@@ -69,7 +69,7 @@ class BaseTestCase: XCTestCase {
         let data = NSMutableData()
         for _ in 0 ..< size {
             var byte = UInt8(rand() % 0x0100)
-            data.appendBytes(&byte, length: 1)
+            data.append(&byte, length: 1)
         }
         return data
     }
@@ -80,9 +80,9 @@ class BaseTestCase: XCTestCase {
             if fileName.hasSuffix("/") {
                 let directory = baseDirectory + fileName
                 var isDirectory = ObjCBool(false)
-                if !fileManager.fileExistsAtPath(directory, isDirectory: &isDirectory) {
+                if !fileManager.fileExists(atPath: directory, isDirectory: &isDirectory) {
                     do {
-                        try fileManager.createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil)
+                        try fileManager.createDirectory(atPath: directory, withIntermediateDirectories: true, attributes: nil)
                     }
                     catch {
                         success = false
@@ -99,17 +99,17 @@ class BaseTestCase: XCTestCase {
             else {
                 let data = files[fileName]!
                 let stragePath = baseDirectory + fileName
-                let directory = NSURL(string: stragePath)!.URLByDeletingLastPathComponent!.path!
-                if !fileManager.fileExistsAtPath(directory) {
+                let directory = NSURL(string: stragePath)!.deletingLastPathComponent!.path!
+                if !fileManager.fileExists(atPath: directory) {
                     do {
-                        try fileManager.createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil)
+                        try fileManager.createDirectory(atPath: directory, withIntermediateDirectories: true, attributes: nil)
                     }
                     catch {
                         success = false
                         break
                     }
                 }
-                success = data.writeToFile(stragePath, atomically: true)
+                success = data.write(toFile: stragePath, atomically: true)
                 if !success {
                     break
                 }
