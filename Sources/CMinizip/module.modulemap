@@ -1,6 +1,7 @@
-module CMinizip [system] {
+framework module CMinizip [system] {
     link "z"
-    header "include/unzip.h"
-    header "include/zip.h"
+    umbrella header "CMinizip.h"
+
     export *
+    module * { export * }
 }

@@ -15,5 +15,5 @@ FOUNDATION_EXPORT double CMinizipVersionNumber;
 FOUNDATION_EXPORT const unsigned char CMinizipVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CMinizip/PublicHeader.h>
-
-
+#import "unzip.h"
+#import "zip.h"
