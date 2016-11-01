@@ -40,11 +40,11 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
         var origin: SeekOrigin
         switch _origin {
         case ZLIB_FILEFUNC_SEEK_SET:
-            origin = .Begin
+            origin = .begin
         case ZLIB_FILEFUNC_SEEK_CUR:
-            origin = .Current
+            origin = .current
         case ZLIB_FILEFUNC_SEEK_END:
-            origin = .End
+            origin = .end
         default:
             // ERROR
             errno = EINVAL

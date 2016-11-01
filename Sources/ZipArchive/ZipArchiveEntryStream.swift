@@ -62,10 +62,10 @@ internal class ZipArchiveEntryZipStream: ZipArchiveStream {
         let tm = tmZip(fromDate: archiveEntry.lastWriteTime)
 
         var mode = archiveEntry.filePermissions
-        if archiveEntry.fileType == .Directory {
+        if archiveEntry.fileType == .directory {
             mode = mode | S_IFDIR
         }
-        else if archiveEntry.fileType == .SymbolicLink {
+        else if archiveEntry.fileType == .symbolicLink {
             mode = mode | S_IFLNK
         }
         else {

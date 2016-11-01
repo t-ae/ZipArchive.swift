@@ -45,7 +45,7 @@ public class ZipArchive {
         var fileFuncDef = createFileFuncDef(opaque: stream)
 
         switch mode {
-        case .Read:
+        case .read:
             if !stream.canRead {
                 // ERROR
                 return nil
@@ -54,7 +54,7 @@ public class ZipArchive {
             if unzfp != nil {
                 readEntries()
             }
-        case .Create:
+        case .create:
             if !stream.canWrite {
                 // ERROR
                 return nil
@@ -92,7 +92,7 @@ public class ZipArchive {
     }
 
     public func createEntry(entryName: String) -> ZipArchiveEntry? {
-        return createEntry(entryName: entryName, compressionLevel: .Default)
+        return createEntry(entryName: entryName, compressionLevel: .default)
     }
 
     public func createEntry(entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
@@ -135,7 +135,7 @@ public class ZipArchive {
 public extension ZipArchive {
 
     public convenience init?(path: String) {
-        self.init(path: path, mode: .Read, entryNameEncoding: .utf8, passwordEncoding: .ascii)
+        self.init(path: path, mode: .read, entryNameEncoding: .utf8, passwordEncoding: .ascii)
     }
 
     public convenience init?(path: String, mode: ZipArchiveMode) {
@@ -149,11 +149,11 @@ public extension ZipArchive {
     public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
         var stream: ZipArchiveStream? = nil
         switch mode {
-        case .Read:
+        case .read:
             if let fileHandle = FileHandle(forReadingAtPath: path) {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
             }
-        case .Create:
+        case .create:
             let fm = FileManager.default
             if !fm.fileExists(atPath: path) {
                 fm.createFile(atPath: path, contents: nil, attributes: nil)

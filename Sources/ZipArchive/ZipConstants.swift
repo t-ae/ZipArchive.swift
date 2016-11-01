@@ -12,60 +12,66 @@ import CMinizip
 public let kZipArchiveDefaultBufferSize = 8192
 
 public enum ZipError: Error {
-    case Argument
-    case ArgumentNull
-    case PathTooLong
-    case DirectoryNotFound
-    case IO
-    case UnauthorizedAccess
-    case FileNotFound
-    case InvalidData
-    case ObjectDisposed
-    case NotSupported
+    
+    case argument
+    case argumentNull
+    case pathTooLong
+    case directoryNotFound
+    case io
+    case unauthorizedAccess
+    case fileNotFound
+    case invalidData
+    case objectDisposed
+    case notSupported
+    
 }
 
 public enum ZipArchiveMode {
-    case Read
-    case Create
-    //case Update
+
+    case read
+    case create
+    //case update
+    
 }
 
 public enum CompressionLevel {
-    case NoCompression
-    case Fastest
-    case Optimal
-    case Default
+    
+    case noCompression
+    case fastest
+    case optimal
+    case `default`
 
     internal static func fromRawValue(rawValue: Int32) -> CompressionLevel {
         switch rawValue {
-        case Z_NO_COMPRESSION: return .NoCompression
-        case Z_BEST_SPEED: return .Fastest
-        case Z_BEST_COMPRESSION: return .Optimal
-        default: return .Default
+        case Z_NO_COMPRESSION: return .noCompression
+        case Z_BEST_SPEED: return .fastest
+        case Z_BEST_COMPRESSION: return .optimal
+        default: return .default
         }
     }
 
     internal func toRawValue() -> Int32 {
         switch self {
-        case .NoCompression: return Z_NO_COMPRESSION
-        case .Fastest: return Z_BEST_SPEED
-        case .Optimal: return Z_BEST_COMPRESSION
-        case .Default: return Z_DEFAULT_COMPRESSION
+        case .noCompression: return Z_NO_COMPRESSION
+        case .fastest: return Z_BEST_SPEED
+        case .optimal: return Z_BEST_COMPRESSION
+        case .default: return Z_DEFAULT_COMPRESSION
         }
     }
+    
 }
 
 public enum FileType {
 
-    //case NamedPipe
-    case CharacterSpecial
-    case Directory
-    case BlockSpecial
-    case Regular
-    case SymbolicLink
-    case Socket
-    //case Whiteout
-    case Unknown
+    //case namedPipe
+    case characterSpecial
+    case directory
+    case blockSpecial
+    case regular
+    case symbolicLink
+    case socket
+    //case whiteout
+    case unknown
 
     internal static func fromRawValue(rawValue: UInt16) -> FileType {
         var type = rawValue & S_IFMT
@@ -75,38 +81,38 @@ public enum FileType {
         }
         switch type {
         //case S_IFIFO: return .NamedPipe
-        case S_IFCHR: return .CharacterSpecial
-        case S_IFDIR: return .Directory
-        case S_IFBLK: return .BlockSpecial
-        case S_IFREG: return .Regular
-        case S_IFLNK: return .SymbolicLink
-        case S_IFSOCK: return .Socket
-        //case S_IFWHT: return .Whiteout
-        default: return .Unknown
+        case S_IFCHR: return .characterSpecial
+        case S_IFDIR: return .directory
+        case S_IFBLK: return .blockSpecial
+        case S_IFREG: return .regular
+        case S_IFLNK: return .symbolicLink
+        case S_IFSOCK: return .socket
+        //case S_IFWHT: return .whiteout
+        default: return .unknown
         }
     }
 
     internal static func fromNSFileType(fileType: FileAttributeType) -> FileType {
         switch fileType {
-        case FileAttributeType.typeDirectory: return .Directory
-        case FileAttributeType.typeRegular: return .Regular
-        case FileAttributeType.typeSymbolicLink: return .SymbolicLink
-        case FileAttributeType.typeSocket: return .Socket
-        case FileAttributeType.typeCharacterSpecial: return .CharacterSpecial
-        case FileAttributeType.typeBlockSpecial: return .BlockSpecial
-        //case NSFileTypeUnknown: return .Unknown
-        default: return .Unknown
+        case FileAttributeType.typeDirectory: return .directory
+        case FileAttributeType.typeRegular: return .regular
+        case FileAttributeType.typeSymbolicLink: return .symbolicLink
+        case FileAttributeType.typeSocket: return .socket
+        case FileAttributeType.typeCharacterSpecial: return .characterSpecial
+        case FileAttributeType.typeBlockSpecial: return .blockSpecial
+        //case NSFileTypeUnknown: return .unknown
+        default: return .unknown
         }
     }
 
     internal func toNSFileType() -> FileAttributeType {
         switch self {
-        case .Directory: return .typeDirectory
-        case .Regular: return .typeRegular
-        case .SymbolicLink: return .typeSymbolicLink
-        case .Socket :return .typeSocket
-        case .CharacterSpecial: return .typeCharacterSpecial
-        case .BlockSpecial: return .typeBlockSpecial
+        case .directory: return .typeDirectory
+        case .regular: return .typeRegular
+        case .symbolicLink: return .typeSymbolicLink
+        case .socket :return .typeSocket
+        case .characterSpecial: return .typeCharacterSpecial
+        case .blockSpecial: return .typeBlockSpecial
         default: return .typeUnknown
         }
     }

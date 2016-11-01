@@ -32,7 +32,7 @@ class ZipArchiveTestCase: BaseTestCase {
         ]
 
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let archive = ZipArchive(path: archiveFile, mode: .Create)!
+        let archive = ZipArchive(path: archiveFile, mode: .create)!
         
         for fileName in files.keys {
             let entry = archive.createEntry(entryName: fileName)!
@@ -78,7 +78,7 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        let archive = ZipArchive(path: archiveFile, mode: .read)!
         
         var count = 0
         for entry in archive.entries {
@@ -116,7 +116,7 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        let archive = ZipArchive(path: archiveFile, mode: .read)!
         
         var count = 0
         for entry in archive.entries {
@@ -153,7 +153,7 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let archive = ZipArchive(path: archiveFile, mode: .Create)!
+        let archive = ZipArchive(path: archiveFile, mode: .create)!
         
         for fileName in files.keys {
             let testDataFilePath = testDataDirectory + fileName
@@ -202,7 +202,7 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .Read)!
+        let archive = ZipArchive(path: archiveFile, mode: .read)!
         
         var count = 0
         for entry in archive.entries {

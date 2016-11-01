@@ -9,9 +9,11 @@
 import Foundation
 
 public enum SeekOrigin {
-    case Begin
-    case Current
-    case End
+    
+    case begin
+    case current
+    case end
+    
 }
 
 public protocol ZipArchiveStream: class {
@@ -107,11 +109,11 @@ public class ZipArchiveFileStream: ZipArchiveStream {
     public func seek(offset: Int, origin: SeekOrigin) -> Int {
         var whence: Int32
         switch origin {
-        case .Begin:
+        case .begin:
             whence = SEEK_SET
-        case .Current:
+        case .current:
             whence = SEEK_CUR
-        case .End:
+        case .end:
             whence = SEEK_END
         }
         if lseek(_fileHandle.fileDescriptor, off_t(offset), whence) < 0 {
@@ -192,11 +194,11 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
         
         var newOffset: Int
         switch origin {
-        case .Begin:
+        case .begin:
             newOffset = offset
-        case .Current:
+        case .current:
             newOffset = _offset + offset
-        case .End:
+        case .end:
             newOffset = maxOffset + offset
         }
         

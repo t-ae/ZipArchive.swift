@@ -92,7 +92,7 @@ public class ZipArchiveEntry {
         self.filePermissions = mode
         self.fileType = FileType.fromRawValue(rawValue: mode)
 
-        if self.fileType == .Unknown {
+        if self.fileType == .unknown {
             return nil
         }
     }
@@ -116,7 +116,7 @@ public class ZipArchiveEntry {
 
         self.lastWriteTime = Date()
         self.filePermissions = 0777
-        self.fileType = .Regular
+        self.fileType = .regular
     }
 
     /// Open zip archive entry as `ZipArchiveStream`.
@@ -142,10 +142,10 @@ public class ZipArchiveEntry {
 
         var stream: ZipArchiveStream?
         switch archive.mode {
-        case .Read:
+        case .read:
             stream = ZipArchiveEntryUnzipStream(archiveEntry: self, password: passwordCString)
             break
-        case .Create:
+        case .create:
             stream = ZipArchiveEntryZipStream(archiveEntry: self, password: passwordCString, crc32: crc32, isLargeFile: isLargeFile)
             break
         }

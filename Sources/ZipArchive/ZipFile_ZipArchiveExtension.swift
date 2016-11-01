@@ -13,15 +13,15 @@ import CMinizip
 private func crc32__(withFilePath path: String) throws -> UInt {
     let fm = FileManager.default
     if !fm.fileExists(atPath: path) {
-        throw ZipError.FileNotFound
+        throw ZipError.fileNotFound
     }
     guard let stream = InputStream(fileAtPath: path) else {
-        throw ZipError.IO
+        throw ZipError.io
     }
 
     stream.open()
     if let _ = stream.streamError {
-        throw ZipError.IO
+        throw ZipError.io
     }
 
     var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
@@ -39,7 +39,7 @@ private func crc32__(withFilePath path: String) throws -> UInt {
 
     stream.close()
     if let _ = stream.streamError {
-        throw ZipError.IO
+        throw ZipError.io
     }
 
     return crc
@@ -55,7 +55,7 @@ extension ZipArchive {
 //        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: compressionLevel, password: nil)
 //    }
 
-    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .Default, password: String? = nil) -> ZipArchiveEntry? {
+    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .default, password: String? = nil) -> ZipArchiveEntry? {
         //let url = NSURL(fileURLWithPath: sourceFileName)
         //guard let fileWrapper = try? NSFileWrapper(URL: url, options: NSFileWrapperReadingOptions(rawValue: 0)) else {
         //    // ERROR
@@ -87,16 +87,16 @@ extension ZipArchive {
         // pre-process
         var crc: UInt = 0
         var isLargeFile = false
-        if fileType == .Directory {
+        if fileType == .directory {
             if !name.hasSuffix("/") {
                 name += "/"
             }
-            level = .NoCompression
+            level = .noCompression
         }
-        else if fileType == .SymbolicLink {
+        else if fileType == .symbolicLink {
             // Nothing to do
         }
-        else if fileType == .Regular {
+        else if fileType == .regular {
             if let password = password {
                 if !password.isEmpty {
                     do {
@@ -133,12 +133,12 @@ extension ZipArchive {
             zipStream.close()
         }
 
-        if fileType == .Directory {
+        if fileType == .directory {
             // write zero byte
             var len: UInt8 = 0
             let _ = zipStream.write(buffer: &len, maxLength: Int(len))
         }
-        else if fileType == .SymbolicLink {
+        else if fileType == .symbolicLink {
             guard let destination = try? fm.destinationOfSymbolicLink(atPath: sourceFileName) else {
                 // ERROR
                 return nil
@@ -161,7 +161,7 @@ extension ZipArchive {
                 return nil
             }
         }
-        else if fileType == .Regular {
+        else if fileType == .regular {
             guard let fileInputStream = InputStream(fileAtPath: sourceFileName) else {
                 // ERROR
                 return nil
@@ -201,10 +201,10 @@ extension ZipArchive {
         var files = [ZipArchiveEntry]()
 
         for entry in entries {
-            if entry.fileType == .Directory || entry.fullName.hasSuffix("/") {
+            if entry.fileType == .directory || entry.fullName.hasSuffix("/") {
                 directories.append(entry)
             }
-            else if entry.fileType == .SymbolicLink {
+            else if entry.fileType == .symbolicLink {
                 symbolicLinks.append(entry)
             }
             else {
@@ -242,10 +242,10 @@ extension ZipArchive {
         for entry in symbolicLinks {
             let fullPath = directory.appendingPathComponent(entry.fullName)
             guard let data = entry.extractToData() else {
-                throw ZipError.IO
+                throw ZipError.io
             }
             guard let destination = String(data: data, encoding: .utf8) else {
-                throw ZipError.IO
+                throw ZipError.io
             }
 
             try createBaseDirectory(entry)

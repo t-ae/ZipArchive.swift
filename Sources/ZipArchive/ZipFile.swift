@@ -15,7 +15,7 @@ public class ZipFile {
     public class func createFromDirectory(
         sourceDirectoryName: String,
         destinationArchiveFileName: String,
-        compressionLevel: CompressionLevel = .Default,
+        compressionLevel: CompressionLevel = .default,
         includeBaseDirectory: Bool = false,
         entryNameEncoding: String.Encoding = .utf8)
         throws
@@ -34,7 +34,7 @@ public class ZipFile {
         sourceDirectoryName: String,
         destinationArchiveFileName: String,
         password: String,
-        compressionLevel: CompressionLevel = .Default,
+        compressionLevel: CompressionLevel = .default,
         includeBaseDirectory: Bool = false,
         entryNameEncoding: String.Encoding = .utf8,
         passwordEncoding: String.Encoding = .ascii)
@@ -63,8 +63,8 @@ public class ZipFile {
         let fm = FileManager.default
         let subpaths = try fm.subpathsOfDirectory(atPath: sourceDirectoryName)
         
-        guard let zip = ZipArchive(path: destinationArchiveFileName, mode: .Create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            throw ZipError.IO
+        guard let zip = ZipArchive(path: destinationArchiveFileName, mode: .create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
+            throw ZipError.io
         }
         defer {
             zip.dispose()
@@ -81,7 +81,7 @@ public class ZipFile {
             }
             let entry = zip.createEntryFromFile(sourceFileName: fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
             if entry == nil {
-                throw ZipError.IO
+                throw ZipError.io
             }
         }
     }
@@ -95,8 +95,8 @@ public class ZipFile {
     }
     
     private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: String.Encoding, password: String, passwordEncoding: String.Encoding) throws {
-        guard let unzip = ZipArchive(path: sourceArchiveFileName, mode: .Read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            throw ZipError.IO
+        guard let unzip = ZipArchive(path: sourceArchiveFileName, mode: .read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
+            throw ZipError.io
         }
         defer {
             unzip.dispose()
@@ -106,7 +106,7 @@ public class ZipFile {
     }
     
     public class func openRead(archiveFileName: String) -> ZipArchive? {
-        return open(archiveFileName: archiveFileName, mode: .Read, entryNameEncoding: .utf8)
+        return open(archiveFileName: archiveFileName, mode: .read, entryNameEncoding: .utf8)
     }
     
     public class func open(archiveFileName: String, mode: ZipArchiveMode) -> ZipArchive? {

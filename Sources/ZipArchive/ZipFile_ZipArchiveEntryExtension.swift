@@ -22,19 +22,19 @@ extension ZipArchiveEntry {
         let fm = FileManager.default
         if fm.fileExists(atPath: destinationFileName) {
             if !overwrite {
-                throw ZipError.IO
+                throw ZipError.io
             }
         }
 
         guard let unzipStream = open(password: password) else {
-            throw ZipError.IO
+            throw ZipError.io
         }
         defer {
             unzipStream.close()
         }
         
         guard let fileOutputStream = OutputStream(toFileAtPath: destinationFileName, append: false) else {
-            throw ZipError.IO
+            throw ZipError.io
         }
         fileOutputStream.open()
         defer {
@@ -46,7 +46,7 @@ extension ZipArchiveEntry {
         while true {
             let len = unzipStream.read(buffer: &buffer, maxLength: kZipArchiveDefaultBufferSize)
             if len < 0 {
-                throw ZipError.IO
+                throw ZipError.io
             }
             if len == 0 {
                 // END
@@ -54,7 +54,7 @@ extension ZipArchiveEntry {
             }
             let err = fileOutputStream.write(&buffer, maxLength: len)
             if err < 0 {
-                throw ZipError.IO
+                throw ZipError.io
             }
         }
     }
