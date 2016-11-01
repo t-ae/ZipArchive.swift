@@ -14,17 +14,19 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
 
     fileFuncDef.opaque = unsafeBitCast(opaque as AnyObject, to: voidpf.self)
     
-    fileFuncDef.zopen64_file = { (opaque: voidpf?, _: UnsafePointer<Void>?, _: Int32) -> voidpf? in
+    fileFuncDef.zopen64_file = { (opaque: voidpf?, _: UnsafeRawPointer?, _: Int32) -> voidpf? in
         return opaque
     }
-    fileFuncDef.zread_file = { (_: voidpf?, _stream: voidpf?, buf: UnsafeMutablePointer<Void>?, size: uLong) -> uLong in
+    fileFuncDef.zread_file = { (_: voidpf?, _stream: voidpf?, buf: UnsafeMutableRawPointer?, size: uLong) -> uLong in
         let stream = unsafeBitCast(_stream!, to: AnyObject.self) as! ZipArchiveStream
-        let ret = stream.read(buffer: UnsafeMutablePointer<UInt8>(buf!), maxLength: Int(size))
+        let p = buf!.assumingMemoryBound(to: UInt8.self)
+        let ret = stream.read(buffer: p, maxLength: Int(size))
         return uLong(ret)
     }
-    fileFuncDef.zwrite_file = { (_: voidpf?, _stream: voidpf?, buf: UnsafePointer<Void>?, size: uLong) -> uLong in
+    fileFuncDef.zwrite_file = { (_: voidpf?, _stream: voidpf?, buf: UnsafeRawPointer?, size: uLong) -> uLong in
         let stream = unsafeBitCast(_stream!, to: AnyObject.self) as! ZipArchiveStream
-        let ret = stream.write(buffer: UnsafePointer<UInt8>(buf!), maxLength: Int(size))
+        let p = buf!.assumingMemoryBound(to: UInt8.self)
+        let ret = stream.write(buffer: p, maxLength: Int(size))
         return uLong(ret)
     }
     fileFuncDef.ztell64_file = { (_: voidpf?, _stream: voidpf?) -> ZPOS64_T in
@@ -61,10 +63,10 @@ internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def
     return fileFuncDef
 }
 
-internal func date(fromDosDate dosDateTime: uLong) -> NSDate? {
+internal func date(fromDosDate dosDateTime: uLong) -> Date? {
     let date = dosDateTime >> 16
-    let calendar = NSCalendar.current()
-    let comps = NSDateComponents()
+    let calendar = Calendar.current
+    var comps = DateComponents()
     comps.second = Int(2 * (dosDateTime & 0x1F))
     comps.minute = Int((dosDateTime & 0x07E0) / 0x20)
     comps.hour = Int((dosDateTime & 0xF800) / 0x0800)
@@ -74,15 +76,15 @@ internal func date(fromDosDate dosDateTime: uLong) -> NSDate? {
     return calendar.date(from: comps)
 }
 
-internal func tmZip(fromDate date: NSDate) -> tm_zip {
-    let calendar = NSCalendar.current()
-    let comps = calendar.components([.second, .minute, .hour, .day, .month, .year], from: date)
+internal func tmZip(fromDate date: Date) -> tm_zip {
+    let calendar = Calendar.current
+    let comps = calendar.dateComponents([.second, .minute, .hour, .day, .month, .year], from: date)
     var tm = tm_zip()
-    tm.tm_sec = uInt(comps.second)
-    tm.tm_min = uInt(comps.minute)
-    tm.tm_hour = uInt(comps.hour)
-    tm.tm_mday = uInt(comps.day)
-    tm.tm_mon = uInt(comps.month - 1)
-    tm.tm_year = uInt(comps.year)
+    tm.tm_sec = uInt(comps.second!)
+    tm.tm_min = uInt(comps.minute!)
+    tm.tm_hour = uInt(comps.hour!)
+    tm.tm_mday = uInt(comps.day!)
+    tm.tm_mon = uInt(comps.month! - 1)
+    tm.tm_year = uInt(comps.year!)
     return tm
 }

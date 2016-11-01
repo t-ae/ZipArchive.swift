@@ -1,4 +1,5 @@
 module CMinizip [system] {
+    link "z"
     header "include/unzip.h"
     header "include/zip.h"
     export *

@@ -11,11 +11,11 @@ import CMinizip
 
 /* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
 private func crc32__(withFilePath path: String) throws -> UInt {
-    let fm = NSFileManager.default()
+    let fm = FileManager.default
     if !fm.fileExists(atPath: path) {
         throw ZipError.FileNotFound
     }
-    guard let stream = NSInputStream(fileAtPath: path) else {
+    guard let stream = InputStream(fileAtPath: path) else {
         throw ZipError.IO
     }
 
@@ -24,21 +24,19 @@ private func crc32__(withFilePath path: String) throws -> UInt {
         throw ZipError.IO
     }
 
-    let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: kZipArchiveDefaultBufferSize)
+    var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
     //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
 
     var crc: uLong = 0
 
     while true {
-        let len = stream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+        let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
         if len <= 0 {
             break
         }
         crc = crc32(crc, buffer, uInt(len))
     }
 
-    buffer.deinitialize()
-    buffer.deallocateCapacity(kZipArchiveDefaultBufferSize)
     stream.close()
     if let _ = stream.streamError {
         throw ZipError.IO
@@ -63,25 +61,25 @@ extension ZipArchive {
         //    // ERROR
         //    return nil
         //}
-        let fm = NSFileManager.default()
+        let fm = FileManager.default
         guard let fileAttributes = try? fm.attributesOfItem(atPath: sourceFileName) else {
             // ERROR
             return nil
         }
 
-        guard let fileDate = fileAttributes[NSFileModificationDate] as? NSDate else {
+        guard let fileDate = fileAttributes[FileAttributeKey.modificationDate] as? Date else {
             // ERROR
             return nil
         }
-        guard let filePermissions = fileAttributes[NSFilePosixPermissions] as? NSNumber else {
+        guard let filePermissions = fileAttributes[FileAttributeKey.posixPermissions] as? NSNumber else {
             // ERROR
             return nil
         }
-        guard let nsFileType = fileAttributes[NSFileType] as? NSString else {
+        guard let nsFileType = fileAttributes[FileAttributeKey.type] as? String else {
             // ERROR
             return nil
         }
-        let fileType = FileType.fromNSFileType(fileType: nsFileType)
+        let fileType = FileType.fromNSFileType(fileType: FileAttributeType(rawValue: nsFileType))
 
         var name = entryName
         var level = compressionLevel
@@ -109,7 +107,7 @@ extension ZipArchive {
                     }
                 }
             }
-            if let fileSize = fileAttributes[NSFileSize] {
+            if let fileSize = fileAttributes[FileAttributeKey.size] as? NSNumber {
                 if fileSize.uint64Value >= 0xffffffff {
                     isLargeFile = true
                 }
@@ -152,27 +150,27 @@ extension ZipArchive {
 //            }
 
             // TODO: use filesysytem file name string encoding
-            guard let destinationCStr = destination.cString(using: entryNameEncoding) else {
-                // ERROR
-                return nil
+            let err = destination.withCString { (cstr) -> Int in
+                let len = Int(strlen(cstr))
+                return cstr.withMemoryRebound(to: UInt8.self, capacity: len) { (p) -> Int in
+                    return zipStream.write(buffer: p, maxLength: len)
+                }
             }
-            let bytes = UnsafePointer<UInt8>(destinationCStr)
-            let err = zipStream.write(buffer: bytes, maxLength: destinationCStr.count)
             if err < 0 {
                 // ERROR
                 return nil
             }
         }
         else if fileType == .Regular {
-            guard let fileInputStream = NSInputStream(fileAtPath: sourceFileName) else {
+            guard let fileInputStream = InputStream(fileAtPath: sourceFileName) else {
                 // ERROR
                 return nil
             }
             fileInputStream.open()
-            let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: kZipArchiveDefaultBufferSize)
+            var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
             //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
             while true {
-                let len = fileInputStream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+                let len = fileInputStream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
                 if len < 0 {
                     // ERROR
                     break
@@ -188,8 +186,6 @@ extension ZipArchive {
                 }
             }
             fileInputStream.close()
-            buffer.deinitialize()
-            buffer.deallocateCapacity(kZipArchiveDefaultBufferSize)
         }
 
         return entry
@@ -216,12 +212,12 @@ extension ZipArchive {
             }
         }
 
-        let fm = NSFileManager.default()
+        let fm = FileManager.default
         let directory = destinationDirectoryName as NSString
 
         let createBaseDirectory = { (entry: ZipArchiveEntry) throws in
             if entry.fullName.contains("/") {
-                let lastIndex = entry.fullName.range(of: "/", options: NSStringCompareOptions.backwardsSearch)!.lowerBound
+                let lastIndex = entry.fullName.range(of: "/", options: .backwards)!.lowerBound
                 let dir = entry.fullName.substring(to: lastIndex)
                 let path = directory.appendingPathComponent(dir)
                 if !fm.fileExists(atPath: path) {
@@ -237,9 +233,9 @@ extension ZipArchive {
             try entry.extractToFile(destinationFileName: fullPath, overwrite: false, password: password)
 
             var attributes = try fm.attributesOfItem(atPath: fullPath)
-            attributes[NSFileModificationDate] = entry.lastWriteTime
-            attributes[NSFilePosixPermissions] = NSNumber(value: entry.filePermissions)
-            attributes[NSFileType] = entry.fileType.toNSFileType()
+            attributes[FileAttributeKey.modificationDate] = entry.lastWriteTime
+            attributes[FileAttributeKey.posixPermissions] = NSNumber(value: entry.filePermissions)
+            attributes[FileAttributeKey.type] = entry.fileType.toNSFileType().rawValue
             try fm.setAttributes(attributes, ofItemAtPath: fullPath)
         }
 
@@ -248,7 +244,7 @@ extension ZipArchive {
             guard let data = entry.extractToData() else {
                 throw ZipError.IO
             }
-            guard let destination = String(data: data, encoding: NSUTF8StringEncoding) else {
+            guard let destination = String(data: data, encoding: .utf8) else {
                 throw ZipError.IO
             }
 
@@ -273,16 +269,16 @@ extension ZipArchive {
             let fullPath = directory.appendingPathComponent(entry.fullName)
 
             if !fm.fileExists(atPath: fullPath) {
-                let attributes = [
-                    NSFileModificationDate : entry.lastWriteTime,
-                    NSFilePosixPermissions : NSNumber(value: entry.filePermissions)
+                let attributes: [String : Any] = [
+                    FileAttributeKey.modificationDate.rawValue : entry.lastWriteTime,
+                    FileAttributeKey.posixPermissions.rawValue : NSNumber(value: entry.filePermissions)
                 ]
                 try fm.createDirectory(atPath: fullPath, withIntermediateDirectories: true, attributes: attributes)
             }
             else {
                 var attributes = try fm.attributesOfItem(atPath: fullPath)
-                attributes[NSFileModificationDate] = entry.lastWriteTime
-                attributes[NSFilePosixPermissions] = NSNumber(value: entry.filePermissions)
+                attributes[FileAttributeKey.modificationDate] = entry.lastWriteTime
+                attributes[FileAttributeKey.posixPermissions] = NSNumber(value: entry.filePermissions)
                 try fm.setAttributes(attributes, ofItemAtPath: fullPath)
             }
         }

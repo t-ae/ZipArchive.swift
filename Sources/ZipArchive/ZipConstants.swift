@@ -11,7 +11,7 @@ import CMinizip
 
 public let kZipArchiveDefaultBufferSize = 8192
 
-public enum ZipError: ErrorProtocol {
+public enum ZipError: Error {
     case Argument
     case ArgumentNull
     case PathTooLong
@@ -86,28 +86,28 @@ public enum FileType {
         }
     }
 
-    internal static func fromNSFileType(fileType: NSString) -> FileType {
+    internal static func fromNSFileType(fileType: FileAttributeType) -> FileType {
         switch fileType {
-        case NSFileTypeDirectory: return .Directory
-        case NSFileTypeRegular: return .Regular
-        case NSFileTypeSymbolicLink: return .SymbolicLink
-        case NSFileTypeSocket: return .Socket
-        case NSFileTypeCharacterSpecial: return .CharacterSpecial
-        case NSFileTypeBlockSpecial: return .BlockSpecial
+        case FileAttributeType.typeDirectory: return .Directory
+        case FileAttributeType.typeRegular: return .Regular
+        case FileAttributeType.typeSymbolicLink: return .SymbolicLink
+        case FileAttributeType.typeSocket: return .Socket
+        case FileAttributeType.typeCharacterSpecial: return .CharacterSpecial
+        case FileAttributeType.typeBlockSpecial: return .BlockSpecial
         //case NSFileTypeUnknown: return .Unknown
         default: return .Unknown
         }
     }
 
-    internal func toNSFileType() -> NSString {
+    internal func toNSFileType() -> FileAttributeType {
         switch self {
-        case .Directory: return NSFileTypeDirectory
-        case .Regular: return NSFileTypeRegular
-        case .SymbolicLink: return NSFileTypeSymbolicLink
-        case .Socket :return NSFileTypeSocket
-        case .CharacterSpecial: return NSFileTypeCharacterSpecial
-        case .BlockSpecial: return NSFileTypeBlockSpecial
-        default: return NSFileTypeUnknown
+        case .Directory: return .typeDirectory
+        case .Regular: return .typeRegular
+        case .SymbolicLink: return .typeSymbolicLink
+        case .Socket :return .typeSocket
+        case .CharacterSpecial: return .typeCharacterSpecial
+        case .BlockSpecial: return .typeBlockSpecial
+        default: return .typeUnknown
         }
     }
 

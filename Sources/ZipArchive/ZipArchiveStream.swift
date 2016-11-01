@@ -32,18 +32,18 @@ public protocol ZipArchiveStream: class {
 
 public class ZipArchiveFileStream: ZipArchiveStream {
 
-    private let _fileHandle: NSFileHandle
+    private let _fileHandle: FileHandle
     private let _closeopt: Bool
 
-    public var fileHandle: NSFileHandle {
+    public var fileHandle: FileHandle {
         return _fileHandle
     }
 
-    public convenience init(fileHandle: NSFileHandle) {
+    public convenience init(fileHandle: FileHandle) {
         self.init(fileHandle: fileHandle, closeOnDealloc: false)
     }
 
-    public init(fileHandle: NSFileHandle, closeOnDealloc closeopt: Bool) {
+    public init(fileHandle: FileHandle, closeOnDealloc closeopt: Bool) {
         _fileHandle = fileHandle
         _closeopt = closeopt
     }

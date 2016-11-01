@@ -21,7 +21,7 @@ public class ZipArchiveEntry {
     public private(set) var compressedLength: UInt64
     internal let compressionLevel: CompressionLevel
 
-    public var lastWriteTime: NSDate
+    public var lastWriteTime: Date
     public var filePermissions: UInt16
     public var fileType: FileType
 
@@ -78,13 +78,13 @@ public class ZipArchiveEntry {
         }
         self.compressionLevel = CompressionLevel.fromRawValue(rawValue: compressionLevel)
 
-        var fileDate: NSDate!
+        var fileDate: Date
         if let date = date(fromDosDate: fileInfo.dosDate) {
             fileDate = date
         }
         else {
             // ERROR
-            fileDate = NSDate(timeIntervalSinceReferenceDate: 0)
+            fileDate = Date(timeIntervalSinceReferenceDate: 0)
         }
         self.lastWriteTime = fileDate
 
@@ -114,7 +114,7 @@ public class ZipArchiveEntry {
 
         self.compressionLevel = compressionLevel
 
-        self.lastWriteTime = NSDate()
+        self.lastWriteTime = Date()
         self.filePermissions = 0777
         self.fileType = .Regular
     }

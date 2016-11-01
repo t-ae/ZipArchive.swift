@@ -13,8 +13,8 @@ public class ZipArchive {
 
     private var stream: ZipArchiveStream
     internal let mode: ZipArchiveMode
-    internal let entryNameEncoding: NSStringEncoding
-    internal let passwordEncoding: NSStringEncoding
+    internal let entryNameEncoding: String.Encoding
+    internal let passwordEncoding: String.Encoding
 
     internal var zipfp: zipFile? = nil
     internal var unzfp: unzFile? = nil
@@ -36,7 +36,7 @@ public class ZipArchive {
 
     private var disposed: Bool = false
 
-    public init?(stream: ZipArchiveStream, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding, passwordEncoding: NSStringEncoding) {
+    public init?(stream: ZipArchiveStream, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
         self.stream = stream
         self.mode = mode
         self.entryNameEncoding = entryNameEncoding
@@ -135,30 +135,30 @@ public class ZipArchive {
 public extension ZipArchive {
 
     public convenience init?(path: String) {
-        self.init(path: path, mode: .Read, entryNameEncoding: NSUTF8StringEncoding, passwordEncoding: NSASCIIStringEncoding)
+        self.init(path: path, mode: .Read, entryNameEncoding: .utf8, passwordEncoding: .ascii)
     }
 
     public convenience init?(path: String, mode: ZipArchiveMode) {
-        self.init(path: path, mode: mode, entryNameEncoding: NSUTF8StringEncoding, passwordEncoding: NSASCIIStringEncoding)
+        self.init(path: path, mode: mode, entryNameEncoding: .utf8, passwordEncoding: .ascii)
     }
 
-    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding) {
-        self.init(path: path, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: NSASCIIStringEncoding)
+    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding) {
+        self.init(path: path, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: .ascii)
     }
 
-    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding, passwordEncoding: NSStringEncoding) {
+    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
         var stream: ZipArchiveStream? = nil
         switch mode {
         case .Read:
-            if let fileHandle = NSFileHandle(forReadingAtPath: path) {
+            if let fileHandle = FileHandle(forReadingAtPath: path) {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
             }
         case .Create:
-            let fm = NSFileManager.default()
+            let fm = FileManager.default
             if !fm.fileExists(atPath: path) {
                 fm.createFile(atPath: path, contents: nil, attributes: nil)
             }
-            if let fileHandle = NSFileHandle(forWritingAtPath: path) {
+            if let fileHandle = FileHandle(forWritingAtPath: path) {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
             }
         }

@@ -17,7 +17,7 @@ public class ZipFile {
         destinationArchiveFileName: String,
         compressionLevel: CompressionLevel = .Default,
         includeBaseDirectory: Bool = false,
-        entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding)
+        entryNameEncoding: String.Encoding = .utf8)
         throws
     {
         try createFromDirectory(
@@ -27,7 +27,7 @@ public class ZipFile {
             includeBaseDirectory: includeBaseDirectory,
             entryNameEncoding: entryNameEncoding,
             password: nil,
-            passwordEncoding: NSASCIIStringEncoding)
+            passwordEncoding: .ascii)
     }
     
     public class func createFromDirectory(
@@ -36,8 +36,8 @@ public class ZipFile {
         password: String,
         compressionLevel: CompressionLevel = .Default,
         includeBaseDirectory: Bool = false,
-        entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding,
-        passwordEncoding: NSStringEncoding = NSASCIIStringEncoding)
+        entryNameEncoding: String.Encoding = .utf8,
+        passwordEncoding: String.Encoding = .ascii)
         throws
     {
         try createFromDirectory(
@@ -55,12 +55,12 @@ public class ZipFile {
         destinationArchiveFileName: String,
         compressionLevel: CompressionLevel,
         includeBaseDirectory: Bool,
-        entryNameEncoding: NSStringEncoding,
+        entryNameEncoding: String.Encoding,
         password: String?,
-        passwordEncoding: NSStringEncoding)
+        passwordEncoding: String.Encoding)
         throws
     {
-        let fm = NSFileManager.default()
+        let fm = FileManager.default
         let subpaths = try fm.subpathsOfDirectory(atPath: sourceDirectoryName)
         
         guard let zip = ZipArchive(path: destinationArchiveFileName, mode: .Create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
@@ -86,15 +86,15 @@ public class ZipFile {
         }
     }
     
-    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding) throws {
-        try extractToDirectory(sourceArchiveFileName: sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: "", passwordEncoding: NSASCIIStringEncoding)
+    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: String.Encoding = .utf8) throws {
+        try extractToDirectory(sourceArchiveFileName: sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: "", passwordEncoding: .ascii)
     }
 
-    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, password: String, entryNameEncoding: NSStringEncoding = NSUTF8StringEncoding, passwordEncoding: NSStringEncoding = NSASCIIStringEncoding) throws {
+    public class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, password: String, entryNameEncoding: String.Encoding = .utf8, passwordEncoding: String.Encoding = .ascii) throws {
         try extractToDirectory(sourceArchiveFileName: sourceArchiveFileName, destinationDirectoryName: destinationDirectoryName, entryNameEncoding: entryNameEncoding, password: password, passwordEncoding: passwordEncoding)
     }
     
-    private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: NSStringEncoding, password: String, passwordEncoding: NSStringEncoding) throws {
+    private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: String.Encoding, password: String, passwordEncoding: String.Encoding) throws {
         guard let unzip = ZipArchive(path: sourceArchiveFileName, mode: .Read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
             throw ZipError.IO
         }
@@ -106,14 +106,14 @@ public class ZipFile {
     }
     
     public class func openRead(archiveFileName: String) -> ZipArchive? {
-        return open(archiveFileName: archiveFileName, mode: .Read, entryNameEncoding: NSUTF8StringEncoding)
+        return open(archiveFileName: archiveFileName, mode: .Read, entryNameEncoding: .utf8)
     }
     
     public class func open(archiveFileName: String, mode: ZipArchiveMode) -> ZipArchive? {
-        return open(archiveFileName: archiveFileName, mode: mode, entryNameEncoding: NSUTF8StringEncoding)
+        return open(archiveFileName: archiveFileName, mode: mode, entryNameEncoding: .utf8)
     }
     
-    public class func open(archiveFileName: String, mode: ZipArchiveMode, entryNameEncoding: NSStringEncoding, passwordEncoding: NSStringEncoding = NSASCIIStringEncoding) -> ZipArchive? {
+    public class func open(archiveFileName: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding = .ascii) -> ZipArchive? {
         return ZipArchive(path: archiveFileName, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
     }
     

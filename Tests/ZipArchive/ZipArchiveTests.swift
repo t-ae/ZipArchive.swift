@@ -7,20 +7,18 @@
 //
 
 import XCTest
-import ZipArchive
+@testable import ZipArchive
 
 class ZipArchiveTestCase: BaseTestCase {
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        srand(UInt32(time(nil)))
-        
         do {
             try cleanUp()
+        } catch {
+            XCTFail()
         }
-        catch { XCTFail() }
     }
     
     override func tearDown() {
@@ -29,7 +27,7 @@ class ZipArchiveTestCase: BaseTestCase {
     }
 
     func test圧縮ファイル() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data.dat" : createFixedData()
         ]
 
@@ -40,24 +38,31 @@ class ZipArchiveTestCase: BaseTestCase {
             let entry = archive.createEntry(entryName: fileName)!
             let stream = entry.open()!
             let data = files[fileName]!
-            stream.write(buffer: UnsafePointer<UInt8>(data.bytes), maxLength: data.length)
+            let length = data.count
+            data.withUnsafeBytes { (buffer) -> Void in
+                _ = stream.write(buffer: buffer, maxLength: length)
+            }
         }
         
         archive.dispose()
         
-        let ret = executeCommand(command: "unzip -d '\(unzipDestinationDirectory)' '\(archiveFile)'", workingDirectory: nil)
+        let ret = executeCommand(
+            command: "/usr/bin/unzip",
+            arguments: ["-d", unzipDestinationDirectory, archiveFile],
+            workingDirectory: nil
+        )
         XCTAssertEqual(0, ret)
         
         for fileName in files.keys {
             let unzipTestDataFile = unzipDestinationDirectory + fileName
-            let unzipTestData = NSData(contentsOfFile: unzipTestDataFile)!
+            let unzipTestData = try! Data(contentsOf: URL(fileURLWithPath: unzipTestDataFile))
             let data = files[fileName]!
-            XCTAssertTrue(data.isEqual(to: unzipTestData))
+            XCTAssertEqual(data, unzipTestData)
         }
     }
 
     func test解凍ファイル() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data.dat" : createFixedData()
         ]
 
@@ -65,8 +70,12 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let fileArgs =  files.map { (pair) -> String in pair.0 }.joined(separator: " ")
-        let ret = executeCommand(command: "zip '\(archiveFile)' \(fileArgs)", workingDirectory: testDataDirectory)
+        let fileArgs =  files.map { (pair) -> String in pair.0 }
+        let ret = executeCommand(
+            command: "/usr/bin/zip",
+            arguments: [archiveFile] + fileArgs,
+            workingDirectory: testDataDirectory
+        )
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
@@ -74,10 +83,13 @@ class ZipArchiveTestCase: BaseTestCase {
         var count = 0
         for entry in archive.entries {
             let stream = entry.open()!
-            let data = NSMutableData(length: Int(entry.length))!
-            stream.read(buffer: UnsafeMutablePointer<UInt8>(data.mutableBytes), maxLength: data.length)
+            var data = Data(count: Int(entry.length))
+            let length = data.count
+            data.withUnsafeMutableBytes { (buffer) -> Void in
+                _ = stream.read(buffer: buffer, maxLength: length)
+            }
             let testData = files[entry.fullName]!
-            XCTAssertTrue(data.isEqual(to: testData))
+            XCTAssertEqual(data, testData)
             count += 1
         }
 
@@ -87,7 +99,7 @@ class ZipArchiveTestCase: BaseTestCase {
     }
     
     func test解凍ファイルとディレクトリ() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createFixedData(),
             "subdir/test_data2.dat" : createRandomData(),
             "subdir/" : createRandomData(size: 0)
@@ -97,7 +109,11 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let ret = executeCommand(command: "zip '\(archiveFile)' -r .", workingDirectory: testDataDirectory)
+        let ret = executeCommand(
+            command: "/usr/bin/zip",
+            arguments: [archiveFile, "-r", "."],
+            workingDirectory: testDataDirectory
+        )
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
@@ -105,10 +121,13 @@ class ZipArchiveTestCase: BaseTestCase {
         var count = 0
         for entry in archive.entries {
             let stream = entry.open()!
-            let data = NSMutableData(length: Int(entry.length))!
-            stream.read(buffer: UnsafeMutablePointer<UInt8>(data.mutableBytes), maxLength: data.length)
+            var data = Data(count: Int(entry.length))
+            let length = data.count
+            data.withUnsafeMutableBytes { (buffer) -> Void in
+                _ = stream.read(buffer: buffer, maxLength: length)
+            }
             let testData = files[entry.fullName]!
-            XCTAssertTrue(data.isEqual(to: testData))
+            XCTAssertEqual(data, testData)
             count += 1
         }
 
@@ -118,7 +137,7 @@ class ZipArchiveTestCase: BaseTestCase {
     }
 
     func test圧縮ファイルのバッファサイズ() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createFixedData(size: kZipArchiveDefaultBufferSize - 1),
             "test_data2.dat" : createFixedData(size: kZipArchiveDefaultBufferSize),
             "test_data3.dat" : createFixedData(size: kZipArchiveDefaultBufferSize + 1),
@@ -143,19 +162,23 @@ class ZipArchiveTestCase: BaseTestCase {
         
         archive.dispose()
 
-        let ret = executeCommand(command: "unzip -d '\(unzipDestinationDirectory)' '\(archiveFile)'", workingDirectory: nil)
+        let ret = executeCommand(
+            command: "/usr/bin/unzip",
+            arguments: ["-d", unzipDestinationDirectory, archiveFile],
+            workingDirectory: nil
+        )
         XCTAssertEqual(0, ret)
         
         for fileName in files.keys {
             let data = files[fileName]!
             let unzippedPath = unzipDestinationDirectory + fileName
-            let unzippedData = NSData(contentsOfFile: unzippedPath)!
-            XCTAssertTrue(data.isEqual(to: unzippedData))
+            let unzippedData = try! Data(contentsOf: URL(fileURLWithPath: unzippedPath))
+            XCTAssertEqual(data, unzippedData)
         }
     }
     
     func test解凍ファイルのバッファサイズ() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createRandomData(size: kZipArchiveDefaultBufferSize - 1),
             "test_data2.dat" : createRandomData(size: kZipArchiveDefaultBufferSize),
             "test_data3.dat" : createRandomData(size: kZipArchiveDefaultBufferSize + 1),
@@ -171,8 +194,12 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let fileArgs =  files.map { (pair) -> String in pair.0 }.joined(separator: " ")
-        let ret = executeCommand(command: "zip '\(archiveFile)' \(fileArgs)", workingDirectory: testDataDirectory)
+        let fileArgs = files.map { (pair) -> String in pair.0 }
+        let ret = executeCommand(
+            command: "/usr/bin/zip",
+            arguments: [archiveFile] + fileArgs,
+            workingDirectory: testDataDirectory
+        )
         XCTAssertEqual(0, ret)
         
         let archive = ZipArchive(path: archiveFile, mode: .Read)!
@@ -180,10 +207,13 @@ class ZipArchiveTestCase: BaseTestCase {
         var count = 0
         for entry in archive.entries {
             let stream = entry.open()!
-            let data = NSMutableData(length: Int(entry.length))!
-            stream.read(buffer: UnsafeMutablePointer<UInt8>(data.mutableBytes), maxLength: data.length)
+            var data = Data(count: Int(entry.length))
+            let length = data.count
+            data.withUnsafeMutableBytes { (buffer) -> Void in
+                _ = stream.read(buffer: buffer, maxLength: length)
+            }
             let testData = files[entry.fullName]!
-            XCTAssertTrue(data.isEqual(to: testData))
+            XCTAssertEqual(data, testData)
             count += 1
         }
 

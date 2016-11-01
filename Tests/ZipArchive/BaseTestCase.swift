@@ -10,7 +10,7 @@ import XCTest
 
 class BaseTestCase: XCTestCase {
 
-    let fileManager = NSFileManager.default()
+    let fileManager = FileManager.default
     let testBaseDirectory = "/tmp/ZipArchiveTest/"
     var testDataDirectory: String { return testBaseDirectory + "ZipArchiveData/" }
     var zipDestinationDirectory: String { return  testBaseDirectory + "Zip/" }
@@ -32,7 +32,7 @@ class BaseTestCase: XCTestCase {
         try fileManager.createDirectory(atPath: unzipDestinationDirectory, withIntermediateDirectories: false, attributes: nil)
     }
     
-    func executeCommand(command: String, workingDirectory: String?) -> Int32 {
+    func executeCommand(command: String, arguments: [String], workingDirectory: String?) -> Int32 {
         var success: Bool
         let prevDirectory = fileManager.currentDirectoryPath
         if let workingDirectory = workingDirectory {
@@ -43,7 +43,8 @@ class BaseTestCase: XCTestCase {
             }
         }
         
-        let ret = system(command)
+        let process = Process.launchedProcess(launchPath: command, arguments: arguments)
+        process.waitUntilExit()
         
         if let _ = workingDirectory {
             success = fileManager.changeCurrentDirectoryPath(prevDirectory)
@@ -53,28 +54,28 @@ class BaseTestCase: XCTestCase {
             }
         }
         
-        return ret
+        return process.terminationStatus
     }
     
-    func createFixedData(size: Int = 1234) -> NSData {
-        let data = NSMutableData()
-        var byte = UInt8(rand() % 0x0100)
+    func createFixedData(size: Int = 1234) -> Data {
+        var data = Data()
+        var byte = UInt8(arc4random() % 0x0100)
         for _ in 0 ..< size {
-            data.append(&byte, length: 1)
+            data.append(&byte, count: 1)
         }
         return data
     }
     
-    func createRandomData(size: Int = 1234) -> NSData {
-        let data = NSMutableData()
+    func createRandomData(size: Int = 1234) -> Data {
+        var data = Data()
         for _ in 0 ..< size {
-            var byte = UInt8(rand() % 0x0100)
-            data.append(&byte, length: 1)
+            var byte = UInt8(arc4random() % 0x0100)
+            data.append(&byte, count: 1)
         }
         return data
     }
     
-    func createFiles(files: [String : NSData], baseDirectory: String) -> Bool {
+    func createFiles(files: [String : Data], baseDirectory: String) -> Bool {
         var success = true
         for fileName in files.keys {
             if fileName.hasSuffix("/") {
@@ -99,7 +100,7 @@ class BaseTestCase: XCTestCase {
             else {
                 let data = files[fileName]!
                 let stragePath = baseDirectory + fileName
-                let directory = NSURL(string: stragePath)!.deletingLastPathComponent!.path!
+                let directory = URL(fileURLWithPath: stragePath).deletingLastPathComponent().path
                 if !fileManager.fileExists(atPath: directory) {
                     do {
                         try fileManager.createDirectory(atPath: directory, withIntermediateDirectories: true, attributes: nil)
@@ -109,7 +110,14 @@ class BaseTestCase: XCTestCase {
                         break
                     }
                 }
-                success = data.write(toFile: stragePath, atomically: true)
+                
+                do {
+                    try data.write(to: URL(fileURLWithPath: stragePath), options: .atomicWrite)
+                }
+                catch {
+                    success = false
+                }
+                
                 if !success {
                     break
                 }
