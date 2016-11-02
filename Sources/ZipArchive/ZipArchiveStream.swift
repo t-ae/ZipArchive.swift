@@ -52,7 +52,7 @@ public class ZipArchiveFileStream: ZipArchiveStream {
     
     deinit {
         if _closeopt {
-            close()
+            _ = close()
         }
     }
 

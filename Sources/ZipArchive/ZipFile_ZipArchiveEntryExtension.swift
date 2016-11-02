@@ -30,7 +30,7 @@ extension ZipArchiveEntry {
             throw ZipError.io
         }
         defer {
-            unzipStream.close()
+            _ = unzipStream.close()
         }
         
         guard let fileOutputStream = OutputStream(toFileAtPath: destinationFileName, append: false) else {

@@ -52,7 +52,9 @@ public class ZipArchive {
             }
             unzfp = unzOpen2_64(nil, &fileFuncDef)
             if unzfp != nil {
-                readEntries()
+                guard readEntries() else {
+                    return nil
+                }
             }
         case .create:
             if !stream.canWrite {

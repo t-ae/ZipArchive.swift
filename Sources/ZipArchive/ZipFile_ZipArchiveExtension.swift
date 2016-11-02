@@ -130,7 +130,7 @@ extension ZipArchive {
             return nil
         }
         defer {
-            zipStream.close()
+            _ = zipStream.close()
         }
 
         if fileType == .directory {

@@ -21,7 +21,7 @@ extension ZipArchiveEntry {
             return nil
         }
         defer {
-            unzipStream.close()
+            _ = unzipStream.close()
         }
         
         var data = Data(count: Int(length))

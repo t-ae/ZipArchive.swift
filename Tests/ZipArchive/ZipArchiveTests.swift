@@ -157,7 +157,7 @@ class ZipArchiveTestCase: BaseTestCase {
         
         for fileName in files.keys {
             let testDataFilePath = testDataDirectory + fileName
-            archive.createEntryFromFile(sourceFileName: testDataFilePath, entryName: fileName)
+            _ = archive.createEntryFromFile(sourceFileName: testDataFilePath, entryName: fileName)
         }
         
         archive.dispose()
