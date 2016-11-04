@@ -8,11 +8,19 @@
 
 import Foundation
 
-class ZipArchiveOutputStream: OutputStream {
+extension ZipArchiveStream {
+    
+    public func asOutputStream() -> OutputStream? {
+        return ZipArchiveOutputStream(stream: self)
+    }
+    
+}
+
+internal class ZipArchiveOutputStream: OutputStream {
 
     private let innerStream: ZipArchiveStream
     
-    public init?(stream: ZipArchiveStream) {
+    init?(stream: ZipArchiveStream) {
         guard stream.canWrite else {
             return nil
         }
@@ -31,11 +39,11 @@ class ZipArchiveOutputStream: OutputStream {
     private var _streamStatus: Stream.Status
     private var _streamError: Error?
     
-    public override func open() {
+    override func open() {
         
     }
     
-    public override func close() {
+    override func close() {
         if _streamStatus != .open {
             return
         }
@@ -43,11 +51,11 @@ class ZipArchiveOutputStream: OutputStream {
         _streamStatus = .closed
     }
     
-    public override var streamStatus: Stream.Status {
+    override var streamStatus: Stream.Status {
         return _streamStatus
     }
     
-    public override var streamError: Error? {
+    override var streamError: Error? {
         return _streamError
     }
     

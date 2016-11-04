@@ -8,11 +8,19 @@
 
 import Foundation
 
-public class ZipArchiveInputStream: InputStream {
+extension ZipArchiveStream {
+    
+    public func asInputStream() -> InputStream? {
+        return ZipArchiveInputStream(stream: self)
+    }
+    
+}
+
+internal class ZipArchiveInputStream: InputStream {
     
     private let innerStream: ZipArchiveStream
     
-    public init?(stream: ZipArchiveStream) {
+    init?(stream: ZipArchiveStream) {
         guard stream.canRead else {
             return nil
         }
@@ -31,11 +39,11 @@ public class ZipArchiveInputStream: InputStream {
     private var _streamStatus: Stream.Status
     private var _streamError: Error?
     
-    public override func open() {
+    override func open() {
         
     }
     
-    public override func close() {
+    override func close() {
         if _streamStatus != .open {
             return
         }
@@ -43,17 +51,17 @@ public class ZipArchiveInputStream: InputStream {
         _streamStatus = .closed
     }
     
-    public override var streamStatus: Stream.Status {
+    override var streamStatus: Stream.Status {
         return _streamStatus
     }
     
-    public override var streamError: Error? {
+    override var streamError: Error? {
         return _streamError
     }
     
     // MARK: - InputStream
     
-    public override func read(_ buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int {
+    override func read(_ buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int {
         if len <= 0 {
             // TODO: return -1??
             return 0
@@ -74,11 +82,11 @@ public class ZipArchiveInputStream: InputStream {
         return ret
     }
     
-    public override func getBuffer(_ buffer: UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>, length len: UnsafeMutablePointer<Int>) -> Bool {
+    override func getBuffer(_ buffer: UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>, length len: UnsafeMutablePointer<Int>) -> Bool {
         return false
     }
     
-    public override var hasBytesAvailable: Bool {
+    override var hasBytesAvailable: Bool {
         if _streamStatus == .open {
             return true
         } else {
