@@ -57,6 +57,10 @@
 		0E8972301DC7A8A200948777 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B41DC7A55100948777 /* BaseTestCase.swift */; };
 		0E8972311DC7A8A200948777 /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B51DC7A55100948777 /* ZipArchiveTests.swift */; };
 		0E8972321DC7A8A200948777 /* ZipFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B61DC7A55100948777 /* ZipFileTests.swift */; };
+		0E89A8CE1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */; };
+		0E89A8CF1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */; };
+		0E89A8D11DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */; };
+		0E89A8D21DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +109,8 @@
 		0E8972021DC7A6E800948777 /* CMinizip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMinizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E89721D1DC7A82100948777 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		0E8972251DC7A88800948777 /* ZipArchiveTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ZipArchiveTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveInputStream.swift; sourceTree = "<group>"; };
+		0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveOutputStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +238,8 @@
 				0E8971821DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift */,
 				0E8971831DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift */,
 				0E8971841DC7A15C00948777 /* ZipUtility.swift */,
+				0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */,
+				0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */,
 			);
 			path = ZipArchive;
 			sourceTree = "<group>";
@@ -514,10 +522,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E89A8CE1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */,
 				0E8971971DC7A15C00948777 /* ZipUtility.swift in Sources */,
 				0E8971951DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */,
 				0E8971941DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
 				0E8971931DC7A15C00948777 /* ZipFile.swift in Sources */,
+				0E89A8D11DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */,
 				0E8971911DC7A15C00948777 /* ZipArchiveStream.swift in Sources */,
 				0E8971901DC7A15C00948777 /* ZipArchiveEntryStream.swift in Sources */,
 				0E8971961DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
@@ -542,10 +552,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E89A8CF1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */,
 				0E89721A1DC7A79C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */,
 				0E89721B1DC7A79D00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
 				0E8972151DC7A79C00948777 /* ZipArchiveEntryStream.swift in Sources */,
 				0E8972181DC7A79C00948777 /* ZipFile.swift in Sources */,
+				0E89A8D21DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */,
 				0E8972191DC7A79C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
 				0E8972131DC7A79C00948777 /* ZipArchive.swift in Sources */,
 				0E8972161DC7A79C00948777 /* ZipArchiveStream.swift in Sources */,
