@@ -19,12 +19,7 @@ extension ZipArchiveStream {
 internal class ZipArchiveInputStream: InputStream {
     
     private let innerStream: ZipArchiveStream
-    
-    // NOTE: Without this override, it crashes on iOS 8.
-    override init(data: Data) {
-        preconditionFailure("Please use init?(stream:) instead of init(data:)")
-    }
-    
+
     init?(stream: ZipArchiveStream) {
         guard stream.canRead else {
             return nil
@@ -32,7 +27,30 @@ internal class ZipArchiveInputStream: InputStream {
         innerStream = stream
         _streamStatus = .open
         _streamError = nil
-        super.init(data: Data())
+        
+        if #available(iOS 9.0, *) {
+            super.init(data: Data())
+        } else {
+            // Note: super.init(data:) is unrecognized selector on iOS 8. (Bug??)
+            // See: http://stackoverflow.com/questions/28286608/failing-to-subclass-nsinputstream-from-swift-initwithdata-unrecognizer-selecto
+            do {
+                let fileManager = FileManager.default
+                
+                let tempDirectory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                    .appendingPathComponent("net.yaslab.ZipArchive", isDirectory: true)
+                if !fileManager.fileExists(atPath: tempDirectory.path) {
+                    try fileManager.createDirectory(at: tempDirectory, withIntermediateDirectories: true, attributes: nil)
+                }
+                
+                let dummyFileURL = tempDirectory
+                    .appendingPathComponent(UUID().uuidString, isDirectory: false)
+                fileManager.createFile(atPath: dummyFileURL.path, contents: Data(), attributes: nil)
+                
+                super.init(url: dummyFileURL)
+            } catch {
+                return nil
+            }
+        }
     }
 
     deinit {
