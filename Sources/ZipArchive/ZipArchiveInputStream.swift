@@ -20,6 +20,11 @@ internal class ZipArchiveInputStream: InputStream {
     
     private let innerStream: ZipArchiveStream
     
+    // NOTE: Without this override, it crashes on iOS 8.
+    override init(data: Data) {
+        preconditionFailure("Please use init?(stream:) instead of init(data:)")
+    }
+    
     init?(stream: ZipArchiveStream) {
         guard stream.canRead else {
             return nil
