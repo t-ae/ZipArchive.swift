@@ -12,17 +12,17 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.requires_arc = true
 
-  s.source_files = 'ZipArchive/*.swift', 'Minizip/crypt.h', 'Minizip/ioapi_buf.{h,c}', 'Minizip/ioapi_mem.{h,c}', 'Minizip/ioapi.{h,c}', 'Minizip/unzip.{h,c}', 'Minizip/zip.{h,c}'
-  s.private_header_files = 'Minizip/*.h'
+  s.source_files = 'Sources/ZipArchive/*.swift', 'Sources/CMinizip/*.c', 'Sources/CMinizip/include/*.h'
+  #s.private_header_files = 'Minizip/*.h'
   #s.frameworks = 'Foundation'
   s.libraries = 'z'
   s.module_name = 'ZipArchive'
 
   #s.module_map = "Source/module.modulemap"
 
-  s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/ZipArchive.swift' }
+  s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/ZipArchive.swift/Sources/CMinizip' }
 
   s.compiler_flags = '-DUSE_FILE32API'
 
-  s.preserve_paths = "module.modulemap"
+  s.preserve_paths = 'Sources/CMinizip/module.modulemap'
 end

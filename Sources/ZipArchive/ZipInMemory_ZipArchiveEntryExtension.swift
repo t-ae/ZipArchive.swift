@@ -15,22 +15,20 @@ extension ZipArchiveEntry {
 //        return extractToData(nil)
 //    }
     
-    public func extractToData(password: String? = nil) -> NSData? {
-        guard let unzipStream = open(password) else {
+    public func extractToData(password: String? = nil) -> Data? {
+        guard let unzipStream = open(password: password) else {
             // ERROR
             return nil
         }
         defer {
-            unzipStream.close()
+            _ = unzipStream.close()
         }
         
-        guard let data = NSMutableData(length: Int(length)) else {
-            // ERROR
-            return nil
+        var data = Data(count: Int(length))
+        let len = data.withUnsafeMutableBytes { (p) -> Int in
+            return unzipStream.read(buffer: p, maxLength: Int(length))
         }
-        let buffer = UnsafeMutablePointer<UInt8>(data.mutableBytes)
         
-        let len = unzipStream.read(buffer, maxLength: Int(length))
         if len != Int(length) {
             // ERROR
             return nil

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import ZipArchive
+@testable import ZipArchive
 
 class ZipFileTests: BaseTestCase {
 
@@ -15,7 +15,7 @@ class ZipFileTests: BaseTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        srand(UInt32(time(nil)))
+        //srand(UInt32(time(nil)))
         
         do {
             try cleanUp()
@@ -31,109 +31,117 @@ class ZipFileTests: BaseTestCase {
     // MARK: Fixed Data
     
     func testSelfZipSelfUnzipWithFixedDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createFixedData()
         ]
-        _testSelfZipSelfUnzipWithPassword(files)
+        _testSelfZipSelfUnzipWithPassword(files: files)
     }
     
     func testSystemZipSelfUnzipWithFixedDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createFixedData()
         ]
-        _testSystemZipSelfUnzipWithPassword(files)
+        _testSystemZipSelfUnzipWithPassword(files: files)
     }
     
     func testSelfZipSystemUnzipWithFixedDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createFixedData()
         ]
-        _testSelfZipSystemUnzipWithPassword(files)
+        _testSelfZipSystemUnzipWithPassword(files: files)
     }
     
     // MARK: Random Data
     
     func testSelfZipSelfUnzipWithRandomDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createRandomData()
         ]
-        _testSelfZipSelfUnzipWithPassword(files)
+        _testSelfZipSelfUnzipWithPassword(files: files)
     }
     
     func testSystemZipSelfUnzipWithRandomDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createRandomData()
         ]
-        _testSystemZipSelfUnzipWithPassword(files)
+        _testSystemZipSelfUnzipWithPassword(files: files)
     }
     
     func testSelfZipSystemUnzipWithRandomDataAndPassword() {
-        let files: [String : NSData] = [
+        let files: [String : Data] = [
             "test_data1.dat" : createRandomData()
         ]
-        _testSelfZipSystemUnzipWithPassword(files)
+        _testSelfZipSystemUnzipWithPassword(files: files)
     }
     
     // MARK: Utility
     
-    private func _testSelfZipSelfUnzipWithPassword(files: [String : NSData]) {
-        let created = createFiles(files, baseDirectory: testDataDirectory)
+    private func _testSelfZipSelfUnzipWithPassword(files: [String : Data]) {
+        let created = createFiles(files: files, baseDirectory: testDataDirectory)
         XCTAssertTrue(created)
         
         let zipFileName = "test.zip"
         let zipFilePath = zipDestinationDirectory + zipFileName
         let password = "abcde"
         
-        try! ZipFile.createFromDirectory(testDataDirectory, destinationArchiveFileName: zipFilePath, password: password)
-        try! ZipFile.extractToDirectory(zipFilePath, destinationDirectoryName: unzipDestinationDirectory, password: password)
+        try! ZipFile.createFromDirectory(sourceDirectoryName: testDataDirectory, destinationArchiveFileName: zipFilePath, password: password)
+        try! ZipFile.extractToDirectory(sourceArchiveFileName: zipFilePath, destinationDirectoryName: unzipDestinationDirectory, password: password)
         
         for fileName in files.keys {
             let data = files[fileName]!
             let unzippedPath = unzipDestinationDirectory + fileName
-            let unzippedData = NSData(contentsOfFile: unzippedPath)!
-            XCTAssertTrue(data.isEqualToData(unzippedData))
+            let unzippedData = try! Data(contentsOf: URL(fileURLWithPath: unzippedPath))
+            XCTAssertEqual(data, unzippedData)
         }
     }
 
-    private func _testSystemZipSelfUnzipWithPassword(files: [String : NSData]) {
-        let created = createFiles(files, baseDirectory: testDataDirectory)
+    private func _testSystemZipSelfUnzipWithPassword(files: [String : Data]) {
+        let created = createFiles(files: files, baseDirectory: testDataDirectory)
         XCTAssertTrue(created)
         
         let zipFileName = "test.zip"
         let zipFilePath = zipDestinationDirectory + zipFileName
         let password = "abcde"
         
-        let ret = executeCommand("zip -P '\(password)' '\(zipFilePath)' -r .", workingDirectory: testDataDirectory)
+        let ret = executeCommand(
+            command: "/usr/bin/zip",
+            arguments: ["-P", password, zipFilePath, "-r", "."],
+            workingDirectory: testDataDirectory
+        )
         XCTAssertEqual(0, ret)
         
-        try! ZipFile.extractToDirectory(zipFilePath, destinationDirectoryName: unzipDestinationDirectory, password: password)
+        try! ZipFile.extractToDirectory(sourceArchiveFileName: zipFilePath, destinationDirectoryName: unzipDestinationDirectory, password: password)
         
         for fileName in files.keys {
             let data = files[fileName]!
             let unzippedPath = unzipDestinationDirectory + fileName
-            let unzippedData = NSData(contentsOfFile: unzippedPath)!
-            XCTAssertTrue(data.isEqualToData(unzippedData))
+            let unzippedData = try! Data(contentsOf: URL(fileURLWithPath: unzippedPath))
+            XCTAssertEqual(data, unzippedData)
         }
     }
     
-    private func _testSelfZipSystemUnzipWithPassword(files: [String : NSData]) {
-        let created = createFiles(files, baseDirectory: testDataDirectory)
+    private func _testSelfZipSystemUnzipWithPassword(files: [String : Data]) {
+        let created = createFiles(files: files, baseDirectory: testDataDirectory)
         XCTAssertTrue(created)
         
         let zipFileName = "test.zip"
         let zipFilePath = zipDestinationDirectory + zipFileName
         let password = "abcde"
         
-        try! ZipFile.createFromDirectory(testDataDirectory, destinationArchiveFileName: zipFilePath, password: password)
+        try! ZipFile.createFromDirectory(sourceDirectoryName: testDataDirectory, destinationArchiveFileName: zipFilePath, password: password)
 
-        let ret = executeCommand("unzip -d '\(unzipDestinationDirectory)' -P '\(password)' '\(zipFilePath)'", workingDirectory: nil)
+        let ret = executeCommand(
+            command: "/usr/bin/unzip",
+            arguments: ["-d", unzipDestinationDirectory, "-P", password, zipFilePath],
+            workingDirectory: nil
+        )
         XCTAssertEqual(0, ret)
         
         for fileName in files.keys {
             let data = files[fileName]!
             let unzippedPath = unzipDestinationDirectory + fileName
-            let unzippedData = NSData(contentsOfFile: unzippedPath)!
-            XCTAssertTrue(data.isEqualToData(unzippedData))
+            let unzippedData = try! Data(contentsOf: URL(fileURLWithPath: unzippedPath))
+            XCTAssertEqual(data, unzippedData)
         }
     }
     

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0E8971611DC7A12800948777"
-               BuildableName = "ZipArchive.framework"
-               BlueprintName = "ZipArchive"
+               BlueprintIdentifier = "0E89719C1DC7A19500948777"
+               BuildableName = "CMinizip.framework"
+               BlueprintName = "CMinizip"
                ReferencedContainer = "container:ZipArchive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,26 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0E8971BD1DC7A57D00948777"
-               BuildableName = "ZipArchiveTests.xctest"
-               BlueprintName = "ZipArchiveTests"
-               ReferencedContainer = "container:ZipArchive.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0E8971611DC7A12800948777"
-            BuildableName = "ZipArchive.framework"
-            BlueprintName = "ZipArchive"
-            ReferencedContainer = "container:ZipArchive.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -64,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0E8971611DC7A12800948777"
-            BuildableName = "ZipArchive.framework"
-            BlueprintName = "ZipArchive"
+            BlueprintIdentifier = "0E89719C1DC7A19500948777"
+            BuildableName = "CMinizip.framework"
+            BlueprintName = "CMinizip"
             ReferencedContainer = "container:ZipArchive.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0E8971611DC7A12800948777"
-            BuildableName = "ZipArchive.framework"
-            BlueprintName = "ZipArchive"
+            BlueprintIdentifier = "0E89719C1DC7A19500948777"
+            BuildableName = "CMinizip.framework"
+            BlueprintName = "CMinizip"
             ReferencedContainer = "container:ZipArchive.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -9,9 +9,11 @@
 import Foundation
 
 public enum SeekOrigin {
-    case Begin
-    case Current
-    case End
+    
+    case begin
+    case current
+    case end
+    
 }
 
 public protocol ZipArchiveStream: class {
@@ -32,25 +34,25 @@ public protocol ZipArchiveStream: class {
 
 public class ZipArchiveFileStream: ZipArchiveStream {
 
-    private let _fileHandle: NSFileHandle
+    private let _fileHandle: FileHandle
     private let _closeopt: Bool
 
-    public var fileHandle: NSFileHandle {
+    public var fileHandle: FileHandle {
         return _fileHandle
     }
 
-    public convenience init(fileHandle: NSFileHandle) {
+    public convenience init(fileHandle: FileHandle) {
         self.init(fileHandle: fileHandle, closeOnDealloc: false)
     }
 
-    public init(fileHandle: NSFileHandle, closeOnDealloc closeopt: Bool) {
+    public init(fileHandle: FileHandle, closeOnDealloc closeopt: Bool) {
         _fileHandle = fileHandle
         _closeopt = closeopt
     }
     
     deinit {
         if _closeopt {
-            close()
+            _ = close()
         }
     }
 
@@ -107,11 +109,11 @@ public class ZipArchiveFileStream: ZipArchiveStream {
     public func seek(offset: Int, origin: SeekOrigin) -> Int {
         var whence: Int32
         switch origin {
-        case .Begin:
+        case .begin:
             whence = SEEK_SET
-        case .Current:
+        case .current:
             whence = SEEK_CUR
-        case .End:
+        case .end:
             whence = SEEK_END
         }
         if lseek(_fileHandle.fileDescriptor, off_t(offset), whence) < 0 {
@@ -192,11 +194,11 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
         
         var newOffset: Int
         switch origin {
-        case .Begin:
+        case .begin:
             newOffset = offset
-        case .Current:
+        case .current:
             newOffset = _offset + offset
-        case .End:
+        case .end:
             newOffset = maxOffset + offset
         }
         
@@ -219,7 +221,7 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
             mutableData.length = _offset + len
         }
         let range = NSRange(location: _offset, length: len)
-        mutableData.replaceBytesInRange(range, withBytes: buffer, length: len)
+        mutableData.replaceBytes(in: range, withBytes: buffer, length: len)
         _offset += len
         return len
     }

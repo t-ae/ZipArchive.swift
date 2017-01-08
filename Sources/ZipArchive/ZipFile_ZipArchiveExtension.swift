@@ -7,43 +7,41 @@
 //
 
 import Foundation
-import Minizip
+import CMinizip
 
 /* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
 private func crc32__(withFilePath path: String) throws -> UInt {
-    let fm = NSFileManager.defaultManager()
-    if !fm.fileExistsAtPath(path) {
-        throw ZipError.FileNotFound
+    let fm = FileManager.default
+    if !fm.fileExists(atPath: path) {
+        throw ZipError.fileNotFound
     }
-    guard let stream = NSInputStream(fileAtPath: path) else {
-        throw ZipError.IO
+    guard let stream = InputStream(fileAtPath: path) else {
+        throw ZipError.io
     }
-    
+
     stream.open()
     if let _ = stream.streamError {
-        throw ZipError.IO
+        throw ZipError.io
     }
-    
-    let buffer = UnsafeMutablePointer<UInt8>.alloc(kZipArchiveDefaultBufferSize)
+
+    var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
     //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
-    
+
     var crc: uLong = 0
-    
+
     while true {
-        let len = stream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+        let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
         if len <= 0 {
             break
         }
         crc = crc32(crc, buffer, uInt(len))
     }
-    
-    buffer.destroy()
-    buffer.dealloc(kZipArchiveDefaultBufferSize)
+
     stream.close()
     if let _ = stream.streamError {
-        throw ZipError.IO
+        throw ZipError.io
     }
-    
+
     return crc
 }
 
@@ -57,31 +55,31 @@ extension ZipArchive {
 //        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: compressionLevel, password: nil)
 //    }
 
-    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .Default, password: String? = nil) -> ZipArchiveEntry? {
+    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .default, password: String? = nil) -> ZipArchiveEntry? {
         //let url = NSURL(fileURLWithPath: sourceFileName)
         //guard let fileWrapper = try? NSFileWrapper(URL: url, options: NSFileWrapperReadingOptions(rawValue: 0)) else {
         //    // ERROR
         //    return nil
         //}
-        let fm = NSFileManager.defaultManager()
-        guard let fileAttributes = try? fm.attributesOfItemAtPath(sourceFileName) else {
+        let fm = FileManager.default
+        guard let fileAttributes = try? fm.attributesOfItem(atPath: sourceFileName) else {
             // ERROR
             return nil
         }
 
-        guard let fileDate = fileAttributes[NSFileModificationDate] as? NSDate else {
+        guard let fileDate = fileAttributes[FileAttributeKey.modificationDate] as? Date else {
             // ERROR
             return nil
         }
-        guard let filePermissions = fileAttributes[NSFilePosixPermissions] as? NSNumber else {
+        guard let filePermissions = fileAttributes[FileAttributeKey.posixPermissions] as? NSNumber else {
             // ERROR
             return nil
         }
-        guard let nsFileType = fileAttributes[NSFileType] as? NSString else {
+        guard let nsFileType = fileAttributes[FileAttributeKey.type] as? String else {
             // ERROR
             return nil
         }
-        let fileType = FileType.fromNSFileType(nsFileType)
+        let fileType = FileType.fromNSFileType(fileType: FileAttributeType(rawValue: nsFileType))
 
         var name = entryName
         var level = compressionLevel
@@ -89,16 +87,16 @@ extension ZipArchive {
         // pre-process
         var crc: UInt = 0
         var isLargeFile = false
-        if fileType == .Directory {
+        if fileType == .directory {
             if !name.hasSuffix("/") {
                 name += "/"
             }
-            level = .NoCompression
+            level = .noCompression
         }
-        else if fileType == .SymbolicLink {
+        else if fileType == .symbolicLink {
             // Nothing to do
         }
-        else if fileType == .Regular {
+        else if fileType == .regular {
             if let password = password {
                 if !password.isEmpty {
                     do {
@@ -109,8 +107,8 @@ extension ZipArchive {
                     }
                 }
             }
-            if let fileSize = fileAttributes[NSFileSize] {
-                if fileSize.unsignedLongLongValue >= 0xffffffff {
+            if let fileSize = fileAttributes[FileAttributeKey.size] as? NSNumber {
+                if fileSize.uint64Value >= 0xffffffff {
                     isLargeFile = true
                 }
             }
@@ -120,59 +118,59 @@ extension ZipArchive {
             return nil
         }
 
-        guard let entry = createEntry(name, compressionLevel: level) else {
+        guard let entry = createEntry(entryName: name, compressionLevel: level) else {
             // ERROR
             return nil
         }
         entry.lastWriteTime = fileDate
-        entry.filePermissions = filePermissions.unsignedShortValue
+        entry.filePermissions = filePermissions.uint16Value
         entry.fileType = fileType
-        guard let zipStream = entry.open(password, crc32: crc, isLargeFile: isLargeFile) else {
+        guard let zipStream = entry.open(password: password, crc32: crc, isLargeFile: isLargeFile) else {
             // ERROR
             return nil
         }
         defer {
-            zipStream.close()
+            _ = zipStream.close()
         }
 
-        if fileType == .Directory {
+        if fileType == .directory {
             // write zero byte
             var len: UInt8 = 0
-            let _ = zipStream.write(&len, maxLength: Int(len))
+            let _ = zipStream.write(buffer: &len, maxLength: Int(len))
         }
-        else if fileType == .SymbolicLink {
-            guard let destination = try? fm.destinationOfSymbolicLinkAtPath(sourceFileName) else {
+        else if fileType == .symbolicLink {
+            guard let destination = try? fm.destinationOfSymbolicLink(atPath: sourceFileName) else {
                 // ERROR
                 return nil
             }
-            
+
 //            guard let destination = fileWrapper.symbolicLinkDestinationURL?.relativeString else {
 //                // ERROR
 //                return nil
 //            }
-            
+
             // TODO: use filesysytem file name string encoding
-            guard let destinationCStr = destination.cStringUsingEncoding(entryNameEncoding) else {
-                // ERROR
-                return nil
+            let err = destination.withCString { (cstr) -> Int in
+                let len = Int(strlen(cstr))
+                return cstr.withMemoryRebound(to: UInt8.self, capacity: len) { (p) -> Int in
+                    return zipStream.write(buffer: p, maxLength: len)
+                }
             }
-            let bytes = UnsafePointer<UInt8>(destinationCStr)
-            let err = zipStream.write(bytes, maxLength: destinationCStr.count)
             if err < 0 {
                 // ERROR
                 return nil
             }
         }
-        else if fileType == .Regular {
-            guard let fileInputStream = NSInputStream(fileAtPath: sourceFileName) else {
+        else if fileType == .regular {
+            guard let fileInputStream = InputStream(fileAtPath: sourceFileName) else {
                 // ERROR
                 return nil
             }
             fileInputStream.open()
-            let buffer = UnsafeMutablePointer<UInt8>.alloc(kZipArchiveDefaultBufferSize)
+            var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
             //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
             while true {
-                let len = fileInputStream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+                let len = fileInputStream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
                 if len < 0 {
                     // ERROR
                     break
@@ -181,15 +179,13 @@ extension ZipArchive {
                     // END
                     break
                 }
-                let err = zipStream.write(buffer, maxLength: len)
+                let err = zipStream.write(buffer: buffer, maxLength: len)
                 if err < 0 {
                     // ERROR
                     break
                 }
             }
             fileInputStream.close()
-            buffer.destroy()
-            buffer.dealloc(kZipArchiveDefaultBufferSize)
         }
 
         return entry
@@ -205,10 +201,10 @@ extension ZipArchive {
         var files = [ZipArchiveEntry]()
 
         for entry in entries {
-            if entry.fileType == .Directory || entry.fullName.hasSuffix("/") {
+            if entry.fileType == .directory || entry.fullName.hasSuffix("/") {
                 directories.append(entry)
             }
-            else if entry.fileType == .SymbolicLink {
+            else if entry.fileType == .symbolicLink {
                 symbolicLinks.append(entry)
             }
             else {
@@ -216,45 +212,45 @@ extension ZipArchive {
             }
         }
 
-        let fm = NSFileManager.defaultManager()
+        let fm = FileManager.default
         let directory = destinationDirectoryName as NSString
 
         let createBaseDirectory = { (entry: ZipArchiveEntry) throws in
-            if entry.fullName.containsString("/") {
-                let lastIndex = entry.fullName.rangeOfString("/", options: NSStringCompareOptions.BackwardsSearch)!.startIndex
-                let dir = entry.fullName.substringToIndex(lastIndex)
-                let path = directory.stringByAppendingPathComponent(dir)
-                if !fm.fileExistsAtPath(path) {
-                    try fm.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
+            if entry.fullName.contains("/") {
+                let lastIndex = entry.fullName.range(of: "/", options: .backwards)!.lowerBound
+                let dir = entry.fullName.substring(to: lastIndex)
+                let path = directory.appendingPathComponent(dir)
+                if !fm.fileExists(atPath: path) {
+                    try fm.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
                 }
             }
         }
 
         for entry in files {
-            let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
+            let fullPath = directory.appendingPathComponent(entry.fullName)
             try createBaseDirectory(entry)
-            
-            try entry.extractToFile(fullPath, overwrite: false, password: password)
 
-            var attributes = try fm.attributesOfItemAtPath(fullPath)
-            attributes[NSFileModificationDate] = entry.lastWriteTime
-            attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
-            attributes[NSFileType] = entry.fileType.toNSFileType()
+            try entry.extractToFile(destinationFileName: fullPath, overwrite: false, password: password)
+
+            var attributes = try fm.attributesOfItem(atPath: fullPath)
+            attributes[FileAttributeKey.modificationDate] = entry.lastWriteTime
+            attributes[FileAttributeKey.posixPermissions] = NSNumber(value: entry.filePermissions)
+            attributes[FileAttributeKey.type] = entry.fileType.toNSFileType().rawValue
             try fm.setAttributes(attributes, ofItemAtPath: fullPath)
         }
 
         for entry in symbolicLinks {
-            let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
+            let fullPath = directory.appendingPathComponent(entry.fullName)
             guard let data = entry.extractToData() else {
-                throw ZipError.IO
+                throw ZipError.io
             }
-            guard let destination = String(data: data, encoding: NSUTF8StringEncoding) else {
-                throw ZipError.IO
+            guard let destination = String(data: data, encoding: .utf8) else {
+                throw ZipError.io
             }
-            
+
             try createBaseDirectory(entry)
-            
-            try fm.createSymbolicLinkAtPath(fullPath, withDestinationPath: destination)
+
+            try fm.createSymbolicLink(atPath: fullPath, withDestinationPath: destination)
 
 //            var path1 = [CChar](count: data.length + 1, repeatedValue: 0)
 //            memcpy(&path1, data.bytes, data.length)
@@ -270,22 +266,22 @@ extension ZipArchive {
         }
 
         for entry in directories {
-            let fullPath = directory.stringByAppendingPathComponent(entry.fullName)
+            let fullPath = directory.appendingPathComponent(entry.fullName)
 
-            if !fm.fileExistsAtPath(fullPath) {
-                let attributes = [
-                    NSFileModificationDate : entry.lastWriteTime,
-                    NSFilePosixPermissions : NSNumber(unsignedShort: entry.filePermissions)
+            if !fm.fileExists(atPath: fullPath) {
+                let attributes: [String : Any] = [
+                    FileAttributeKey.modificationDate.rawValue : entry.lastWriteTime,
+                    FileAttributeKey.posixPermissions.rawValue : NSNumber(value: entry.filePermissions)
                 ]
-                try fm.createDirectoryAtPath(fullPath, withIntermediateDirectories: true, attributes: attributes)
+                try fm.createDirectory(atPath: fullPath, withIntermediateDirectories: true, attributes: attributes)
             }
             else {
-                var attributes = try fm.attributesOfItemAtPath(fullPath)
-                attributes[NSFileModificationDate] = entry.lastWriteTime
-                attributes[NSFilePosixPermissions] = NSNumber(unsignedShort: entry.filePermissions)
+                var attributes = try fm.attributesOfItem(atPath: fullPath)
+                attributes[FileAttributeKey.modificationDate] = entry.lastWriteTime
+                attributes[FileAttributeKey.posixPermissions] = NSNumber(value: entry.filePermissions)
                 try fm.setAttributes(attributes, ofItemAtPath: fullPath)
             }
         }
     }
-    
+
 }

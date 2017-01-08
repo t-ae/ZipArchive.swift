@@ -19,46 +19,42 @@ extension ZipArchiveEntry {
 //    }
     
     public func extractToFile(destinationFileName: String, overwrite: Bool = false, password: String? = nil) throws {
-        let fm = NSFileManager.defaultManager()
-        if fm.fileExistsAtPath(destinationFileName) {
+        let fm = FileManager.default
+        if fm.fileExists(atPath: destinationFileName) {
             if !overwrite {
-                throw ZipError.IO
+                throw ZipError.io
             }
         }
 
-        guard let unzipStream = open(password) else {
-            throw ZipError.IO
+        guard let unzipStream = open(password: password) else {
+            throw ZipError.io
         }
         defer {
-            unzipStream.close()
+            _ = unzipStream.close()
         }
         
-        guard let fileOutputStream = NSOutputStream(toFileAtPath: destinationFileName, append: false) else {
-            throw ZipError.IO
+        guard let fileOutputStream = OutputStream(toFileAtPath: destinationFileName, append: false) else {
+            throw ZipError.io
         }
         fileOutputStream.open()
         defer {
             fileOutputStream.close()
         }
         
-        let buffer = UnsafeMutablePointer<UInt8>.alloc(kZipArchiveDefaultBufferSize)
-        defer {
-            buffer.destroy()
-            buffer.dealloc(kZipArchiveDefaultBufferSize)
-        }
+        var buffer = [UInt8].init(repeating: 0, count: kZipArchiveDefaultBufferSize)
         
         while true {
-            let len = unzipStream.read(buffer, maxLength: kZipArchiveDefaultBufferSize)
+            let len = unzipStream.read(buffer: &buffer, maxLength: kZipArchiveDefaultBufferSize)
             if len < 0 {
-                throw ZipError.IO
+                throw ZipError.io
             }
             if len == 0 {
                 // END
                 break
             }
-            let err = fileOutputStream.write(buffer, maxLength: len)
+            let err = fileOutputStream.write(&buffer, maxLength: len)
             if err < 0 {
-                throw ZipError.IO
+                throw ZipError.io
             }
         }
     }
