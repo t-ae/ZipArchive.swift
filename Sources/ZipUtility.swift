@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CMinizip
+import minizip
 
 internal func createFileFuncDef(opaque: ZipArchiveStream) -> zlib_filefunc64_def {
     var fileFuncDef = zlib_filefunc64_def()

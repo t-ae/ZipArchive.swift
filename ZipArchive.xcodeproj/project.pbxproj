@@ -7,60 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E1C7F151DC8C6A300897038 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971651DC7A12800948777 /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E1C7F161DC8C6B100897038 /* CMinizip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E89719F1DC7A19500948777 /* CMinizip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971671DC7A12800948777 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971651DC7A12800948777 /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89718E1DC7A15C00948777 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717B1DC7A15C00948777 /* ZipArchive.swift */; };
-		0E89718F1DC7A15C00948777 /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717C1DC7A15C00948777 /* ZipArchiveEntry.swift */; };
-		0E8971901DC7A15C00948777 /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717D1DC7A15C00948777 /* ZipArchiveEntryStream.swift */; };
-		0E8971911DC7A15C00948777 /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717E1DC7A15C00948777 /* ZipArchiveStream.swift */; };
-		0E8971921DC7A15C00948777 /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717F1DC7A15C00948777 /* ZipConstants.swift */; };
-		0E8971931DC7A15C00948777 /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971801DC7A15C00948777 /* ZipFile.swift */; };
-		0E8971941DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971811DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift */; };
-		0E8971951DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971821DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift */; };
-		0E8971961DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971831DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
-		0E8971971DC7A15C00948777 /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971841DC7A15C00948777 /* ZipUtility.swift */; };
-		0E8971A11DC7A19500948777 /* CMinizip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E89719F1DC7A19500948777 /* CMinizip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971A51DC7A1A900948777 /* CMinizip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E89719D1DC7A19500948777 /* CMinizip.framework */; };
-		0E8971A81DC7A1B500948777 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8971A71DC7A1B500948777 /* libz.tbd */; };
-		0E8971A91DC7A1C300948777 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971701DC7A15C00948777 /* crypt.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971AA1DC7A1C300948777 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971711DC7A15C00948777 /* ioapi.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971AB1DC7A1C300948777 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971721DC7A15C00948777 /* mztools.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971AC1DC7A1C300948777 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971731DC7A15C00948777 /* unzip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971AD1DC7A1C300948777 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971741DC7A15C00948777 /* zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E8971AE1DC7A1C900948777 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971751DC7A15C00948777 /* ioapi.c */; };
-		0E8971AF1DC7A1CD00948777 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971771DC7A15C00948777 /* mztools.c */; };
-		0E8971B01DC7A1CD00948777 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971781DC7A15C00948777 /* unzip.c */; };
-		0E8971B11DC7A1CD00948777 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971791DC7A15C00948777 /* zip.c */; };
-		0E89720A1DC7A78C00948777 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971701DC7A15C00948777 /* crypt.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89720B1DC7A78C00948777 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971711DC7A15C00948777 /* ioapi.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89720C1DC7A78C00948777 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971721DC7A15C00948777 /* mztools.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89720D1DC7A78C00948777 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971731DC7A15C00948777 /* unzip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89720E1DC7A78C00948777 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8971741DC7A15C00948777 /* zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E89720F1DC7A79200948777 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971751DC7A15C00948777 /* ioapi.c */; };
-		0E8972101DC7A79600948777 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971771DC7A15C00948777 /* mztools.c */; };
-		0E8972111DC7A79600948777 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971781DC7A15C00948777 /* unzip.c */; };
-		0E8972121DC7A79600948777 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971791DC7A15C00948777 /* zip.c */; };
-		0E8972131DC7A79C00948777 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717B1DC7A15C00948777 /* ZipArchive.swift */; };
-		0E8972141DC7A79C00948777 /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717C1DC7A15C00948777 /* ZipArchiveEntry.swift */; };
-		0E8972151DC7A79C00948777 /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717D1DC7A15C00948777 /* ZipArchiveEntryStream.swift */; };
-		0E8972161DC7A79C00948777 /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717E1DC7A15C00948777 /* ZipArchiveStream.swift */; };
-		0E8972171DC7A79C00948777 /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89717F1DC7A15C00948777 /* ZipConstants.swift */; };
-		0E8972181DC7A79C00948777 /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971801DC7A15C00948777 /* ZipFile.swift */; };
-		0E8972191DC7A79C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971811DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift */; };
-		0E89721A1DC7A79C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971821DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift */; };
-		0E89721B1DC7A79D00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971831DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
-		0E89721C1DC7A79D00948777 /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971841DC7A15C00948777 /* ZipUtility.swift */; };
-		0E89721E1DC7A82100948777 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E89721D1DC7A82100948777 /* libz.tbd */; };
-		0E8972201DC7A86D00948777 /* CMinizip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8972021DC7A6E800948777 /* CMinizip.framework */; };
 		0E89722A1DC7A88800948777 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8971F51DC7A6DB00948777 /* ZipArchive.framework */; };
-		0E8972301DC7A8A200948777 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B41DC7A55100948777 /* BaseTestCase.swift */; };
-		0E8972311DC7A8A200948777 /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B51DC7A55100948777 /* ZipArchiveTests.swift */; };
-		0E8972321DC7A8A200948777 /* ZipFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8971B61DC7A55100948777 /* ZipFileTests.swift */; };
-		0E89A8CE1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */; };
-		0E89A8CF1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */; };
-		0E89A8D11DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */; };
-		0E89A8D21DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */; };
+		0ED1C1DC1E2290FC00ADD760 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1D61E2290ED00ADD760 /* BaseTestCase.swift */; };
+		0ED1C1DD1E2290FC00ADD760 /* ZipArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1D71E2290ED00ADD760 /* ZipArchiveTests.swift */; };
+		0ED1C1DE1E2290FC00ADD760 /* ZipFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1D81E2290ED00ADD760 /* ZipFileTests.swift */; };
+		0ED1C1FA1E22ACDA00ADD760 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED1C1EC1E22ACDA00ADD760 /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED1C1FB1E22ACDA00ADD760 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1ED1E22ACDA00ADD760 /* ZipArchive.swift */; };
+		0ED1C1FC1E22ACDA00ADD760 /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1EE1E22ACDA00ADD760 /* ZipArchiveEntry.swift */; };
+		0ED1C1FD1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1EF1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift */; };
+		0ED1C1FE1E22ACDA00ADD760 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F01E22ACDA00ADD760 /* ZipArchiveInputStream.swift */; };
+		0ED1C1FF1E22ACDA00ADD760 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F11E22ACDA00ADD760 /* ZipArchiveOutputStream.swift */; };
+		0ED1C2001E22ACDA00ADD760 /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F21E22ACDA00ADD760 /* ZipArchiveStream.swift */; };
+		0ED1C2011E22ACDA00ADD760 /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F31E22ACDA00ADD760 /* ZipConstants.swift */; };
+		0ED1C2021E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F41E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift */; };
+		0ED1C2031E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F51E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift */; };
+		0ED1C2041E22ACDA00ADD760 /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F61E22ACDA00ADD760 /* ZipFile.swift */; };
+		0ED1C2051E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
+		0ED1C2061E22ACDA00ADD760 /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */; };
+		0ED1C2071E22ACF100ADD760 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED1C1EC1E22ACDA00ADD760 /* ZipArchive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED1C2081E22ACFE00ADD760 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1ED1E22ACDA00ADD760 /* ZipArchive.swift */; };
+		0ED1C2091E22ACFE00ADD760 /* ZipArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1EE1E22ACDA00ADD760 /* ZipArchiveEntry.swift */; };
+		0ED1C20A1E22ACFE00ADD760 /* ZipArchiveEntryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1EF1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift */; };
+		0ED1C20B1E22ACFE00ADD760 /* ZipArchiveInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F01E22ACDA00ADD760 /* ZipArchiveInputStream.swift */; };
+		0ED1C20C1E22ACFE00ADD760 /* ZipArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F11E22ACDA00ADD760 /* ZipArchiveOutputStream.swift */; };
+		0ED1C20D1E22ACFE00ADD760 /* ZipArchiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F21E22ACDA00ADD760 /* ZipArchiveStream.swift */; };
+		0ED1C20E1E22ACFE00ADD760 /* ZipConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F31E22ACDA00ADD760 /* ZipConstants.swift */; };
+		0ED1C20F1E22ACFE00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F41E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift */; };
+		0ED1C2101E22ACFE00ADD760 /* ZipFile_ZipArchiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F51E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift */; };
+		0ED1C2111E22ACFE00ADD760 /* ZipFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F61E22ACDA00ADD760 /* ZipFile.swift */; };
+		0ED1C2121E22ACFE00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
+		0ED1C2131E22ACFE00ADD760 /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,42 +51,26 @@
 
 /* Begin PBXFileReference section */
 		0E8971621DC7A12800948777 /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E8971651DC7A12800948777 /* ZipArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
-		0E8971661DC7A12800948777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E8971701DC7A15C00948777 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		0E8971711DC7A15C00948777 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		0E8971721DC7A15C00948777 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
-		0E8971731DC7A15C00948777 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		0E8971741DC7A15C00948777 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		0E8971751DC7A15C00948777 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		0E8971761DC7A15C00948777 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		0E8971771DC7A15C00948777 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
-		0E8971781DC7A15C00948777 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		0E8971791DC7A15C00948777 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		0E89717B1DC7A15C00948777 /* ZipArchive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
-		0E89717C1DC7A15C00948777 /* ZipArchiveEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntry.swift; sourceTree = "<group>"; };
-		0E89717D1DC7A15C00948777 /* ZipArchiveEntryStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.swift; sourceTree = "<group>"; };
-		0E89717E1DC7A15C00948777 /* ZipArchiveStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveStream.swift; sourceTree = "<group>"; };
-		0E89717F1DC7A15C00948777 /* ZipConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipConstants.swift; sourceTree = "<group>"; };
-		0E8971801DC7A15C00948777 /* ZipFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile.swift; sourceTree = "<group>"; };
-		0E8971811DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
-		0E8971821DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveExtension.swift; sourceTree = "<group>"; };
-		0E8971831DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
-		0E8971841DC7A15C00948777 /* ZipUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipUtility.swift; sourceTree = "<group>"; };
-		0E89719D1DC7A19500948777 /* CMinizip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMinizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E89719F1DC7A19500948777 /* CMinizip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMinizip.h; sourceTree = "<group>"; };
-		0E8971A01DC7A19500948777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E8971A71DC7A1B500948777 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		0E8971B41DC7A55100948777 /* BaseTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
-		0E8971B51DC7A55100948777 /* ZipArchiveTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveTests.swift; sourceTree = "<group>"; };
-		0E8971B61DC7A55100948777 /* ZipFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFileTests.swift; sourceTree = "<group>"; };
-		0E8971C21DC7A57E00948777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E8971F51DC7A6DB00948777 /* ZipArchive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E8972021DC7A6E800948777 /* CMinizip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMinizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E89721D1DC7A82100948777 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		0E8972251DC7A88800948777 /* ZipArchiveTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ZipArchiveTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveInputStream.swift; sourceTree = "<group>"; };
-		0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveOutputStream.swift; sourceTree = "<group>"; };
+		0ED1C1D61E2290ED00ADD760 /* BaseTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		0ED1C1D71E2290ED00ADD760 /* ZipArchiveTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveTests.swift; sourceTree = "<group>"; };
+		0ED1C1D81E2290ED00ADD760 /* ZipFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFileTests.swift; sourceTree = "<group>"; };
+		0ED1C1EB1E22ACDA00ADD760 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0ED1C1EC1E22ACDA00ADD760 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		0ED1C1ED1E22ACDA00ADD760 /* ZipArchive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
+		0ED1C1EE1E22ACDA00ADD760 /* ZipArchiveEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntry.swift; sourceTree = "<group>"; };
+		0ED1C1EF1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.swift; sourceTree = "<group>"; };
+		0ED1C1F01E22ACDA00ADD760 /* ZipArchiveInputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveInputStream.swift; sourceTree = "<group>"; };
+		0ED1C1F11E22ACDA00ADD760 /* ZipArchiveOutputStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveOutputStream.swift; sourceTree = "<group>"; };
+		0ED1C1F21E22ACDA00ADD760 /* ZipArchiveStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveStream.swift; sourceTree = "<group>"; };
+		0ED1C1F31E22ACDA00ADD760 /* ZipConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipConstants.swift; sourceTree = "<group>"; };
+		0ED1C1F41E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		0ED1C1F51E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile_ZipArchiveExtension.swift; sourceTree = "<group>"; };
+		0ED1C1F61E22ACDA00ADD760 /* ZipFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipFile.swift; sourceTree = "<group>"; };
+		0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
+		0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipUtility.swift; sourceTree = "<group>"; };
+		0ED1C2141E22AD6800ADD760 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,15 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E8971A51DC7A1A900948777 /* CMinizip.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8971991DC7A19500948777 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E8971A81DC7A1B500948777 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,15 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E8972201DC7A86D00948777 /* CMinizip.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8971FE1DC7A6E800948777 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E89721E1DC7A82100948777 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,9 +104,6 @@
 			children = (
 				0E89716D1DC7A15C00948777 /* Sources */,
 				0E8971B21DC7A55100948777 /* Tests */,
-				0E8971641DC7A12800948777 /* ZipArchive */,
-				0E89719E1DC7A19500948777 /* CMinizip */,
-				0E8971BF1DC7A57E00948777 /* ZipArchiveTests */,
 				0E8971631DC7A12800948777 /* Products */,
 				0E8971A61DC7A1B500948777 /* Frameworks */,
 			);
@@ -174,90 +113,36 @@
 			isa = PBXGroup;
 			children = (
 				0E8971621DC7A12800948777 /* ZipArchive.framework */,
-				0E89719D1DC7A19500948777 /* CMinizip.framework */,
 				0E8971F51DC7A6DB00948777 /* ZipArchive.framework */,
-				0E8972021DC7A6E800948777 /* CMinizip.framework */,
 				0E8972251DC7A88800948777 /* ZipArchiveTests-macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0E8971641DC7A12800948777 /* ZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				0E8971651DC7A12800948777 /* ZipArchive.h */,
-				0E8971661DC7A12800948777 /* Info.plist */,
-			);
-			path = ZipArchive;
-			sourceTree = "<group>";
-		};
 		0E89716D1DC7A15C00948777 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0E89716E1DC7A15C00948777 /* CMinizip */,
-				0E89717A1DC7A15C00948777 /* ZipArchive */,
+				0ED1C1EB1E22ACDA00ADD760 /* Info.plist */,
+				0ED1C1EC1E22ACDA00ADD760 /* ZipArchive.h */,
+				0ED1C1ED1E22ACDA00ADD760 /* ZipArchive.swift */,
+				0ED1C1EE1E22ACDA00ADD760 /* ZipArchiveEntry.swift */,
+				0ED1C1EF1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift */,
+				0ED1C1F01E22ACDA00ADD760 /* ZipArchiveInputStream.swift */,
+				0ED1C1F11E22ACDA00ADD760 /* ZipArchiveOutputStream.swift */,
+				0ED1C1F21E22ACDA00ADD760 /* ZipArchiveStream.swift */,
+				0ED1C1F31E22ACDA00ADD760 /* ZipConstants.swift */,
+				0ED1C1F41E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift */,
+				0ED1C1F51E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift */,
+				0ED1C1F61E22ACDA00ADD760 /* ZipFile.swift */,
+				0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */,
+				0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		0E89716E1DC7A15C00948777 /* CMinizip */ = {
-			isa = PBXGroup;
-			children = (
-				0E89716F1DC7A15C00948777 /* include */,
-				0E8971751DC7A15C00948777 /* ioapi.c */,
-				0E8971761DC7A15C00948777 /* module.modulemap */,
-				0E8971771DC7A15C00948777 /* mztools.c */,
-				0E8971781DC7A15C00948777 /* unzip.c */,
-				0E8971791DC7A15C00948777 /* zip.c */,
-			);
-			path = CMinizip;
-			sourceTree = "<group>";
-		};
-		0E89716F1DC7A15C00948777 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				0E8971701DC7A15C00948777 /* crypt.h */,
-				0E8971711DC7A15C00948777 /* ioapi.h */,
-				0E8971721DC7A15C00948777 /* mztools.h */,
-				0E8971731DC7A15C00948777 /* unzip.h */,
-				0E8971741DC7A15C00948777 /* zip.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		0E89717A1DC7A15C00948777 /* ZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				0E89717B1DC7A15C00948777 /* ZipArchive.swift */,
-				0E89717C1DC7A15C00948777 /* ZipArchiveEntry.swift */,
-				0E89717D1DC7A15C00948777 /* ZipArchiveEntryStream.swift */,
-				0E89717E1DC7A15C00948777 /* ZipArchiveStream.swift */,
-				0E89717F1DC7A15C00948777 /* ZipConstants.swift */,
-				0E8971801DC7A15C00948777 /* ZipFile.swift */,
-				0E8971811DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift */,
-				0E8971821DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift */,
-				0E8971831DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift */,
-				0E8971841DC7A15C00948777 /* ZipUtility.swift */,
-				0E89A8CD1DCCCB6200686803 /* ZipArchiveInputStream.swift */,
-				0E89A8D01DCCD44300686803 /* ZipArchiveOutputStream.swift */,
-			);
-			path = ZipArchive;
-			sourceTree = "<group>";
-		};
-		0E89719E1DC7A19500948777 /* CMinizip */ = {
-			isa = PBXGroup;
-			children = (
-				0E89719F1DC7A19500948777 /* CMinizip.h */,
-				0E8971A01DC7A19500948777 /* Info.plist */,
-			);
-			path = CMinizip;
 			sourceTree = "<group>";
 		};
 		0E8971A61DC7A1B500948777 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E89721D1DC7A82100948777 /* libz.tbd */,
-				0E8971A71DC7A1B500948777 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -265,25 +150,18 @@
 		0E8971B21DC7A55100948777 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				0E8971B31DC7A55100948777 /* ZipArchive */,
+				0ED1C2141E22AD6800ADD760 /* Info.plist */,
+				0ED1C1D51E2290ED00ADD760 /* ZipArchiveTests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		0E8971B31DC7A55100948777 /* ZipArchive */ = {
+		0ED1C1D51E2290ED00ADD760 /* ZipArchiveTests */ = {
 			isa = PBXGroup;
 			children = (
-				0E8971B41DC7A55100948777 /* BaseTestCase.swift */,
-				0E8971B51DC7A55100948777 /* ZipArchiveTests.swift */,
-				0E8971B61DC7A55100948777 /* ZipFileTests.swift */,
-			);
-			path = ZipArchive;
-			sourceTree = "<group>";
-		};
-		0E8971BF1DC7A57E00948777 /* ZipArchiveTests */ = {
-			isa = PBXGroup;
-			children = (
-				0E8971C21DC7A57E00948777 /* Info.plist */,
+				0ED1C1D61E2290ED00ADD760 /* BaseTestCase.swift */,
+				0ED1C1D71E2290ED00ADD760 /* ZipArchiveTests.swift */,
+				0ED1C1D81E2290ED00ADD760 /* ZipFileTests.swift */,
 			);
 			path = ZipArchiveTests;
 			sourceTree = "<group>";
@@ -295,20 +173,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E8971671DC7A12800948777 /* ZipArchive.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E89719A1DC7A19500948777 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E8971AD1DC7A1C300948777 /* zip.h in Headers */,
-				0E8971AA1DC7A1C300948777 /* ioapi.h in Headers */,
-				0E8971AC1DC7A1C300948777 /* unzip.h in Headers */,
-				0E8971A11DC7A19500948777 /* CMinizip.h in Headers */,
-				0E8971A91DC7A1C300948777 /* crypt.h in Headers */,
-				0E8971AB1DC7A1C300948777 /* mztools.h in Headers */,
+				0ED1C1FA1E22ACDA00ADD760 /* ZipArchive.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,20 +181,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E1C7F151DC8C6A300897038 /* ZipArchive.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8971FF1DC7A6E800948777 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E89720E1DC7A78C00948777 /* zip.h in Headers */,
-				0E1C7F161DC8C6B100897038 /* CMinizip.h in Headers */,
-				0E89720B1DC7A78C00948777 /* ioapi.h in Headers */,
-				0E89720D1DC7A78C00948777 /* unzip.h in Headers */,
-				0E89720A1DC7A78C00948777 /* crypt.h in Headers */,
-				0E89720C1DC7A78C00948777 /* mztools.h in Headers */,
+				0ED1C2071E22ACF100ADD760 /* ZipArchive.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,24 +206,6 @@
 			productReference = 0E8971621DC7A12800948777 /* ZipArchive.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0E89719C1DC7A19500948777 /* CMinizip */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0E8971A21DC7A19500948777 /* Build configuration list for PBXNativeTarget "CMinizip" */;
-			buildPhases = (
-				0E8971981DC7A19500948777 /* Sources */,
-				0E8971991DC7A19500948777 /* Frameworks */,
-				0E89719A1DC7A19500948777 /* Headers */,
-				0E89719B1DC7A19500948777 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = CMinizip;
-			productName = CMinizip;
-			productReference = 0E89719D1DC7A19500948777 /* CMinizip.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		0E8971F41DC7A6DB00948777 /* ZipArchive-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E8971FA1DC7A6DB00948777 /* Build configuration list for PBXNativeTarget "ZipArchive-macOS" */;
@@ -388,24 +222,6 @@
 			name = "ZipArchive-macOS";
 			productName = "ZipArchive-macOS";
 			productReference = 0E8971F51DC7A6DB00948777 /* ZipArchive.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		0E8972011DC7A6E800948777 /* CMinizip-macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0E8972071DC7A6E800948777 /* Build configuration list for PBXNativeTarget "CMinizip-macOS" */;
-			buildPhases = (
-				0E8971FD1DC7A6E800948777 /* Sources */,
-				0E8971FE1DC7A6E800948777 /* Frameworks */,
-				0E8971FF1DC7A6E800948777 /* Headers */,
-				0E8972001DC7A6E800948777 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "CMinizip-macOS";
-			productName = "CMinizip-macOS";
-			productReference = 0E8972021DC7A6E800948777 /* CMinizip.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		0E8972241DC7A88800948777 /* ZipArchiveTests-macOS */ = {
@@ -438,17 +254,10 @@
 				TargetAttributes = {
 					0E8971611DC7A12800948777 = {
 						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-					};
-					0E89719C1DC7A19500948777 = {
-						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					0E8971F41DC7A6DB00948777 = {
-						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-					};
-					0E8972011DC7A6E800948777 = {
 						CreatedOnToolsVersion = 8.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -472,8 +281,6 @@
 			targets = (
 				0E8971611DC7A12800948777 /* ZipArchive */,
 				0E8971F41DC7A6DB00948777 /* ZipArchive-macOS */,
-				0E89719C1DC7A19500948777 /* CMinizip */,
-				0E8972011DC7A6E800948777 /* CMinizip-macOS */,
 				0E8972241DC7A88800948777 /* ZipArchiveTests-macOS */,
 			);
 		};
@@ -487,21 +294,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0E89719B1DC7A19500948777 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0E8971F31DC7A6DB00948777 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8972001DC7A6E800948777 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -522,29 +315,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E89A8CE1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */,
-				0E8971971DC7A15C00948777 /* ZipUtility.swift in Sources */,
-				0E8971951DC7A15C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */,
-				0E8971941DC7A15C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
-				0E8971931DC7A15C00948777 /* ZipFile.swift in Sources */,
-				0E89A8D11DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */,
-				0E8971911DC7A15C00948777 /* ZipArchiveStream.swift in Sources */,
-				0E8971901DC7A15C00948777 /* ZipArchiveEntryStream.swift in Sources */,
-				0E8971961DC7A15C00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
-				0E89718F1DC7A15C00948777 /* ZipArchiveEntry.swift in Sources */,
-				0E89718E1DC7A15C00948777 /* ZipArchive.swift in Sources */,
-				0E8971921DC7A15C00948777 /* ZipConstants.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8971981DC7A19500948777 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E8971B01DC7A1CD00948777 /* unzip.c in Sources */,
-				0E8971B11DC7A1CD00948777 /* zip.c in Sources */,
-				0E8971AF1DC7A1CD00948777 /* mztools.c in Sources */,
-				0E8971AE1DC7A1C900948777 /* ioapi.c in Sources */,
+				0ED1C2001E22ACDA00ADD760 /* ZipArchiveStream.swift in Sources */,
+				0ED1C2041E22ACDA00ADD760 /* ZipFile.swift in Sources */,
+				0ED1C1FF1E22ACDA00ADD760 /* ZipArchiveOutputStream.swift in Sources */,
+				0ED1C1FD1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift in Sources */,
+				0ED1C2051E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
+				0ED1C1FB1E22ACDA00ADD760 /* ZipArchive.swift in Sources */,
+				0ED1C2061E22ACDA00ADD760 /* ZipUtility.swift in Sources */,
+				0ED1C1FC1E22ACDA00ADD760 /* ZipArchiveEntry.swift in Sources */,
+				0ED1C1FE1E22ACDA00ADD760 /* ZipArchiveInputStream.swift in Sources */,
+				0ED1C2031E22ACDA00ADD760 /* ZipFile_ZipArchiveExtension.swift in Sources */,
+				0ED1C2011E22ACDA00ADD760 /* ZipConstants.swift in Sources */,
+				0ED1C2021E22ACDA00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,29 +334,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E89A8CF1DCCCB6200686803 /* ZipArchiveInputStream.swift in Sources */,
-				0E89721A1DC7A79C00948777 /* ZipFile_ZipArchiveExtension.swift in Sources */,
-				0E89721B1DC7A79D00948777 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
-				0E8972151DC7A79C00948777 /* ZipArchiveEntryStream.swift in Sources */,
-				0E8972181DC7A79C00948777 /* ZipFile.swift in Sources */,
-				0E89A8D21DCCD44300686803 /* ZipArchiveOutputStream.swift in Sources */,
-				0E8972191DC7A79C00948777 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
-				0E8972131DC7A79C00948777 /* ZipArchive.swift in Sources */,
-				0E8972161DC7A79C00948777 /* ZipArchiveStream.swift in Sources */,
-				0E8972171DC7A79C00948777 /* ZipConstants.swift in Sources */,
-				0E89721C1DC7A79D00948777 /* ZipUtility.swift in Sources */,
-				0E8972141DC7A79C00948777 /* ZipArchiveEntry.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0E8971FD1DC7A6E800948777 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E8972111DC7A79600948777 /* unzip.c in Sources */,
-				0E8972121DC7A79600948777 /* zip.c in Sources */,
-				0E8972101DC7A79600948777 /* mztools.c in Sources */,
-				0E89720F1DC7A79200948777 /* ioapi.c in Sources */,
+				0ED1C20D1E22ACFE00ADD760 /* ZipArchiveStream.swift in Sources */,
+				0ED1C2111E22ACFE00ADD760 /* ZipFile.swift in Sources */,
+				0ED1C20C1E22ACFE00ADD760 /* ZipArchiveOutputStream.swift in Sources */,
+				0ED1C20A1E22ACFE00ADD760 /* ZipArchiveEntryStream.swift in Sources */,
+				0ED1C2121E22ACFE00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
+				0ED1C2081E22ACFE00ADD760 /* ZipArchive.swift in Sources */,
+				0ED1C2131E22ACFE00ADD760 /* ZipUtility.swift in Sources */,
+				0ED1C2091E22ACFE00ADD760 /* ZipArchiveEntry.swift in Sources */,
+				0ED1C20B1E22ACFE00ADD760 /* ZipArchiveInputStream.swift in Sources */,
+				0ED1C2101E22ACFE00ADD760 /* ZipFile_ZipArchiveExtension.swift in Sources */,
+				0ED1C20E1E22ACFE00ADD760 /* ZipConstants.swift in Sources */,
+				0ED1C20F1E22ACFE00ADD760 /* ZipFile_ZipArchiveEntryExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,9 +353,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E8972301DC7A8A200948777 /* BaseTestCase.swift in Sources */,
-				0E8972311DC7A8A200948777 /* ZipArchiveTests.swift in Sources */,
-				0E8972321DC7A8A200948777 /* ZipFileTests.swift in Sources */,
+				0ED1C1DC1E2290FC00ADD760 /* BaseTestCase.swift in Sources */,
+				0ED1C1DE1E2290FC00ADD760 /* ZipFileTests.swift in Sources */,
+				0ED1C1DD1E2290FC00ADD760 /* ZipArchiveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,17 +476,19 @@
 		0E89716B1DC7A12800948777 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -723,57 +496,16 @@
 		0E89716C1DC7A12800948777 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		0E8971A31DC7A19500948777 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
-				INFOPLIST_FILE = CMinizip/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = Sources/CMinizip/module.modulemap;
-				OTHER_CFLAGS = "-DUSE_FILE32API";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.CMinizip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		0E8971A41DC7A19500948777 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
-				INFOPLIST_FILE = CMinizip/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = Sources/CMinizip/module.modulemap;
-				OTHER_CFLAGS = "-DUSE_FILE32API";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.CMinizip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -790,7 +522,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
@@ -811,7 +543,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ZipArchive/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchive;
@@ -822,62 +554,13 @@
 			};
 			name = Release;
 		};
-		0E8972081DC7A6E800948777 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
-				INFOPLIST_FILE = CMinizip/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MODULEMAP_FILE = Sources/CMinizip/module.modulemap;
-				OTHER_CFLAGS = "-DUSE_FILE32API";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.CMinizip;
-				PRODUCT_NAME = CMinizip;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		0E8972091DC7A6E800948777 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/CMinizip/include";
-				INFOPLIST_FILE = CMinizip/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MODULEMAP_FILE = Sources/CMinizip/module.modulemap;
-				OTHER_CFLAGS = "-DUSE_FILE32API";
-				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.CMinizip;
-				PRODUCT_NAME = CMinizip;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		0E89722E1DC7A88800948777 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -889,9 +572,10 @@
 		0E89722F1DC7A88800948777 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ZipArchiveTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.yaslab.ZipArchiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -921,29 +605,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0E8971A21DC7A19500948777 /* Build configuration list for PBXNativeTarget "CMinizip" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E8971A31DC7A19500948777 /* Debug */,
-				0E8971A41DC7A19500948777 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		0E8971FA1DC7A6DB00948777 /* Build configuration list for PBXNativeTarget "ZipArchive-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E8971FB1DC7A6DB00948777 /* Debug */,
 				0E8971FC1DC7A6DB00948777 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0E8972071DC7A6E800948777 /* Build configuration list for PBXNativeTarget "CMinizip-macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E8972081DC7A6E800948777 /* Debug */,
-				0E8972091DC7A6E800948777 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

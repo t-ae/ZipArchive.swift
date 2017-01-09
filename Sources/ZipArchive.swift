@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CMinizip
+import minizip
 
 public class ZipArchive {
 

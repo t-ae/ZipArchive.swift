@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CMinizip
+import minizip
 
 /* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
 private func crc32__(withFilePath path: String) throws -> UInt {

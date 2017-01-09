@@ -1,7 +1,0 @@
-framework module CMinizip [system] {
-    link "z"
-    umbrella header "CMinizip.h"
-
-    export *
-    module * { export * }
-}

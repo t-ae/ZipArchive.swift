@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CMinizip
+import minizip
 
 // For zip
 internal class ZipArchiveEntryZipStream: ZipArchiveStream {
@@ -169,7 +169,7 @@ internal class ZipArchiveEntryUnzipStream: ZipArchiveStream {
 
         fp = archive.unzfp
 
-        if unzLocateFile(fp, archiveEntry.fileNameInZip, 0) != UNZ_OK {
+        if unzLocateFile(fp, archiveEntry.fileNameInZip, nil) != UNZ_OK {
             return false
         }
 
