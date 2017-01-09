@@ -17,7 +17,7 @@ extension ZipArchiveStream {
     
 }
 
-// Note: super.init(...) is unrecognized selector on iOS 8. (Bug??)
+// Note: Subclass of InputStream, super.init(...) is unrecognized selector on iOS 8. (Bug??)
 // See: http://stackoverflow.com/questions/28286608/failing-to-subclass-nsinputstream-from-swift-initwithdata-unrecognizer-selecto
 @available(iOS 9.0, *)
 internal class ZipArchiveInputStream: InputStream {

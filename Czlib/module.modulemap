@@ -1,0 +1,7 @@
+framework module Czlib [system] {
+    umbrella header "Czlib.h"
+    link "z"
+    
+    export *
+    module * { export * }
+}

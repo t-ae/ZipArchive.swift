@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import minizip
+import Czlib
 
 public let kZipArchiveDefaultBufferSize = 8192
 

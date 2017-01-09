@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import minizip
+//import minizip
 
 public class ZipArchive {
 
@@ -16,8 +16,10 @@ public class ZipArchive {
     internal let entryNameEncoding: String.Encoding
     internal let passwordEncoding: String.Encoding
 
-    internal var zipfp: zipFile? = nil
-    internal var unzfp: unzFile? = nil
+    //internal var zipfp: zipFile? = nil
+    //internal var unzfp: unzFile? = nil
+    internal var zip: Zip? = nil
+    internal var unzip: Unzip? = nil
 
     private var _entries = [ZipArchiveEntry]()
     public var entries: AnySequence<ZipArchiveEntry> {
@@ -42,7 +44,7 @@ public class ZipArchive {
         self.entryNameEncoding = entryNameEncoding
         self.passwordEncoding = passwordEncoding
 
-        var fileFuncDef = createFileFuncDef(opaque: stream)
+        //var fileFuncDef = createFileFuncDef(opaque: stream)
 
         switch mode {
         case .read:
@@ -50,9 +52,11 @@ public class ZipArchive {
                 // ERROR
                 return nil
             }
-            unzfp = unzOpen2_64(nil, &fileFuncDef)
-            if unzfp != nil {
-                guard readEntries() else {
+            //unzfp = unzOpen2_64(nil, &fileFuncDef)
+            //if unzfp != nil {
+            if let unzip = Unzip(stream: stream) {
+                self.unzip = unzip
+                guard readEntries(unzip: unzip) else {
                     return nil
                 }
             }
@@ -61,10 +65,11 @@ public class ZipArchive {
                 // ERROR
                 return nil
             }
-            zipfp = zipOpen2_64(nil, APPEND_STATUS_CREATE, nil, &fileFuncDef)
+            //zipfp = zipOpen2_64(nil, APPEND_STATUS_CREATE, nil, &fileFuncDef)
+            self.zip = Zip(stream: stream)
         }
 
-        if zipfp == nil && unzfp == nil {
+        if zip == nil && unzip == nil {
             // ERROR
             return nil
         }
@@ -82,14 +87,19 @@ public class ZipArchive {
             return
         }
 
-        if zipfp != nil {
-            zipClose(zipfp, nil)
-            zipfp = nil
-        }
-        if unzfp != nil {
-            unzClose(unzfp)
-            unzfp = nil
-        }
+        zip?.finalize()
+        zip = nil
+        
+        unzip = nil
+        
+        //if zipfp != nil {
+        //    zipClose(zipfp, nil)
+        //    zipfp = nil
+        //}
+        //if unzfp != nil {
+        //    unzClose(unzfp)
+        //    unzfp = nil
+        //}
         disposed = true
     }
 
@@ -98,7 +108,7 @@ public class ZipArchive {
     }
 
     public func createEntry(entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
-        if zipfp == nil || entryName == "" {
+        if zip == nil || entryName == "" {
             return nil
         }
         guard let entry = ZipArchiveEntry(owner: self, entryName: entryName, compressionLevel: compressionLevel) else {
@@ -120,15 +130,21 @@ public class ZipArchive {
         return nil
     }
 
-    private func readEntries() -> Bool {
-        var err = unzGoToFirstFile(unzfp)
-        while err == UNZ_OK {
-            guard let entry = ZipArchiveEntry(owner: self) else {
+    private func readEntries(unzip: Unzip) -> Bool {
+        for centralDirectoryHeader in unzip.centralDirectoryHeaders {
+            guard let entry = ZipArchiveEntry(owner: self, centralDirectoryHeader: centralDirectoryHeader) else {
                 return false
             }
             _entries.append(entry)
-            err = unzGoToNextFile(unzfp)
         }
+//        var err = unzGoToFirstFile(unzfp)
+//        while err == UNZ_OK {
+//            guard let entry = ZipArchiveEntry(owner: self) else {
+//                return false
+//            }
+//            _entries.append(entry)
+//            err = unzGoToNextFile(unzfp)
+//        }
         return true
     }
 

@@ -7,43 +7,43 @@
 //
 
 import Foundation
-import minizip
+//import minizip
 
 /* calculate the CRC32 of a file, because to encrypt a file, we need known the CRC32 of the file before */
-private func crc32__(withFilePath path: String) throws -> UInt {
-    let fm = FileManager.default
-    if !fm.fileExists(atPath: path) {
-        throw ZipError.fileNotFound
-    }
-    guard let stream = InputStream(fileAtPath: path) else {
-        throw ZipError.io
-    }
-
-    stream.open()
-    if let _ = stream.streamError {
-        throw ZipError.io
-    }
-
-    var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
-    //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
-
-    var crc: uLong = 0
-
-    while true {
-        let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
-        if len <= 0 {
-            break
-        }
-        crc = crc32(crc, buffer, uInt(len))
-    }
-
-    stream.close()
-    if let _ = stream.streamError {
-        throw ZipError.io
-    }
-
-    return crc
-}
+//private func crc32__(withFilePath path: String) throws -> UInt {
+//    let fm = FileManager.default
+//    if !fm.fileExists(atPath: path) {
+//        throw ZipError.fileNotFound
+//    }
+//    guard let stream = InputStream(fileAtPath: path) else {
+//        throw ZipError.io
+//    }
+//
+//    stream.open()
+//    if let _ = stream.streamError {
+//        throw ZipError.io
+//    }
+//
+//    var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
+//    //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
+//
+//    var crc: uLong = 0
+//
+//    while true {
+//        let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
+//        if len <= 0 {
+//            break
+//        }
+//        crc = crc32(crc, buffer, uInt(len))
+//    }
+//
+//    stream.close()
+//    if let _ = stream.streamError {
+//        throw ZipError.io
+//    }
+//
+//    return crc
+//}
 
 extension ZipArchive {
 
@@ -85,7 +85,7 @@ extension ZipArchive {
         var level = compressionLevel
 
         // pre-process
-        var crc: UInt = 0
+        //var crc: UInt = 0
         var isLargeFile = false
         if fileType == .directory {
             if !name.hasSuffix("/") {
@@ -97,16 +97,16 @@ extension ZipArchive {
             // Nothing to do
         }
         else if fileType == .regular {
-            if let password = password {
-                if !password.isEmpty {
-                    do {
-                        crc = try crc32__(withFilePath: sourceFileName)
-                    }
-                    catch {
-                        return nil
-                    }
-                }
-            }
+//            if let password = password {
+//                if !password.isEmpty {
+//                    do {
+//                        crc = try crc32__(withFilePath: sourceFileName)
+//                    }
+//                    catch {
+//                        return nil
+//                    }
+//                }
+//            }
             if let fileSize = fileAttributes[FileAttributeKey.size] as? NSNumber {
                 if fileSize.uint64Value >= 0xffffffff {
                     isLargeFile = true
@@ -125,7 +125,7 @@ extension ZipArchive {
         entry.lastWriteTime = fileDate
         entry.filePermissions = filePermissions.uint16Value
         entry.fileType = fileType
-        guard let zipStream = entry.open(password: password, crc32: crc, isLargeFile: isLargeFile) else {
+        guard let zipStream = entry.open(password: password/*, crc32: crc*/, isLargeFile: isLargeFile) else {
             // ERROR
             return nil
         }

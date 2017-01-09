@@ -24,9 +24,9 @@ public protocol ZipArchiveStream: class {
     var position: UInt64 { get }
     
     func close() -> Bool
-    func read(buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int
+    func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int
     func seek(offset: Int, origin: SeekOrigin) -> Int
-    func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int
+    func write(buffer: UnsafeRawPointer, maxLength len: Int) -> Int
 
 }
 
@@ -95,7 +95,7 @@ public class ZipArchiveFileStream: ZipArchiveStream {
         return _fileHandle.offsetInFile
     }
     
-    public func read(buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int {
+    public func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int {
         if len <= 0 {
             return 0
         }
@@ -127,7 +127,7 @@ public class ZipArchiveFileStream: ZipArchiveStream {
         return true
     }
     
-    public func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
+    public func write(buffer: UnsafeRawPointer, maxLength len: Int) -> Int {
         if len <= 0 {
             return 0
         }
@@ -175,7 +175,7 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
         return UInt64(_offset)
     }
     
-    public func read(buffer: UnsafeMutablePointer<UInt8>, maxLength len: Int) -> Int {
+    public func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int {
         var length = len
         if _offset + length > _data.length {
             length = _data.length - _offset
@@ -215,7 +215,7 @@ public class ZipArchiveMemoryStream: ZipArchiveStream {
         return true
     }
 
-    public func write(buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
+    public func write(buffer: UnsafeRawPointer, maxLength len: Int) -> Int {
         let mutableData = _data as! NSMutableData
         if _offset + len > mutableData.length {
             mutableData.length = _offset + len
