@@ -28,7 +28,6 @@ class ZipArchiveTestCase: BaseTestCase {
     }
 
     func test圧縮ファイル() {
-        let zero = Data()
         let files: [String : Data] = [
             "test_data.dat" : createFixedData()
         ]
@@ -44,7 +43,7 @@ class ZipArchiveTestCase: BaseTestCase {
             data.withUnsafeBytes { (buffer) -> Void in
                 _ = stream.write(buffer: buffer, maxLength: length)
             }
-            zero.withUnsafeBytes { (buffer) -> Void in
+            data.withUnsafeBytes { (buffer) -> Void in
                 _ = stream.write(buffer: buffer, maxLength: 0) // flush
             }
             stream.close()

@@ -459,18 +459,28 @@ class Zip {
             return false
         }
         
-        var crc32 = dataDescriptor.crc32
-        var compressedSize = dataDescriptor.compressedSize
-        var uncompressedSize = dataDescriptor.uncompressedSize
-        withUnsafePointer(to: &crc32) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
-        withUnsafePointer(to: &compressedSize) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
-        withUnsafePointer(to: &uncompressedSize) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
+        let data = NSMutableData()
+        
+        _ = BinaryUtility.serialize(data, dataDescriptor.crc32)
+        _ = BinaryUtility.serialize(data, dataDescriptor.compressedSize)
+        _ = BinaryUtility.serialize(data, dataDescriptor.uncompressedSize)
+        
+        guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
+            return false
+        }
+        
+//        var crc32 = dataDescriptor.crc32
+//        var compressedSize = dataDescriptor.compressedSize
+//        var uncompressedSize = dataDescriptor.uncompressedSize
+//        withUnsafePointer(to: &crc32) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
+//        withUnsafePointer(to: &compressedSize) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
+//        withUnsafePointer(to: &uncompressedSize) { _ = stream.write(buffer: $0, maxLength: MemoryLayout.size(ofValue: $0)) }
         
         guard stream.seek(offset: 0, origin: .end) == 0 else {
             return false
         }
         
-        let data = NSMutableData()
+        data.length = 0
         
         _ = BinaryUtility.serialize(data, DataDescriptor.signature)
         _ = BinaryUtility.serialize(data, dataDescriptor.crc32)

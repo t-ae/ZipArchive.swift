@@ -145,8 +145,12 @@ class DeflateHelper {
     
     
     var crc32: UInt = 0
-    var compressedSize = 0
-    var uncompressedSize = 0
+    var compressedSize: UInt {
+        return z.total_out
+    }
+    var uncompressedSize: UInt {
+        return z.total_in
+    }
     
     
     init?(compressionLevel: CompressionLevel) {
@@ -162,14 +166,16 @@ class DeflateHelper {
         z.next_in = nil
         z.avail_in = 0
         
-        z.next_out = outBuffer /* 出力ポインタ */
-        z.avail_out = UInt32(outBufferSize) /* 出力バッファ残量 */
+
         
         guard deflateInit2(&z, compressionLevel.toRawValue(), Z_DEFLATED, -MAX_WBITS, 8, Z_DEFAULT_STRATEGY) == Z_OK else {
             // TODO:
             let message = String(cString: z.msg)
             return nil
         }
+        
+        z.next_out = outBuffer /* 出力ポインタ */
+        z.avail_out = UInt32(outBufferSize) /* 出力バッファ残量 */
     }
     
     deinit {
@@ -190,7 +196,7 @@ class DeflateHelper {
             z.avail_in = UInt32(inBufferSize)
             
             crc32 = Czlib.crc32(crc32, mutableInBuffer, UInt32(inBufferSize))
-            uncompressedSize += inBufferSize
+            //uncompressedSize += inBufferSize
             
             /* 入力が最後になったら deflate() の第2引数は Z_FINISH にする */
 //            if z.avail_in < UInt32(inBufferSize) {
@@ -201,6 +207,7 @@ class DeflateHelper {
         var status = Z_OK
         var flush = (inBufferSize == 0) ? Z_FINISH : Z_NO_FLUSH
         while true {
+
 
             status = Czlib.deflate(&z, flush); /* 圧縮する */
             if status == Z_STREAM_END {
@@ -227,16 +234,18 @@ class DeflateHelper {
                     return (-1, true)
                 }
                 
-                compressedSize += outBufferSize
+                //compressedSize += outBufferSize
                 
                 z.next_out = outBuffer; /* 出力バッファ残量を元に戻す */
                 z.avail_out = UInt32(outBufferSize); /* 出力ポインタを元に戻す */
                 
-                continue
+                //continue
             }
             else {
                 break
             }
+            
+
             
 //            if z.avail_out == 0 {
 //                break
@@ -251,7 +260,7 @@ class DeflateHelper {
                 return (-1, true)
             }
             
-            compressedSize += outBufferSize
+            //compressedSize += outBufferSize
         }
 //        if ((count = OUTBUFSIZ - z.avail_out) != 0) {
 //            
@@ -421,6 +430,7 @@ internal class ZipArchiveEntryZipStream: ZipArchiveStream {
         //if zipCloseFileInZip(fp) != ZIP_OK {
         //    return false
         //}
+        
         
         
         
@@ -609,8 +619,10 @@ internal class ZipArchiveEntryUnzipStream: ZipArchiveStream {
         }
         
         let (outBytes, isStreamEnd) = inflate.inflate(inStream: unzip.stream, outBuffer: buffer, outBufferSize: len)
-    
-        _position += UInt64(outBytes)
+        
+        if outBytes > 0 {
+            _position += UInt64(outBytes)
+        }
         
         self.isStreamEnd = isStreamEnd
         
