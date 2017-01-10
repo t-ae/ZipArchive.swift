@@ -185,6 +185,11 @@ extension ZipArchive {
                     break
                 }
             }
+            let err = zipStream.write(buffer: buffer, maxLength: 0) // flash
+            if err < 0 {
+                // ERROR
+                return nil
+            }
             fileInputStream.close()
         }
 

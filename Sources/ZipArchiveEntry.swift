@@ -151,7 +151,13 @@ public class ZipArchiveEntry {
         switch archive.mode {
         case .read:
             //stream = ZipArchiveEntryUnzipStream(archiveEntry: self, password: passwordCString)
-            stream = ZipArchiveEntryUnzipStream(archiveEntry: self)
+            switch Int32(centralDirectoryHeader!.compressionMethod) {
+            case 0:
+            
+                stream = ZipArchiveEntryUnzipStream_store(archiveEntry: self)
+            default: // Z_DEFLATED
+                stream = ZipArchiveEntryUnzipStream(archiveEntry: self)
+            }
             break
         case .create:
             //stream = ZipArchiveEntryZipStream(archiveEntry: self, password: passwordCString, crc32: crc32, isLargeFile: isLargeFile)

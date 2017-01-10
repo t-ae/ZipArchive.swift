@@ -34,11 +34,14 @@ class InflateHelper {
     
     
     var crc32: UInt = 0
-    var compressedSize = 0
-    var uncompressedSize = 0
+    let compressedSize: Int
+//    var uncompressedSize: Int {
+//        return Int(z.total_out)
+//    }
     
-    init?() {
+    init?(compressedSize: Int) {
         //self.stream = stream
+        self.compressedSize = compressedSize
         
         inBuffer = malloc(inBufferSize).assumingMemoryBound(to: UInt8.self)
         //outBuffer = malloc(outBufferSize).assumingMemoryBound(to: UInt8.self)
@@ -74,11 +77,15 @@ class InflateHelper {
         while status != Z_STREAM_END {
             if (z.avail_in == 0) {  /* 入力残量がゼロになれば */
                 z.next_in = inBuffer;  /* 入力ポインタを元に戻す */
+
                 /* データを読む */
-                let size = inStream.read(buffer: inBuffer, maxLength: inBufferSize)
+                var size = inStream.read(buffer: inBuffer, maxLength: inBufferSize)
+                if (Int(z.total_in) + size) > compressedSize {
+                    size = compressedSize - Int(z.total_in)
+                }
                 z.avail_in = UInt32(size)
                 
-                uncompressedSize += size
+                //uncompressedSize += size
             }
             status = Czlib.inflate(&z, Z_NO_FLUSH) /* 展開 */
             if status == Z_STREAM_END {
@@ -106,7 +113,7 @@ class InflateHelper {
         let outBytes = outBufferSize - Int(z.avail_out)
         
         crc32 = Czlib.crc32(crc32, outBuffer.assumingMemoryBound(to: UInt8.self), UInt32(outBytes))
-        compressedSize += outBytes
+        //compressedSize += outBytes
         
         return (outBytes, isStreamEnd)
     }
@@ -174,8 +181,7 @@ class DeflateHelper {
             return nil
         }
         
-        z.next_out = outBuffer /* 出力ポインタ */
-        z.avail_out = UInt32(outBufferSize) /* 出力バッファ残量 */
+
     }
     
     deinit {
@@ -187,6 +193,9 @@ class DeflateHelper {
         
         //z.next_out = outBuffer /* 出力ポインタ */
         //z.avail_out = UInt32(outBufferSize)    /* 出力バッファ残量 */
+        
+        z.next_out = outBuffer /* 出力ポインタ */
+        z.avail_out = UInt32(outBufferSize) /* 出力バッファ残量 */
 
         //if (z.avail_in == 0) {  /* 入力残量がゼロになれば */
         let mutableInBuffer = UnsafeMutableRawPointer(mutating: inBuffer).assumingMemoryBound(to: UInt8.self)
@@ -499,6 +508,81 @@ internal class ZipArchiveEntryZipStream: ZipArchiveStream {
 
 // -----------------------------------------------------------------------------
 
+internal class ZipArchiveEntryUnzipStream_store: ZipArchiveStream {
+    
+    private weak var archiveEntry: ZipArchiveEntry?
+    private let unzip: Unzip
+    
+    private var isStreamEnd = false
+    
+    internal init?(archiveEntry: ZipArchiveEntry) {
+        self.archiveEntry = archiveEntry
+        
+        guard let unzip = archiveEntry.archive?.unzip else {
+            return nil
+        }
+        self.unzip = unzip
+
+        let success = open()
+        if !success {
+            return nil
+        }
+    }
+    
+    internal var canRead: Bool {
+        return true
+    }
+    
+    internal var canSeek: Bool {
+        return false
+    }
+    
+    internal var canWrite: Bool {
+        return false
+    }
+    
+    private var _position: UInt64 = 0
+    internal var position: UInt64 {
+        return _position
+    }
+    
+    private func open() -> Bool {
+        guard let archiveEntry = archiveEntry else {
+            // ERROR
+            return false
+        }
+        
+        // unzip では必ず値が入っている
+        guard let centralDirectoryHeader = archiveEntry.centralDirectoryHeader else {
+            return false
+        }
+        
+        guard let (localHeader, byteSize) = unzip.openFile(centralDirectoryHeader: centralDirectoryHeader) else {
+            return false
+        }
+        
+        return true
+    }
+    
+    internal func close() -> Bool {
+        unzip.closeFile()
+        return true
+    }
+    
+    internal func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int {
+        return unzip.stream.read(buffer: buffer, maxLength: len)
+    }
+    
+    func seek(offset: Int, origin: SeekOrigin) -> Int {
+        return -1
+    }
+    
+    func write(buffer: UnsafeRawPointer, maxLength len: Int) -> Int {
+        return -1
+    }
+    
+}
+
 // For unzip
 internal class ZipArchiveEntryUnzipStream: ZipArchiveStream {
 
@@ -522,7 +606,12 @@ internal class ZipArchiveEntryUnzipStream: ZipArchiveStream {
         }
         self.unzip = unzip
         
-        guard let inflate = InflateHelper() else {
+        // unzip では必ず値が入っている
+        guard let centralDirectoryHeader = archiveEntry.centralDirectoryHeader else {
+            return nil
+        }
+        
+        guard let inflate = InflateHelper(compressedSize: Int(centralDirectoryHeader.compressedSize)) else {
             return nil
         }
         self.inflate = inflate

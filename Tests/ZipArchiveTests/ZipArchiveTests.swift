@@ -217,6 +217,7 @@ class ZipArchiveTestCase: BaseTestCase {
             data.withUnsafeMutableBytes { (buffer) -> Void in
                 _ = stream.read(buffer: buffer, maxLength: length)
             }
+            stream.close()
             let testData = files[entry.fullName]!
             XCTAssertEqual(data, testData)
             count += 1
