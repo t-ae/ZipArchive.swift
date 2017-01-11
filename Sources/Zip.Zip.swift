@@ -123,10 +123,16 @@ class Zip {
             return false
         }
         
+        // TODO:
+        var options = localFileHeader.generalPurposeBitFlag
+        if crypt != nil {
+            options |= 1
+        }
+        
         let centralDirectoryHeader = CentralDirectoryHeader(
             versionMadeBy: 7,
             versionNeededToExtract: localFileHeader.versionNeededToExtract,
-            generalPurposeBitFlag: localFileHeader.generalPurposeBitFlag,
+            generalPurposeBitFlag: options,
             compressionMethod: localFileHeader.compressionMethod,
             lastModFileTime: localFileHeader.lastModFileTime,
             lastModFileDate: localFileHeader.lastModFileDate,

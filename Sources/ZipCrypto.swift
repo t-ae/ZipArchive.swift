@@ -38,14 +38,14 @@ class ZipCrypto {
 
     private func decryptByte() -> UInt8 {
         let temp = (keys[2] & 0xffff) | 2
-        let temp2 = ((temp * (temp ^ 1)) >> 8) & 0xff
+        let temp2 = ((temp &* (temp ^ 1)) >> 8) & 0xff
         return UInt8(truncatingBitPattern: temp2)
     }
     
     private func updateKeys(_ c: UInt8) {
         keys[0] = crc32(keys[0], UInt32(c))
         keys[1] += keys[0] & 0xff
-        keys[1] = keys[1] * 134775813 + 1
+        keys[1] = keys[1] &* 134775813 &+ 1
         keys[2] = crc32(keys[2], keys[1] >> 24)
     }
     

@@ -13,7 +13,7 @@ protocol ZipArchiveEntryStream: IOStream {}
 
 private func getCRCTable() -> [UInt32] {
     let table = get_crc_table()!
-    var array = [UInt32](repeating: 0, count: 0xff)
+    var array = [UInt32](repeating: 0, count: 0x0100)
     for i in 0 ..< array.count {
         array[i] = UInt32(truncatingBitPattern: table[i])
     }
@@ -39,10 +39,10 @@ internal class DeflateStream: ZipArchiveEntryStream {
     
     private var isStreamEnd = false
 
-    internal init?(archiveEntry: ZipArchiveEntry, password: [CChar]? = nil/*, crc32: UInt = 0, isLargeFile: Bool = false*/) {
+    internal init?(archiveEntry: ZipArchiveEntry, password: [CChar]? = nil, crc32: UInt32 = 0/*, isLargeFile: Bool = false*/) {
         self.archiveEntry = archiveEntry
         if let password = password {
-            self.crypt = ZipCrypto(password: password, crc32ForCrypting: nil, crc32Table: getCRCTable())
+            self.crypt = ZipCrypto(password: password, crc32ForCrypting: crc32, crc32Table: getCRCTable())
         } else {
             self.crypt = nil
         }
@@ -123,6 +123,7 @@ internal class DeflateStream: ZipArchiveEntryStream {
 //            return false
 //        }
         
+        // TODO: ここでヘッダを書き出さず、もっと上位でやる
         let localFileHeader = LocalFileHeader(
             versionNeededToExtract: 20, // TODO:
             generalPurposeBitFlag: 0b0000_0000_0000_1000, // TODO:
@@ -205,7 +206,7 @@ internal class DeflateStream: ZipArchiveEntryStream {
             return 0
         }
         
-        let (inBytes, isStreamEnd) = deflate.deflate(outStream: zip.stream, inBuffer: buffer, inBufferSize: len)
+        let (inBytes, isStreamEnd) = deflate.deflate(outStream: zip.stream, crypt: crypt, inBuffer: buffer, inBufferSize: len)
         
         _position += UInt64(inBytes)
         

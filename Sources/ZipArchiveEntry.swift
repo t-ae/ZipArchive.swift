@@ -131,7 +131,7 @@ public class ZipArchiveEntry {
     /// - parameter crc32:
     /// - parameter isLargeFile:
     /// - returns:
-    public func open(password: String? = nil/*, crc32: UInt = 0*/, isLargeFile: Bool = false) -> IOStream? {
+    public func open(password: String? = nil, crc32: UInt32 = 0, isLargeFile: Bool = false) -> IOStream? {
         guard let archive = archive else {
             return nil
         }
@@ -161,7 +161,7 @@ public class ZipArchiveEntry {
             break
         case .create:
             //stream = ZipArchiveEntryZipStream(archiveEntry: self, password: passwordCString, crc32: crc32, isLargeFile: isLargeFile)
-            stream = DeflateStream(archiveEntry: self)
+            stream = DeflateStream(archiveEntry: self, password: passwordCString, crc32: crc32)
             break
         }
         return stream

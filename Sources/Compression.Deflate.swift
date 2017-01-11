@@ -50,7 +50,7 @@ class DeflateHelper {
         free(outBuffer)
     }
     
-    func deflate(outStream: IOStream, inBuffer: UnsafeRawPointer, inBufferSize: Int) -> (Int, Bool) {
+    func deflate(outStream: IOStream, crypt: ZipCrypto?, inBuffer: UnsafeRawPointer, inBufferSize: Int) -> (Int, Bool) {
         var isStreamEnd = false
         
         z.next_out = outBuffer /* 出力ポインタ */
@@ -77,6 +77,11 @@ class DeflateHelper {
                 return (-1, true)
             }
             if z.avail_out == 0 { /* 出力バッファが尽きれば */
+                if let crypt = crypt {
+                    for i in 0 ..< outBufferSize {
+                        outBuffer[i] = crypt.encode(outBuffer[i])
+                    }
+                }
                 guard outStream.write(buffer: outBuffer, maxLength: outBufferSize) == outBufferSize else {
                     // TODO: ERROR
                     return (-1, true)
@@ -92,6 +97,11 @@ class DeflateHelper {
         
         let count = outBufferSize - Int(z.avail_out)
         if count != 0 {
+            if let crypt = crypt {
+                for i in 0 ..< count {
+                    outBuffer[i] = crypt.encode(outBuffer[i])
+                }
+            }
             guard outStream.write(buffer: outBuffer, maxLength: count) == count else {
                 // TODO: ERROR
                 return (-1, true)
