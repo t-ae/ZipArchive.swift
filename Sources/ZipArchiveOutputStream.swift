@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension ZipArchiveStream {
+extension IOStream {
     
     public func asOutputStream() -> OutputStream? {
         return ZipArchiveOutputStream(stream: self)
@@ -18,9 +18,9 @@ extension ZipArchiveStream {
 
 internal class ZipArchiveOutputStream: OutputStream {
 
-    private let innerStream: ZipArchiveStream
+    private let innerStream: IOStream
     
-    init?(stream: ZipArchiveStream) {
+    init?(stream: IOStream) {
         guard stream.canWrite else {
             return nil
         }

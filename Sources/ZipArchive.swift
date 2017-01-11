@@ -11,7 +11,7 @@ import Foundation
 
 public class ZipArchive {
 
-    private var stream: ZipArchiveStream
+    private var stream: IOStream
     internal let mode: ZipArchiveMode
     internal let entryNameEncoding: String.Encoding
     internal let passwordEncoding: String.Encoding
@@ -38,7 +38,7 @@ public class ZipArchive {
 
     private var disposed: Bool = false
 
-    public init?(stream: ZipArchiveStream, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
+    public init?(stream: IOStream, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
         self.stream = stream
         self.mode = mode
         self.entryNameEncoding = entryNameEncoding
@@ -165,7 +165,7 @@ public extension ZipArchive {
     }
 
     public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
-        var stream: ZipArchiveStream? = nil
+        var stream: IOStream? = nil
         switch mode {
         case .read:
             if let fileHandle = FileHandle(forReadingAtPath: path) {

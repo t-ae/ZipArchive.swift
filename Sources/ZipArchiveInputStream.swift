@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension ZipArchiveStream {
+extension IOStream {
     
     @available(iOS 9.0, *)
     public func asInputStream() -> InputStream? {
@@ -22,9 +22,9 @@ extension ZipArchiveStream {
 @available(iOS 9.0, *)
 internal class ZipArchiveInputStream: InputStream {
     
-    private let innerStream: ZipArchiveStream
+    private let innerStream: IOStream
 
-    init?(stream: ZipArchiveStream) {
+    init?(stream: IOStream) {
         guard stream.canRead else {
             return nil
         }
