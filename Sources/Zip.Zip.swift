@@ -12,6 +12,7 @@ import Foundation
 class Zip {
     
     let stream: IOStream
+    var crypt: ZipCrypto?
     
     private var currentFileOffset: Int? = nil
     
@@ -21,7 +22,9 @@ class Zip {
         self.stream = stream
     }
     
-    func openNewFile(localFileHeader: LocalFileHeader) -> Bool {
+    func openNewFile(localFileHeader: LocalFileHeader, crypt: ZipCrypto?) -> Bool {
+        self.crypt = crypt
+        
         guard stream.seek(offset: 0, origin: .end) == 0 else {
             return false
         }
@@ -30,15 +33,21 @@ class Zip {
         
         let data = NSMutableData()
         
+        // TODO:
+        var options = localFileHeader.generalPurposeBitFlag
+        if crypt != nil {
+            options |= 1
+        }
+        
         _ = BinaryUtility.serialize(data, LocalFileHeader.signature)
         _ = BinaryUtility.serialize(data, localFileHeader.versionNeededToExtract)
-        _ = BinaryUtility.serialize(data, localFileHeader.generalPurposeBitFlag)
+        _ = BinaryUtility.serialize(data, options)
         _ = BinaryUtility.serialize(data, localFileHeader.compressionMethod)
         _ = BinaryUtility.serialize(data, localFileHeader.lastModFileTime)
         _ = BinaryUtility.serialize(data, localFileHeader.lastModFileDate)
         _ = BinaryUtility.serialize(data, localFileHeader.crc32) // 0
         _ = BinaryUtility.serialize(data, localFileHeader.compressedSize) // 0
-        _ = BinaryUtility.serialize(data, localFileHeader.uncompressedSize)
+        _ = BinaryUtility.serialize(data, localFileHeader.uncompressedSize) // 0
         _ = BinaryUtility.serialize(data, localFileHeader.fileNameLength)
         _ = BinaryUtility.serialize(data, localFileHeader.extraFieldLength)
         data.append(localFileHeader.fileName, length: Int(localFileHeader.fileNameLength))
@@ -48,10 +57,21 @@ class Zip {
             return false
         }
         
+        // TODO:
+        if let cryptHeader = crypt?.header {
+            guard stream.write(buffer: cryptHeader, maxLength: cryptHeader.count) == cryptHeader.count else {
+                return false
+            }
+        }
+        
         return true
     }
     
     func closeFile(localFileHeader: LocalFileHeader, dataDescriptor: DataDescriptor, fileAttributes: UInt32) -> Bool {
+        defer {
+            crypt = nil
+        }
+        
         guard let currentFileOffset = currentFileOffset else {
             return false
         }
@@ -67,8 +87,14 @@ class Zip {
         
         let data = NSMutableData()
         
+        // TODO:
+        var compressedSize = dataDescriptor.compressedSize
+        if let cryptHeader = crypt?.header {
+            compressedSize += UInt32(cryptHeader.count) // +12
+        }
+        
         _ = BinaryUtility.serialize(data, dataDescriptor.crc32)
-        _ = BinaryUtility.serialize(data, dataDescriptor.compressedSize)
+        _ = BinaryUtility.serialize(data, compressedSize)
         _ = BinaryUtility.serialize(data, dataDescriptor.uncompressedSize)
         
         guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
@@ -90,7 +116,7 @@ class Zip {
         
         _ = BinaryUtility.serialize(data, DataDescriptor.signature)
         _ = BinaryUtility.serialize(data, dataDescriptor.crc32)
-        _ = BinaryUtility.serialize(data, dataDescriptor.compressedSize)
+        _ = BinaryUtility.serialize(data, compressedSize)
         _ = BinaryUtility.serialize(data, dataDescriptor.uncompressedSize)
         
         guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
@@ -105,7 +131,7 @@ class Zip {
             lastModFileTime: localFileHeader.lastModFileTime,
             lastModFileDate: localFileHeader.lastModFileDate,
             crc32: dataDescriptor.crc32,
-            compressedSize: dataDescriptor.compressedSize,
+            compressedSize: compressedSize,
             uncompressedSize: dataDescriptor.uncompressedSize,
             fileNameLength: localFileHeader.fileNameLength,
             extraFieldLength: localFileHeader.extraFieldLength,

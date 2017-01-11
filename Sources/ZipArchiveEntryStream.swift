@@ -7,8 +7,18 @@
 //
 
 import Foundation
+import Czlib
 
 protocol ZipArchiveEntryStream: IOStream {}
+
+private func getCRCTable() -> [UInt32] {
+    let table = get_crc_table()!
+    var array = [UInt32](repeating: 0, count: 0xff)
+    for i in 0 ..< array.count {
+        array[i] = UInt32(truncatingBitPattern: table[i])
+    }
+    return array
+}
 
 // For zip
 internal class DeflateStream: ZipArchiveEntryStream {
@@ -16,6 +26,7 @@ internal class DeflateStream: ZipArchiveEntryStream {
     private weak var archiveEntry: ZipArchiveEntry?
     private let zip: Zip
     private let deflate: DeflateHelper
+    private let crypt: ZipCrypto?
     //private let password: [CChar]?
     //private let crc32: UInt
     //private let isLargeFile: Bool
@@ -28,8 +39,13 @@ internal class DeflateStream: ZipArchiveEntryStream {
     
     private var isStreamEnd = false
 
-    internal init?(archiveEntry: ZipArchiveEntry/*, password: [CChar]? = nil, crc32: UInt = 0, isLargeFile: Bool = false*/) {
+    internal init?(archiveEntry: ZipArchiveEntry, password: [CChar]? = nil/*, crc32: UInt = 0, isLargeFile: Bool = false*/) {
         self.archiveEntry = archiveEntry
+        if let password = password {
+            self.crypt = ZipCrypto(password: password, crc32ForCrypting: nil, crc32Table: getCRCTable())
+        } else {
+            self.crypt = nil
+        }
         //self.password = password
         //self.crc32 = crc32
         //self.isLargeFile = isLargeFile
@@ -122,7 +138,7 @@ internal class DeflateStream: ZipArchiveEntryStream {
             extraField: [])
         self.localFileHeader = localFileHeader
         
-        guard zip.openNewFile(localFileHeader: localFileHeader) == true else {
+        guard zip.openNewFile(localFileHeader: localFileHeader, crypt: self.crypt) == true else {
             return false
         }
 
