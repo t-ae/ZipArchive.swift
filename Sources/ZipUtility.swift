@@ -7,6 +7,16 @@
 //
 
 import Foundation
+import Czlib
+
+internal func getCRCTable() -> [UInt32] {
+    let table = get_crc_table()!
+    var array = [UInt32](repeating: 0, count: 0x0100)
+    for i in 0 ..< array.count {
+        array[i] = UInt32(truncatingBitPattern: table[i])
+    }
+    return array
+}
 
 enum ZipUtility {
     
