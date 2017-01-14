@@ -28,7 +28,8 @@ private func crc32__(withFilePath path: String) throws -> UInt32 {
     var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
     //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
 
-    var crc: UInt = 0
+    //var crc: UInt = 0
+    var crc: UInt = 0xffffffff
 
     while true {
         let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
