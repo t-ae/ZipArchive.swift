@@ -14,7 +14,6 @@ public class ZipArchiveEntry {
     public private(set) weak var archive: ZipArchive?
     internal var centralDirectoryHeader: CentralDirectoryHeader? = nil
 
-    //internal let fileNameInZip: [CChar]
     public let fullName: String
     public let name: String
 
@@ -35,28 +34,12 @@ public class ZipArchiveEntry {
         self.archive = owner
         self.centralDirectoryHeader = centralDirectoryHeader
 
-//        var fileInfo = unz_file_info64()
-//        var fileNameInZip = [CChar]()
-//        var err = unzGetCurrentFileInfo64(owner.unzfp, &fileInfo, nil, 0, nil, 0, nil, 0)
-//        if err == UNZ_OK {
-//            fileNameInZip = [CChar](repeating: 0, count: Int(fileInfo.size_filename) + 1)
-//            err = unzGetCurrentFileInfo64(owner.unzfp, nil, &fileNameInZip, fileInfo.size_filename, nil, 0, nil, 0)
-//        }
-//        if err != UNZ_OK {
-//            return nil
-//        }
-
-//        self.fileNameInZip = fileNameInZip
-
         let fileNameInZip = centralDirectoryHeader.fileName
         guard let fullName = String(cString: fileNameInZip, encoding: owner.entryNameEncoding) else {
             return nil
         }
         self.fullName = fullName
         self.name = (fullName as NSString).lastPathComponent
-
-        //self.length = fileInfo.uncompressed_size
-        //self.compressedLength = fileInfo.compressed_size
 
         var compressionLevel = Z_DEFAULT_COMPRESSION
         var isNotSupportedCompressionMethod = false
@@ -75,8 +58,6 @@ public class ZipArchiveEntry {
                 // 2:fast, 3:extra fast
                 compressionLevel = Z_BEST_SPEED
             }
-//        case Z_BZIP2ED:
-//            isNotSupportedCompressionMethod = true
         default:
             isNotSupportedCompressionMethod = true
         }
@@ -85,14 +66,6 @@ public class ZipArchiveEntry {
         }
         self.compressionLevel = CompressionLevel.fromRawValue(rawValue: compressionLevel)
 
-//        var fileDate: Date
-//        if let date = date(fromDosDate: fileInfo.dosDate) {
-//            fileDate = date
-//        }
-//        else {
-//            // ERROR
-//            fileDate = Date(timeIntervalSinceReferenceDate: 0)
-//        }
         self.lastWriteTime = ZipUtility.convertDateTime(date: centralDirectoryHeader.lastModFileDate, time: centralDirectoryHeader.lastModFileTime)
 
         let mode = mode_t(centralDirectoryHeader.externalFileAttributes >> 16)
@@ -110,14 +83,6 @@ public class ZipArchiveEntry {
 
         self.fullName = entryName
         self.name = (entryName as NSString).lastPathComponent
-
-//        guard let fileNameInZip = entryName.cString(using: owner.entryNameEncoding) else {
-//            return nil
-//        }
-//        self.fileNameInZip = fileNameInZip
-//
-//        self.length = 0
-//        self.compressedLength = 0
 
         self.compressionLevel = compressionLevel
 
@@ -150,17 +115,14 @@ public class ZipArchiveEntry {
         var stream: IOStream?
         switch archive.mode {
         case .read:
-            //stream = ZipArchiveEntryUnzipStream(archiveEntry: self, password: passwordCString)
             switch Int32(centralDirectoryHeader!.compressionMethod) {
             case 0:
-            
                 stream = ZipArchiveEntryUnzipStream_store(archiveEntry: self)
             default: // Z_DEFLATED
                 stream = InflateStream(archiveEntry: self)
             }
             break
         case .create:
-            //stream = ZipArchiveEntryZipStream(archiveEntry: self, password: passwordCString, crc32: crc32, isLargeFile: isLargeFile)
             stream = DeflateStream(archiveEntry: self, password: passwordCString, crc32: crc32)
             break
         }

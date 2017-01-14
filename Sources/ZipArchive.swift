@@ -7,7 +7,6 @@
 //
 
 import Foundation
-//import minizip
 
 public class ZipArchive {
 
@@ -16,8 +15,6 @@ public class ZipArchive {
     internal let entryNameEncoding: String.Encoding
     internal let passwordEncoding: String.Encoding
 
-    //internal var zipfp: zipFile? = nil
-    //internal var unzfp: unzFile? = nil
     internal var zip: Zip? = nil
     internal var unzip: Unzip? = nil
 
@@ -44,16 +41,12 @@ public class ZipArchive {
         self.entryNameEncoding = entryNameEncoding
         self.passwordEncoding = passwordEncoding
 
-        //var fileFuncDef = createFileFuncDef(opaque: stream)
-
         switch mode {
         case .read:
             if !stream.canRead {
                 // ERROR
                 return nil
             }
-            //unzfp = unzOpen2_64(nil, &fileFuncDef)
-            //if unzfp != nil {
             if let unzip = Unzip(stream: stream) {
                 self.unzip = unzip
                 guard readEntries(unzip: unzip) else {
@@ -65,7 +58,6 @@ public class ZipArchive {
                 // ERROR
                 return nil
             }
-            //zipfp = zipOpen2_64(nil, APPEND_STATUS_CREATE, nil, &fileFuncDef)
             self.zip = Zip(stream: stream)
         }
 
@@ -92,14 +84,6 @@ public class ZipArchive {
         
         unzip = nil
         
-        //if zipfp != nil {
-        //    zipClose(zipfp, nil)
-        //    zipfp = nil
-        //}
-        //if unzfp != nil {
-        //    unzClose(unzfp)
-        //    unzfp = nil
-        //}
         disposed = true
     }
 
@@ -137,14 +121,6 @@ public class ZipArchive {
             }
             _entries.append(entry)
         }
-//        var err = unzGoToFirstFile(unzfp)
-//        while err == UNZ_OK {
-//            guard let entry = ZipArchiveEntry(owner: self) else {
-//                return false
-//            }
-//            _entries.append(entry)
-//            err = unzGoToNextFile(unzfp)
-//        }
         return true
     }
 

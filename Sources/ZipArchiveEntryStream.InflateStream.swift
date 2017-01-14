@@ -16,12 +16,7 @@ internal class InflateStream: ZipArchiveEntryStream {
     private let inflate: InflateHelper
     
     private var isStreamEnd = false
-    
-    //private weak var archiveEntry: ZipArchiveEntry?
-    //private let password: [CChar]?
-    
-    //private var fp: unzFile? = nil
-    
+
     internal init?(archiveEntry: ZipArchiveEntry/*, password: [CChar]? = nil*/) {
         self.archiveEntry = archiveEntry
         //self.password = password
@@ -69,28 +64,6 @@ internal class InflateStream: ZipArchiveEntryStream {
             // ERROR
             return false
         }
-        //
-        //        guard let unzip = archiveEntry.archive?.unzip else {
-        //            // ERROR
-        //            return false
-        //        }
-        
-        //fp = archive.unzfp
-        
-        //        if unzLocateFile(fp, archiveEntry.fileNameInZip, nil) != UNZ_OK {
-        //            return false
-        //        }
-        //
-        //        if let password = password {
-        //            if unzOpenCurrentFilePassword(fp, password) != UNZ_OK {
-        //                return false
-        //            }
-        //        }
-        //        else {
-        //            if unzOpenCurrentFile(fp) != UNZ_OK {
-        //                return false
-        //            }
-        //        }
         
         // unzip では必ず値が入っている
         guard let centralDirectoryHeader = archiveEntry.centralDirectoryHeader else {
@@ -105,19 +78,6 @@ internal class InflateStream: ZipArchiveEntryStream {
     }
     
     internal func close() -> Bool {
-        //        if unzCloseCurrentFile(fp) != UNZ_OK {
-        //            return false
-        //        }
-        //        guard let archiveEntry = archiveEntry else {
-        //            // ERROR
-        //            return false
-        //        }
-        //
-        //        guard let unzip = archiveEntry.archive?.unzip else {
-        //            // ERROR
-        //            return false
-        //        }
-        
         unzip.closeFile()
         inflate.inflateEnd()
         
@@ -125,9 +85,6 @@ internal class InflateStream: ZipArchiveEntryStream {
     }
     
     internal func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int {
-        //let readBytes = unzReadCurrentFile(fp, buffer, UInt32(len))
-        //let readBytes = unzip.stream.read(buffer: buffer, maxLength: len)
-        
         if self.isStreamEnd {
             return 0
         }

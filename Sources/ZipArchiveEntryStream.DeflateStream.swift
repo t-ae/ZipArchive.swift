@@ -84,32 +84,12 @@ internal class DeflateStream: ZipArchiveEntryStream {
             return false
         }
         
-        //let tm = tmZip(fromDate: archiveEntry.lastWriteTime)
         let (date, time) = ZipUtility.convertDateTime(date: archiveEntry.lastWriteTime)
         
         guard let fileName = archiveEntry.fullName.cString(using: archive.entryNameEncoding) else {
             return false
         }
         let fileNameLength = UInt16(strlen(fileName))
-        
-        
-        
-        //var fileInfo = zip_fileinfo(tmz_date: tm, dosDate: 0, internal_fa: 0, external_fa: fa)
-        
-        //fp = archive.zipfp
-        
-        //        let compressionLevel = archiveEntry.compressionLevel.toRawValue()
-        
-        //        var pwd: UnsafePointer<CChar>? = nil
-        //        if let password = password {
-        //            pwd = UnsafePointer<CChar>(password)
-        //        }
-        
-        //        let zip64: Int32 = isLargeFile ? 1 : 0
-        //
-        //        if zipOpenNewFileInZip3_64(fp, archiveEntry.fileNameInZip, &fileInfo, nil, 0, nil, 0, nil, Z_DEFLATED, compressionLevel, 0, -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, pwd, crc32, zip64) != ZIP_OK {
-        //            return false
-        //        }
         
         // TODO: ここでヘッダを書き出さず、もっと上位でやる
         let localFileHeader = LocalFileHeader(
@@ -135,13 +115,6 @@ internal class DeflateStream: ZipArchiveEntryStream {
     }
     
     internal func close() -> Bool {
-        //if zipCloseFileInZip(fp) != ZIP_OK {
-        //    return false
-        //}
-        
-        
-        
-        
         guard let archiveEntry = archiveEntry else {
             // ERROR
             return false
@@ -150,7 +123,6 @@ internal class DeflateStream: ZipArchiveEntryStream {
             // ERROR
             return false
         }
-        
         
         var mode = archiveEntry.filePermissions
         if archiveEntry.fileType == .directory {
@@ -163,7 +135,6 @@ internal class DeflateStream: ZipArchiveEntryStream {
             mode = mode | S_IFREG
         }
         let fileAttributes = UInt32(mode) << 16
-        
         
         let dataDescriptor = DataDescriptor(
             crc32: UInt32(deflate.crc32),
@@ -185,11 +156,6 @@ internal class DeflateStream: ZipArchiveEntryStream {
     }
     
     internal func write(buffer: UnsafeRawPointer, maxLength len: Int) -> Int {
-        //let err = zipWriteInFileInZip(fp, buffer, UInt32(len))
-        //if err <= ZIP_ERRNO {
-        //    return -1
-        //}
-        
         if self.isStreamEnd {
             return 0
         }
