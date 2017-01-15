@@ -24,6 +24,8 @@ public enum ZipError: Error {
     case objectDisposed
     case notSupported
     
+    case stringEncodingMismatch
+    
 }
 
 public enum ZipArchiveMode {

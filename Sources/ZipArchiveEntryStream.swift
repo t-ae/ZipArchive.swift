@@ -7,6 +7,5 @@
 //
 
 import Foundation
-//import Czlib
 
-protocol ZipArchiveEntryStream: IOStream {}
+public protocol ZipArchiveEntryStream: IOStream {}

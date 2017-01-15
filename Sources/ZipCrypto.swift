@@ -8,7 +8,7 @@
 
 //import Foundation
 
-class ZipCrypto {
+public class ZipCrypto {
     
     private let crc32Table: [UInt32]
     private var keys = [UInt32]()

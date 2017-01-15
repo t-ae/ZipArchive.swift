@@ -10,7 +10,7 @@ import Foundation
 
 public class ZipArchive {
 
-    private var stream: IOStream
+    internal var stream: IOStream
     internal let mode: ZipArchiveMode
     internal let entryNameEncoding: String.Encoding
     internal let passwordEncoding: String.Encoding

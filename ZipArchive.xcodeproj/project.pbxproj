@@ -7,14 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E33CEB51E252E4F00255217 /* Compression.Deflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEB41E252E4F00255217 /* Compression.Deflate.swift */; };
-		0E33CEB61E252E4F00255217 /* Compression.Deflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEB41E252E4F00255217 /* Compression.Deflate.swift */; };
 		0E33CEB81E25318200255217 /* Zip.Unzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEB71E25318200255217 /* Zip.Unzip.swift */; };
 		0E33CEB91E25318200255217 /* Zip.Unzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEB71E25318200255217 /* Zip.Unzip.swift */; };
 		0E33CEBB1E2531AF00255217 /* Zip.Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEBA1E2531AF00255217 /* Zip.Zip.swift */; };
 		0E33CEBC1E2531AF00255217 /* Zip.Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEBA1E2531AF00255217 /* Zip.Zip.swift */; };
-		0E33CEBE1E2531EE00255217 /* Compression.Inflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEBD1E2531EE00255217 /* Compression.Inflate.swift */; };
-		0E33CEBF1E2531EE00255217 /* Compression.Inflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEBD1E2531EE00255217 /* Compression.Inflate.swift */; };
 		0E33CEC11E25335D00255217 /* IOStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEC01E25335D00255217 /* IOStream.swift */; };
 		0E33CEC21E25335D00255217 /* IOStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEC01E25335D00255217 /* IOStream.swift */; };
 		0E33CEC41E25339800255217 /* IOStream.FileStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33CEC31E25339800255217 /* IOStream.FileStream.swift */; };
@@ -62,12 +58,10 @@
 		0ED1C2121E22ACFE00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */; };
 		0ED1C2131E22ACFE00ADD760 /* ZipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */; };
 		0ED707991E236824009348E8 /* Czlib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4483EA1E2364D9003D7E7A /* Czlib.framework */; };
-		0EDC248C1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC248B1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift */; };
-		0EDC248D1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC248B1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift */; };
-		0EDC248F1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC248E1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift */; };
-		0EDC24901E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC248E1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift */; };
-		0EDC24921E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24911E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift */; };
-		0EDC24931E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24911E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift */; };
+		0EDC24961E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24951E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift */; };
+		0EDC24971E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24951E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift */; };
+		0EDC24991E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24981E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift */; };
+		0EDC249A1E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC24981E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,10 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0E33CEB41E252E4F00255217 /* Compression.Deflate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compression.Deflate.swift; sourceTree = "<group>"; };
 		0E33CEB71E25318200255217 /* Zip.Unzip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.Unzip.swift; sourceTree = "<group>"; };
 		0E33CEBA1E2531AF00255217 /* Zip.Zip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.Zip.swift; sourceTree = "<group>"; };
-		0E33CEBD1E2531EE00255217 /* Compression.Inflate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compression.Inflate.swift; sourceTree = "<group>"; };
 		0E33CEC01E25335D00255217 /* IOStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStream.swift; sourceTree = "<group>"; };
 		0E33CEC31E25339800255217 /* IOStream.FileStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStream.FileStream.swift; sourceTree = "<group>"; };
 		0E33CEC61E2533BE00255217 /* IOStream.MemoryStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStream.MemoryStream.swift; sourceTree = "<group>"; };
@@ -119,9 +111,8 @@
 		0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipInMemory_ZipArchiveEntryExtension.swift; sourceTree = "<group>"; };
 		0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipUtility.swift; sourceTree = "<group>"; };
 		0ED1C2141E22AD6800ADD760 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0EDC248B1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.DeflateStream.swift; sourceTree = "<group>"; };
-		0EDC248E1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.StoreStream.swift; sourceTree = "<group>"; };
-		0EDC24911E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.InflateStream.swift; sourceTree = "<group>"; };
+		0EDC24951E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.Store.swift; sourceTree = "<group>"; };
+		0EDC24981E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipArchiveEntryStream.Deflate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,8 +201,6 @@
 				0ED1C1F61E22ACDA00ADD760 /* ZipFile.swift */,
 				0ED1C1F71E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift */,
 				0ED1C1F81E22ACDA00ADD760 /* ZipUtility.swift */,
-				0E33CEB41E252E4F00255217 /* Compression.Deflate.swift */,
-				0E33CEBD1E2531EE00255217 /* Compression.Inflate.swift */,
 				0E4483DC1E2340FC003D7E7A /* Zip.Model.swift */,
 				0E33CEB71E25318200255217 /* Zip.Unzip.swift */,
 				0E33CEBA1E2531AF00255217 /* Zip.Zip.swift */,
@@ -220,9 +209,8 @@
 				0E33CEC61E2533BE00255217 /* IOStream.MemoryStream.swift */,
 				0E33CF0C1E267D4300255217 /* ZipCrypto.swift */,
 				0ED1C1EF1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift */,
-				0EDC248B1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift */,
-				0EDC248E1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift */,
-				0EDC24911E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift */,
+				0EDC24951E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift */,
+				0EDC24981E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -452,21 +440,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EDC248F1E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift in Sources */,
 				0E4483DD1E2340FC003D7E7A /* Zip.Model.swift in Sources */,
 				0E33CF0D1E267D4300255217 /* ZipCrypto.swift in Sources */,
-				0EDC248C1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift in Sources */,
 				0E33CEB81E25318200255217 /* Zip.Unzip.swift in Sources */,
 				0E33CEC71E2533BE00255217 /* IOStream.MemoryStream.swift in Sources */,
-				0E33CEB51E252E4F00255217 /* Compression.Deflate.swift in Sources */,
+				0EDC24991E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift in Sources */,
 				0E33CEC41E25339800255217 /* IOStream.FileStream.swift in Sources */,
 				0ED1C2041E22ACDA00ADD760 /* ZipFile.swift in Sources */,
 				0E33CEC11E25335D00255217 /* IOStream.swift in Sources */,
 				0ED1C1FF1E22ACDA00ADD760 /* ZipArchiveOutputStream.swift in Sources */,
 				0ED1C1FD1E22ACDA00ADD760 /* ZipArchiveEntryStream.swift in Sources */,
-				0EDC24921E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift in Sources */,
-				0E33CEBE1E2531EE00255217 /* Compression.Inflate.swift in Sources */,
 				0ED1C2051E22ACDA00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
+				0EDC24961E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift in Sources */,
 				0ED1C1FB1E22ACDA00ADD760 /* ZipArchive.swift in Sources */,
 				0ED1C2061E22ACDA00ADD760 /* ZipUtility.swift in Sources */,
 				0ED1C1FC1E22ACDA00ADD760 /* ZipArchiveEntry.swift in Sources */,
@@ -483,21 +468,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EDC24901E29F5020070A574 /* ZipArchiveEntryStream.StoreStream.swift in Sources */,
 				0E33CEB91E25318200255217 /* Zip.Unzip.swift in Sources */,
 				0E33CF0E1E267D4300255217 /* ZipCrypto.swift in Sources */,
-				0EDC248D1E29F4A70070A574 /* ZipArchiveEntryStream.DeflateStream.swift in Sources */,
 				0E4483DE1E2340FC003D7E7A /* Zip.Model.swift in Sources */,
 				0E33CEC81E2533BE00255217 /* IOStream.MemoryStream.swift in Sources */,
-				0E33CEB61E252E4F00255217 /* Compression.Deflate.swift in Sources */,
+				0EDC249A1E2B236B0070A574 /* ZipArchiveEntryStream.Deflate.swift in Sources */,
 				0E33CEC51E25339800255217 /* IOStream.FileStream.swift in Sources */,
 				0ED1C2111E22ACFE00ADD760 /* ZipFile.swift in Sources */,
 				0E33CEC21E25335D00255217 /* IOStream.swift in Sources */,
 				0ED1C20C1E22ACFE00ADD760 /* ZipArchiveOutputStream.swift in Sources */,
 				0ED1C20A1E22ACFE00ADD760 /* ZipArchiveEntryStream.swift in Sources */,
-				0EDC24931E29F52B0070A574 /* ZipArchiveEntryStream.InflateStream.swift in Sources */,
-				0E33CEBF1E2531EE00255217 /* Compression.Inflate.swift in Sources */,
 				0E4483DF1E235068003D7E7A /* BinaryUtility.swift in Sources */,
+				0EDC24971E2B235C0070A574 /* ZipArchiveEntryStream.Store.swift in Sources */,
 				0ED1C2121E22ACFE00ADD760 /* ZipInMemory_ZipArchiveEntryExtension.swift in Sources */,
 				0ED1C2081E22ACFE00ADD760 /* ZipArchive.swift in Sources */,
 				0ED1C2131E22ACFE00ADD760 /* ZipUtility.swift in Sources */,

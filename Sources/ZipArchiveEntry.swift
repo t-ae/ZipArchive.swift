@@ -96,39 +96,102 @@ public class ZipArchiveEntry {
     /// - parameter crc32:
     /// - parameter isLargeFile:
     /// - returns:
-    public func open(password: String? = nil, crc32: UInt32 = 0, isLargeFile: Bool = false) -> IOStream? {
+    public func open(crypt: ZipCrypto? = nil, isLargeFile: Bool = false) -> ZipArchiveEntryStream? {
         guard let archive = archive else {
             return nil
         }
 
-        var passwordCString: [CChar]? = nil
-        if let password = password {
-            if !password.isEmpty {
-                passwordCString = password.cString(using: archive.passwordEncoding)
-                if passwordCString == nil {
-                    // CString encoding error
-                    return nil
-                }
-            }
-        }
-
-        var stream: IOStream?
+        var stream: ZipArchiveEntryStream?
         switch archive.mode {
         case .read:
-            switch Int32(centralDirectoryHeader!.compressionMethod) {
-            case 0:
-                stream = ZipArchiveEntryUnzipStream_store(archiveEntry: self)
-            default: // Z_DEFLATED
-                stream = InflateStream(archiveEntry: self)
+            guard let unzip = archive.unzip else {
+                return nil
+            }
+            guard let centralDirectoryHeader = centralDirectoryHeader else {
+                return nil
+            }
+
+            guard let (localFileHeader, _) = unzip.openFile(centralDirectoryHeader: centralDirectoryHeader) else {
+                return nil
+            }
+            
+            // TODO: Validate localFileHeader, centralDirectoryHeader
+            // ...
+            
+            switch Int32(centralDirectoryHeader.compressionMethod) {
+            case 0: // Store
+                stream = StoreStream(stream: archive.stream) {
+                    unzip.closeFile()
+                }
+            case Z_DEFLATED:
+                stream = DeflateStream(stream: archive.stream, mode: .decompress, leaveOpen: true) { (_, _, _) in
+                    unzip.closeFile()
+                }
+            default:
+                return nil
             }
             break
         case .create:
-            stream = DeflateStream(archiveEntry: self, password: passwordCString, crc32: crc32)
+            guard let zip = archive.zip else {
+                return nil
+            }
+            
+            let (date, time) = ZipUtility.convertDateTime(date: lastWriteTime)
+            
+            guard let fileName = fullName.cString(using: archive.entryNameEncoding) else {
+                return nil
+            }
+            let fileNameLength = UInt16(strlen(fileName))
+            
+            // TODO: ここでヘッダを書き出さず、もっと上位でやる????
+            let localFileHeader = LocalFileHeader(
+                versionNeededToExtract: 20, // TODO:
+                generalPurposeBitFlag: 0b0000_0000_0000_1000, // TODO:
+                compressionMethod: 8, // TODO:
+                lastModFileTime: time,
+                lastModFileDate: date,
+                crc32: 0,
+                compressedSize: 0,
+                uncompressedSize: 0,
+                fileNameLength: fileNameLength,
+                extraFieldLength: 0,
+                fileName: fileName,
+                extraField: [])
+            //self.localFileHeader = localFileHeader
+            
+            // TODO: remove crypt
+            guard zip.openNewFile(localFileHeader: localFileHeader, crypt: crypt) == true else {
+                return nil
+            }
+            
+            var mode = filePermissions
+            let type = fileType
+            
+            stream = DeflateStream(stream: archive.stream, compressionLevel: compressionLevel, leaveOpen: true) { (crc32, compressedSize, uncompressedSize) in
+                //var mode = archiveEntry.filePermissions
+                if type == .directory {
+                    mode = mode | S_IFDIR
+                }
+                else if type == .symbolicLink {
+                    mode = mode | S_IFLNK
+                }
+                else {
+                    mode = mode | S_IFREG
+                }
+                let fileAttributes = UInt32(mode) << 16
+                
+                let dataDescriptor = DataDescriptor(
+                    crc32: UInt32(crc32),
+                    compressedSize: UInt32(compressedSize),
+                    uncompressedSize: UInt32(uncompressedSize))
+
+                zip.closeFile(localFileHeader: localFileHeader, dataDescriptor: dataDescriptor, fileAttributes: fileAttributes)
+            }
             break
         }
         return stream
     }
-
+    
     // Not supported
     //public func delete() {
     //    self.archive = nil
