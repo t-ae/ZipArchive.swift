@@ -135,7 +135,7 @@ public class ZipArchiveEntry {
                     unzip.closeFile()
                 }
             case Z_DEFLATED:
-                stream = DeflateStream(stream: tmpStream, mode: .decompress, leaveOpen: true) { (_, _, _) in
+                stream = DeflateStream(stream: tmpStream, mode: .decompress, leaveOpen: true) { (crc32, _, _) in
                     unzip.closeFile()
                 }
             default:
@@ -154,10 +154,19 @@ public class ZipArchiveEntry {
             }
             let fileNameLength = UInt16(strlen(fileName))
             
+            var generalPurposeBitFlag: UInt16 = 0
+            if let _ = password {
+                generalPurposeBitFlag |= 0b0000_0000_0000_0001 // Password
+            }
+            //generalPurposeBitFlag |= 0b0000_0000_0000_1000 // Data descriptor
+            if archive.entryNameEncoding == .utf8 {
+                generalPurposeBitFlag |= 0b0000_1000_0000_0000 // UTF-8
+            }
+            
             // TODO: ここでヘッダを書き出さず、もっと上位でやる????
             let localFileHeader = LocalFileHeader(
                 versionNeededToExtract: 20, // TODO:
-                generalPurposeBitFlag: 0b0000_0000_0000_1000, // TODO:
+                generalPurposeBitFlag: generalPurposeBitFlag,
                 compressionMethod: 8, // TODO:
                 lastModFileTime: time,
                 lastModFileDate: date,

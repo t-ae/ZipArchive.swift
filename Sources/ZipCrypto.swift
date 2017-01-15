@@ -14,11 +14,11 @@ public class ZipCrypto {
     
     private let crc32Table: [UInt32]
     private var keys = [UInt32]()
-    private(set) var header: [UInt8]!
+    //private(set) var header: [UInt8]!
     
-    init(password: [CChar], crc32ForCrypting: UInt32, crc32Table: [UInt32]) {
+    init(crc32Table: [UInt32]) {
         self.crc32Table = crc32Table
-        self.header = makeHeader(password: password, crc32ForCrypting: crc32ForCrypting)
+        //self.header = makeHeader(password: password, crc32ForCrypting: crc32ForCrypting)
     }
     
     private func crc32(_ c: UInt32, _ b: UInt32) -> UInt32 {
@@ -27,7 +27,8 @@ public class ZipCrypto {
     }
 
     private func decryptByte() -> UInt8 {
-        let temp = UInt16(truncatingBitPattern: (keys[2] & 0xffff) | 2)
+        //let temp = UInt16(truncatingBitPattern: (keys[2] & 0xffff) | 2)
+        let temp = (keys[2] & 0xffff) | 2
         let temp2 = ((temp &* (temp ^ 1)) >> 8) & 0xff
         return UInt8(truncatingBitPattern: temp2)
     }
@@ -69,23 +70,25 @@ public class ZipCrypto {
 //        return UInt8(truncatingBitPattern: arc4random() & 0xff)
 //    }
     
-    private func makeHeader(password: [CChar], crc32ForCrypting: UInt32) -> [UInt8] {
+    fileprivate func makeHeader(password: [CChar], crc32ForCrypting: UInt32) -> [UInt8] {
         //let headerSize = 12
         
-        initKeys(password: password)
+//        initKeys(password: password)
         var header = [UInt8]()
-        for _ in 0 ..< (headerSize - 2) {
-            header.append(encode(UInt8(truncatingBitPattern: (arc4random() >> 7) & 0xff)))
-        }
+//        for _ in 0 ..< (headerSize - 2) {
+//            header.append(encode(UInt8(truncatingBitPattern: (arc4random() >> 7) & 0xff)))
+//        }
         
         initKeys(password: password)
-        for i in 0 ..< (headerSize - 2) {
-            header[i] = encode(header[i])
+        for i in 0 ..< (headerSize - 1) {
+            //header[i] = encode(header[i])
+            let val = encode(UInt8(truncatingBitPattern: arc4random()))
+            header.append(val)
         }
         
-        let a = UInt8(truncatingBitPattern: (crc32ForCrypting >> 16) & 0xff)
+        //let a = UInt8(truncatingBitPattern: (crc32ForCrypting >> 16) & 0xff)
         let b = UInt8(truncatingBitPattern: (crc32ForCrypting >> 24) & 0xff)
-        header.append(encode(a))
+        //header.append(encode(a))
         header.append(encode(b))
         
         return header
@@ -99,6 +102,7 @@ class ZipCryptoStream: ZipArchiveEntryStream {
     private let zipCrypto: ZipCrypto
     
     private let password: [CChar]
+    private let crc32ForCrypting: UInt32
     
     var headerSize: Int {
         return zipCrypto.headerSize
@@ -109,8 +113,9 @@ class ZipCryptoStream: ZipArchiveEntryStream {
     
     init(stream: IOStream, password: [CChar], crc32ForCrypting: UInt32, crc32Table: [UInt32]) {
         self.stream = stream
-        self.zipCrypto = ZipCrypto(password: password, crc32ForCrypting: crc32ForCrypting, crc32Table: crc32Table)
+        self.zipCrypto = ZipCrypto(crc32Table: crc32Table)
         self.password = password
+        self.crc32ForCrypting = crc32ForCrypting
     }
 
     var canRead: Bool {
@@ -163,8 +168,8 @@ class ZipCryptoStream: ZipArchiveEntryStream {
         if isFirst {
             isFirst = false
             
-            var header = zipCrypto.header!
-            _  = stream.write(buffer: &header, maxLength: header.count)
+            var header = zipCrypto.makeHeader(password: password, crc32ForCrypting: crc32ForCrypting)
+            _  = stream.write(buffer: &header, maxLength: zipCrypto.headerSize)
         }
         
         if len > 0 {
@@ -178,6 +183,7 @@ class ZipCryptoStream: ZipArchiveEntryStream {
             
             for i in 0 ..< len {
                 bytes[i] = zipCrypto.encode(originalBytes[i])
+                //print("\(originalBytes[i]) ==> \(bytes[i])")
             }
             
             return stream.write(buffer: bytes, maxLength: len)

@@ -87,15 +87,16 @@ class Zip {
         }
         
         data.length = 0
-        
-        _ = BinaryUtility.serialize(data, DataDescriptor.signature)
-        _ = BinaryUtility.serialize(data, dataDescriptor.crc32)
-        _ = BinaryUtility.serialize(data, dataDescriptor.compressedSize)
-        _ = BinaryUtility.serialize(data, dataDescriptor.uncompressedSize)
-        
-        guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
-            return false
-        }
+
+        // write dataDescriptor
+//        _ = BinaryUtility.serialize(data, DataDescriptor.signature)
+//        _ = BinaryUtility.serialize(data, dataDescriptor.crc32)
+//        _ = BinaryUtility.serialize(data, dataDescriptor.compressedSize)
+//        _ = BinaryUtility.serialize(data, dataDescriptor.uncompressedSize)
+//        
+//        guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
+//            return false
+//        }
 
         let centralDirectoryHeader = CentralDirectoryHeader(
             versionMadeBy: 7,

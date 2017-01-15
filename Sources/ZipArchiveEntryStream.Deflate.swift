@@ -45,6 +45,7 @@ public class DeflateStream: ZipArchiveEntryStream {
     }()
     
     //private(set) var crc32 = UInt(bitPattern: -1) // 0xffffffff
+    //private(set) var crc32: UInt = 0xffffffff
     private(set) var crc32: UInt = 0
     
     init(stream: IOStream, compressionLevel: CompressionLevel, leaveOpen: Bool = false, streamEndHandler: @escaping ((UInt, UInt, UInt) -> Void)) {

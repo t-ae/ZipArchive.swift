@@ -28,8 +28,8 @@ private func crc32__(withFilePath path: String) throws -> UInt32 {
     var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
     //let bufferLength = sizeof(UInt8) * kZipArchiveBufferCount
 
-    //var crc: UInt = 0
-    var crc: UInt = 0xffffffff
+    var crc: UInt = 0
+    //var crc: UInt = 0xffffffff
 
     while true {
         let len = stream.read(&buffer, maxLength: kZipArchiveDefaultBufferSize)
@@ -139,6 +139,7 @@ extension ZipArchive {
         if fileType == .directory {
             // write zero byte
             var len: UInt8 = 0
+            // TODO: ignore passwprd
             let _ = zipStream.write(buffer: &len, maxLength: Int(len))
         }
         else if fileType == .symbolicLink {
@@ -156,6 +157,7 @@ extension ZipArchive {
             let err = destination.withCString { (cstr) -> Int in
                 let len = Int(strlen(cstr))
                 return cstr.withMemoryRebound(to: UInt8.self, capacity: len) { (p) -> Int in
+                    // TODO: ignore password, do not compress??
                     return zipStream.write(buffer: p, maxLength: len)
                 }
             }

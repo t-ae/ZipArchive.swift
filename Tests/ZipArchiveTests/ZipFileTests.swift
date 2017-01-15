@@ -141,6 +141,7 @@ class ZipFileTests: BaseTestCase {
         let zipFileName = "test.zip"
         let zipFilePath = zipDestinationDirectory + zipFileName
         let password = "abcde"
+        //let password = "a"
         
         try! ZipFile.createFromDirectory(sourceDirectoryName: testDataDirectory, destinationArchiveFileName: zipFilePath, password: password)
 
