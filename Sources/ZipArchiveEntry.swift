@@ -96,7 +96,7 @@ public class ZipArchiveEntry {
     /// - parameter crc32:
     /// - parameter isLargeFile:
     /// - returns:
-    public func open(crypt: ZipCrypto? = nil, isLargeFile: Bool = false) -> ZipArchiveEntryStream? {
+    public func open(password: String? = nil, crc32: UInt32 = 0, isLargeFile: Bool = false) -> ZipArchiveEntryStream? {
         guard let archive = archive else {
             return nil
         }
@@ -118,19 +118,30 @@ public class ZipArchiveEntry {
             // TODO: Validate localFileHeader, centralDirectoryHeader
             // ...
             
+            let tmpStream: IOStream
+            
+            if let password = password {
+                guard let cstr = password.cString(using: archive.passwordEncoding) else {
+                    return nil
+                }
+                tmpStream = ZipCryptoStream(stream: archive.stream, password: cstr, crc32ForCrypting: crc32, crc32Table: getCRCTable())
+            } else {
+                tmpStream = archive.stream
+            }
+            
             switch Int32(centralDirectoryHeader.compressionMethod) {
             case 0: // Store
-                stream = StoreStream(stream: archive.stream) {
+                stream = StoreStream(stream: tmpStream, uncompressedSize: centralDirectoryHeader.uncompressedSize) {
                     unzip.closeFile()
                 }
             case Z_DEFLATED:
-                stream = DeflateStream(stream: archive.stream, mode: .decompress, leaveOpen: true) { (_, _, _) in
+                stream = DeflateStream(stream: tmpStream, mode: .decompress, leaveOpen: true) { (_, _, _) in
                     unzip.closeFile()
                 }
             default:
                 return nil
             }
-            break
+            
         case .create:
             guard let zip = archive.zip else {
                 return nil
@@ -160,14 +171,29 @@ public class ZipArchiveEntry {
             //self.localFileHeader = localFileHeader
             
             // TODO: remove crypt
-            guard zip.openNewFile(localFileHeader: localFileHeader, crypt: crypt) == true else {
+            guard zip.openNewFile(localFileHeader: localFileHeader) == true else {
                 return nil
             }
             
             var mode = filePermissions
             let type = fileType
             
-            stream = DeflateStream(stream: archive.stream, compressionLevel: compressionLevel, leaveOpen: true) { (crc32, compressedSize, uncompressedSize) in
+            let tmpStream: IOStream
+            let headerSize: Int
+            
+            if let password = password {
+                guard let cstr = password.cString(using: archive.passwordEncoding) else {
+                    return nil
+                }
+                let zipCryptoStream = ZipCryptoStream(stream: archive.stream, password: cstr, crc32ForCrypting: crc32, crc32Table: getCRCTable())
+                tmpStream = zipCryptoStream
+                headerSize = zipCryptoStream.headerSize
+            } else {
+                tmpStream = archive.stream
+                headerSize = 0
+            }
+            
+            stream = DeflateStream(stream: tmpStream, compressionLevel: compressionLevel, leaveOpen: true) { (crc32, compressedSize, uncompressedSize) in
                 //var mode = archiveEntry.filePermissions
                 if type == .directory {
                     mode = mode | S_IFDIR
@@ -182,12 +208,11 @@ public class ZipArchiveEntry {
                 
                 let dataDescriptor = DataDescriptor(
                     crc32: UInt32(crc32),
-                    compressedSize: UInt32(compressedSize),
+                    compressedSize: UInt32(compressedSize) + UInt32(headerSize),
                     uncompressedSize: UInt32(uncompressedSize))
 
                 zip.closeFile(localFileHeader: localFileHeader, dataDescriptor: dataDescriptor, fileAttributes: fileAttributes)
             }
-            break
         }
         return stream
     }

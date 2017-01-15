@@ -11,10 +11,14 @@ import Foundation
 class StoreStream: ZipArchiveEntryStream {
     
     private let stream: IOStream
+    private let uncompressedSize: UInt32
     private let closeHandler: (() -> Void)
+
+    private var totalReadCount = 0
     
-    init(stream: IOStream, closeHandler: @escaping (() -> Void)) {
+    init(stream: IOStream, uncompressedSize: UInt32, closeHandler: @escaping (() -> Void)) {
         self.stream = stream
+        self.uncompressedSize = uncompressedSize
         self.closeHandler = closeHandler
     }
     
@@ -41,7 +45,12 @@ class StoreStream: ZipArchiveEntryStream {
     }
     
     func read(buffer: UnsafeMutableRawPointer, maxLength len: Int) -> Int {
-        return stream.read(buffer: buffer, maxLength: len)
+        let maxLen = min(len, Int(uncompressedSize) - totalReadCount)
+        let readCount = stream.read(buffer: buffer, maxLength: maxLen)
+        if readCount > 0 {
+            totalReadCount += readCount
+        }
+        return readCount
     }
     
     func seek(offset: Int, origin: SeekOrigin) -> Int {

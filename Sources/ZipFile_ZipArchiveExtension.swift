@@ -59,16 +59,6 @@ extension ZipArchive {
 
     public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .default, password: String? = nil) -> ZipArchiveEntry? {
         
-        var crypt: ZipCrypto? = nil
-        if let password = password {
-            guard let cstr = password.cString(using: passwordEncoding) else {
-                //throw ZipError.stringEncodingMismatch
-                return nil
-            }
-            // TODO: error if ZipCrypto.init == nil
-            crypt = ZipCrypto(password: cstr, crc32ForCrypting: 0, crc32Table: getCRCTable())
-        }
-        
         //let url = NSURL(fileURLWithPath: sourceFileName)
         //guard let fileWrapper = try? NSFileWrapper(URL: url, options: NSFileWrapperReadingOptions(rawValue: 0)) else {
         //    // ERROR
@@ -138,7 +128,7 @@ extension ZipArchive {
         entry.lastWriteTime = fileDate
         entry.filePermissions = filePermissions.uint16Value
         entry.fileType = fileType
-        guard let zipStream = entry.open(crypt: crypt, isLargeFile: isLargeFile) else {
+        guard let zipStream = entry.open(password: password, crc32: crc32, isLargeFile: isLargeFile) else {
             // ERROR
             return nil
         }

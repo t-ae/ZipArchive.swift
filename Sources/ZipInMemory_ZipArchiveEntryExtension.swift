@@ -16,21 +16,7 @@ extension ZipArchiveEntry {
 //    }
     
     public func extractToData(password: String? = nil) -> Data? {
-        var crypt: ZipCrypto? = nil
-        if let password = password {
-            guard let archive = archive else {
-                //throw ZipError.objectDisposed
-                return nil
-            }
-            guard let cstr = password.cString(using: archive.passwordEncoding) else {
-                //throw ZipError.stringEncodingMismatch
-                return nil
-            }
-            // TODO: error if ZipCrypto.init == nil
-            crypt = ZipCrypto(password: cstr, crc32ForCrypting: 0, crc32Table: getCRCTable())
-        }
-        
-        guard let unzipStream = open(crypt: crypt) else {
+        guard let unzipStream = open(password: password) else {
             // ERROR
             return nil
         }

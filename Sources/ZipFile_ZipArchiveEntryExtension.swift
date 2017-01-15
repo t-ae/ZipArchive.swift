@@ -25,20 +25,8 @@ extension ZipArchiveEntry {
                 throw ZipError.io
             }
         }
-
-        var crypt: ZipCrypto? = nil
-        if let password = password {
-            guard let archive = archive else {
-                throw ZipError.objectDisposed
-            }
-            guard let cstr = password.cString(using: archive.passwordEncoding) else {
-                throw ZipError.stringEncodingMismatch
-            }
-            // TODO: error if ZipCrypto.init == nil
-            crypt = ZipCrypto(password: cstr, crc32ForCrypting: 0, crc32Table: getCRCTable())
-        }
         
-        guard let unzipStream = open(crypt: crypt) else {
+        guard let unzipStream = open(password: password) else {
             throw ZipError.io
         }
         defer {

@@ -62,14 +62,28 @@ class ZipFileTests: BaseTestCase {
     
     func testSystemZipSelfUnzipWithRandomDataAndPassword() {
         let files: [String : Data] = [
-            "test_data1.dat" : createRandomData()
+            "test_data1.dat" : createRandomData(),
+            "test_data2.dat" : createRandomData(),
+            "test_data3.dat" : createFixedData(),
+            "test_data4.dat" : createFixedData(),
+            "test_data5.dat" : createRandomData(),
+            "test_data6.dat" : createFixedData(),
+            "test_data7.dat" : createRandomData(),
+            "test_data8.dat" : createFixedData()
         ]
         _testSystemZipSelfUnzipWithPassword(files: files)
     }
     
     func testSelfZipSystemUnzipWithRandomDataAndPassword() {
         let files: [String : Data] = [
-            "test_data1.dat" : createRandomData()
+            "test_data1.dat" : createRandomData(),
+            "test_data2.dat" : createRandomData(),
+            "test_data3.dat" : createFixedData(),
+            "test_data4.dat" : createFixedData(),
+            "test_data5.dat" : createRandomData(),
+            "test_data6.dat" : createFixedData(),
+            "test_data7.dat" : createRandomData(),
+            "test_data8.dat" : createFixedData()
         ]
         _testSelfZipSystemUnzipWithPassword(files: files)
     }
