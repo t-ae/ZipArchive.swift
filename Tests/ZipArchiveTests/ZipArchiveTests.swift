@@ -33,11 +33,11 @@ class ZipArchiveTestCase: BaseTestCase {
         ]
 
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let archive = ZipArchive(path: archiveFile, mode: .create)!
+        let archive = try! ZipArchive(path: archiveFile, mode: .create)
         
         for fileName in files.keys {
-            let entry = archive.createEntry(entryName: fileName)!
-            let stream = entry.open()!
+            let entry = try! archive.createEntry(entryName: fileName)
+            let stream = try! entry.open()
             let data = files[fileName]!
             let length = data.count
             data.withUnsafeBytes { (buffer) -> Void in
@@ -83,11 +83,11 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .read)!
+        let archive = try! ZipArchive(path: archiveFile, mode: .read)
         
         var count = 0
         for entry in archive.entries {
-            let stream = entry.open()!
+            let stream = try! entry.open()
             var data = Data(count: Int(entry.length))
             let length = data.count
             data.withUnsafeMutableBytes { (buffer) -> Void in
@@ -121,11 +121,11 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .read)!
+        let archive = try! ZipArchive(path: archiveFile, mode: .read)
         
         var count = 0
         for entry in archive.entries {
-            let stream = entry.open()!
+            let stream = try! entry.open()
             var data = Data(count: Int(entry.length))
             let length = data.count
             data.withUnsafeMutableBytes { (buffer) -> Void in
@@ -158,11 +158,11 @@ class ZipArchiveTestCase: BaseTestCase {
         XCTAssertTrue(created)
         
         let archiveFile = zipDestinationDirectory + "test.zip"
-        let archive = ZipArchive(path: archiveFile, mode: .create)!
+        let archive = try! ZipArchive(path: archiveFile, mode: .create)
         
         for fileName in files.keys {
             let testDataFilePath = testDataDirectory + fileName
-            _ = archive.createEntryFromFile(sourceFileName: testDataFilePath, entryName: fileName)
+            _ = try! archive.createEntryFromFile(sourceFileName: testDataFilePath, entryName: fileName)
         }
         
         archive.dispose()
@@ -207,11 +207,11 @@ class ZipArchiveTestCase: BaseTestCase {
         )
         XCTAssertEqual(0, ret)
         
-        let archive = ZipArchive(path: archiveFile, mode: .read)!
+        let archive = try! ZipArchive(path: archiveFile, mode: .read)
         
         var count = 0
         for entry in archive.entries {
-            let stream = entry.open()!
+            let stream = try! entry.open()
             var data = Data(count: Int(entry.length))
             let length = data.count
             data.withUnsafeMutableBytes { (buffer) -> Void in

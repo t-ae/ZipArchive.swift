@@ -3,7 +3,7 @@
 //  ZipArchive
 //
 //  Created by Yasuhiro Hatta on 2016/11/01.
-//  Copyright © 2016年 yaslab. All rights reserved.
+//  Copyright © 2016 yaslab. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double ZipArchiveVersionNumber;
 FOUNDATION_EXPORT const unsigned char ZipArchiveVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ZipArchive/PublicHeader.h>
-
-

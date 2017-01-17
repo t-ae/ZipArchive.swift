@@ -36,32 +36,90 @@ public enum ZipArchiveMode {
     
 }
 
-public enum CompressionLevel {
-    
-    case noCompression
-    case fastest
-    case optimal
-    case `default`
+public struct CompressionMethod: RawRepresentable, Equatable {
 
-    internal static func fromRawValue(rawValue: Int32) -> CompressionLevel {
-        switch rawValue {
-        case Z_NO_COMPRESSION: return .noCompression
-        case Z_BEST_SPEED: return .fastest
-        case Z_BEST_COMPRESSION: return .optimal
-        default: return .default
-        }
+    /// 0
+    public static let store = CompressionMethod(0)
+    /// 8
+    public static let deflate = CompressionMethod(Int(Z_DEFLATED))
+
+    public init(_ rawValue: Int) {
+        self.init(rawValue: rawValue)
+    }
+    
+    // MARK: - RawRepresentable
+    
+    public private(set) var rawValue: Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
     }
 
-    internal func toRawValue() -> Int32 {
-        switch self {
-        case .noCompression: return Z_NO_COMPRESSION
-        case .fastest: return Z_BEST_SPEED
-        case .optimal: return Z_BEST_COMPRESSION
-        case .default: return Z_DEFAULT_COMPRESSION
-        }
+    // MARK: - Equatable
+    
+    public static func == (lhs: CompressionMethod, rhs: CompressionMethod) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+
+}
+
+public struct CompressionLevel: RawRepresentable {
+
+    /// 0
+    public static let noCompression = CompressionLevel(rawValue: Int(Z_NO_COMPRESSION))
+    /// 1
+    public static let fastest = CompressionLevel(rawValue: Int(Z_BEST_SPEED))
+    /// 6
+    public static let `default` = CompressionLevel(rawValue: Int(Z_DEFAULT_COMPRESSION))
+    /// 9
+    public static let optimal = CompressionLevel(rawValue: Int(Z_BEST_COMPRESSION))
+    
+    public init(_ rawValue: Int) {
+        self.init(rawValue: rawValue)
+    }
+    
+    // MARK: - RawRepresentable
+    
+    public private(set) var rawValue: Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    // MARK: - Equatable
+    
+    public static func == (lhs: CompressionLevel, rhs: CompressionLevel) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
     
 }
+
+//public enum CompressionLevel {
+//    
+//    case noCompression
+//    case fastest
+//    case optimal
+//    case `default`
+//
+//    internal static func fromRawValue(rawValue: Int32) -> CompressionLevel {
+//        switch rawValue {
+//        case Z_NO_COMPRESSION: return .noCompression
+//        case Z_BEST_SPEED: return .fastest
+//        case Z_BEST_COMPRESSION: return .optimal
+//        default: return .default
+//        }
+//    }
+//
+//    internal func toRawValue() -> Int32 {
+//        switch self {
+//        case .noCompression: return Z_NO_COMPRESSION
+//        case .fastest: return Z_BEST_SPEED
+//        case .optimal: return Z_BEST_COMPRESSION
+//        case .default: return Z_DEFAULT_COMPRESSION
+//        }
+//    }
+//    
+//}
 
 public enum FileType {
 

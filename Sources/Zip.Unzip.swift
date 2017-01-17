@@ -3,7 +3,7 @@
 //  ZipArchive
 //
 //  Created by Yasuhiro Hatta on 2017/01/11.
-//  Copyright © 2017年 yaslab. All rights reserved.
+//  Copyright © 2017 yaslab. All rights reserved.
 //
 
 import Foundation
@@ -14,20 +14,11 @@ final class Unzip {
     let endOfCentralDirectoryRecord: EndOfCentralDirectoryRecord
     let centralDirectoryHeaders: [CentralDirectoryHeader]
     
-    //var currentFile: CentralDirectoryHeader
-    
-    // TODO: return nil ==> throw error??
-    init?(stream: IOStream) {
+    init(stream: IOStream) throws {
         self.stream = stream
-        
-        guard let endOfCentralDirectoryRecord = Unzip.searchEndOfCentralDirectoryRecord(stream: stream) else {
-            return nil
-        }
-        self.endOfCentralDirectoryRecord = endOfCentralDirectoryRecord
-        
-        
-        
-        
+
+        self.endOfCentralDirectoryRecord = try Unzip.searchEndOfCentralDirectoryRecord(stream: stream)
+
         let sizeOfTheCentralDirectory = Int(endOfCentralDirectoryRecord.sizeOfTheCentralDirectory)
         let offsetOfStartOfCentralDirectory = Int(endOfCentralDirectoryRecord.offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber)
         let buffer = malloc(sizeOfTheCentralDirectory).assumingMemoryBound(to: UInt8.self)
@@ -35,10 +26,10 @@ final class Unzip {
             free(buffer)
         }
         guard stream.seek(offset: offsetOfStartOfCentralDirectory, origin: .begin) == 0 else {
-            return nil
+            throw ZipError.io
         }
         guard stream.read(buffer: buffer, maxLength: sizeOfTheCentralDirectory) == sizeOfTheCentralDirectory else {
-            return nil
+            throw ZipError.io
         }
         
         var centralDirectoryHeaders = [CentralDirectoryHeader]()
@@ -53,26 +44,16 @@ final class Unzip {
         }
         
         self.centralDirectoryHeaders = centralDirectoryHeaders
-        
-        if centralDirectoryHeaders.count == 0 {
-            // no entries
-            return nil
-        }
-        
-        //currentFile = centralDirectoryHeaders[0]
     }
     
-    // TODO: return nil ==> throw error??
-    private static func searchEndOfCentralDirectoryRecord(stream: IOStream) -> EndOfCentralDirectoryRecord? {
+    private static func searchEndOfCentralDirectoryRecord(stream: IOStream) throws -> EndOfCentralDirectoryRecord {
         guard stream.seek(offset: 0, origin: .end) == 0 else {
-            // TODO: Error
-            return nil
+            throw ZipError.io
         }
         let maxLength = Int(min(stream.position, 1024))
         
         guard stream.seek(offset: -maxLength, origin: .end) == 0 else {
-            // TODO: Error
-            return nil
+            throw ZipError.io
         }
         
         var buffer = malloc(maxLength).assumingMemoryBound(to: UInt8.self)
@@ -82,8 +63,7 @@ final class Unzip {
         
         let readed = stream.read(buffer: buffer, maxLength: maxLength)
         guard readed == maxLength else {
-            // TODO: Error
-            return nil
+            throw ZipError.io
         }
         
         for i in (3 ..< maxLength).reversed() {
@@ -94,7 +74,7 @@ final class Unzip {
             }
         }
         
-        return nil
+        throw ZipError.invalidData
     }
     
     private static func makeEndOfCentralDirectoryRecord(buffer: UnsafeMutablePointer<UInt8>, offset: Int, length: Int) -> EndOfCentralDirectoryRecord {
@@ -202,25 +182,23 @@ final class Unzip {
     
     var isOpen: Bool = false
     
-    // TODO: throw error??
-    func openFile(fileName: [CSignedChar]) -> (LocalFileHeader, Int)? {
+    func openFile(fileName: [CSignedChar]) throws -> (LocalFileHeader, Int) {
         guard let centralDirectoryHeader = centralDirectoryHeaders.filter({ strcmp($0.fileName, fileName) == 0 }).first else {
-            return nil
+            throw ZipError.argument
         }
-        return openFile(centralDirectoryHeader: centralDirectoryHeader)
+        return try openFile(centralDirectoryHeader: centralDirectoryHeader)
     }
-    
-    
-    func openFile(centralDirectoryHeader: CentralDirectoryHeader) -> (LocalFileHeader, Int)? {
+
+    func openFile(centralDirectoryHeader: CentralDirectoryHeader) throws -> (LocalFileHeader, Int) {
         if isOpen {
-            return nil
+            throw ZipError.argument
         }
         
         //currentFile = centralDirectoryHeader
         
         let offset = Int(centralDirectoryHeader.relativeOffsetOfLocalHeader)
         guard stream.seek(offset: offset, origin: .begin) == 0 else {
-            return nil
+            throw ZipError.io
         }
         
         // without filename and extrafield
@@ -232,7 +210,7 @@ final class Unzip {
         }
         
         guard stream.read(buffer: buffer, maxLength: localHeaderSize) == localHeaderSize else {
-            return nil
+            throw ZipError.io
         }
         
         let data = NSData(bytesNoCopy: buffer, length: localHeaderSize, freeWhenDone: false)
@@ -242,8 +220,7 @@ final class Unzip {
         let signature: UInt32 = BinaryUtility.deserialize(data, byteSize, &byteSize)
         
         guard signature == LocalFileHeader.signature else {
-            // TODO: Error
-            return nil
+            throw ZipError.invalidData
         }
         
         let versionNeededToExtract: UInt16 = BinaryUtility.deserialize(data, byteSize, &byteSize)
@@ -259,14 +236,14 @@ final class Unzip {
         
         var fileName = [CSignedChar](repeating: 0, count: Int(fileNameLength) + 1)
         guard stream.read(buffer: &fileName, maxLength: Int(fileNameLength)) == Int(fileNameLength) else {
-            return nil
+            throw ZipError.io
         }
         byteSize += Int(fileNameLength)
         
         // NOTE: central と local とで長さが違うことがある
         var extraField = [CSignedChar](repeating: 0, count: Int(extraFieldLength) + 1)
         guard stream.read(buffer: &extraField, maxLength: Int(extraFieldLength)) == Int(extraFieldLength) else {
-            return nil
+            throw ZipError.io
         }
         byteSize += Int(extraFieldLength)
         

@@ -71,7 +71,7 @@ public class DeflateStream: ZipArchiveEntryStream {
     private func zInit() {
         switch mode {
         case .compress:
-            let status = deflateInit2(&z, compressionLevel.toRawValue(), Z_DEFLATED, -MAX_WBITS, 8, Z_DEFAULT_STRATEGY)
+            let status = deflateInit2(&z, Int32(compressionLevel.rawValue), Z_DEFLATED, -MAX_WBITS, 8, Z_DEFAULT_STRATEGY)
         case .decompress:
             let status = inflateInit2(&z, -MAX_WBITS)
         }

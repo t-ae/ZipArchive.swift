@@ -3,7 +3,7 @@
 //  ZipArchive
 //
 //  Created by Yasuhiro Hatta on 2016/01/31.
-//  Copyright © 2016年 yaslab. All rights reserved.
+//  Copyright © 2016 yaslab. All rights reserved.
 //
 
 import Foundation
@@ -15,11 +15,8 @@ extension ZipArchiveEntry {
 //        return extractToData(nil)
 //    }
     
-    public func extractToData(password: String? = nil) -> Data? {
-        guard let unzipStream = open(password: password) else {
-            // ERROR
-            return nil
-        }
+    public func extractToData(password: String? = nil) throws -> Data {
+        let unzipStream = try open(password: password)
         defer {
             _ = unzipStream.close()
         }
@@ -31,7 +28,7 @@ extension ZipArchiveEntry {
         
         if len != Int(length) {
             // ERROR
-            return nil
+            throw ZipError.io
         }
         
         return data

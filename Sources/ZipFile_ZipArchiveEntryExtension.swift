@@ -26,11 +26,9 @@ extension ZipArchiveEntry {
             }
         }
         
-        guard let unzipStream = open(password: password) else {
-            throw ZipError.io
-        }
+        let unzipStream = try open(password: password)
         defer {
-            _ = unzipStream.close()
+            unzipStream.close()
         }
         
         guard let fileOutputStream = OutputStream(toFileAtPath: destinationFileName, append: false) else {

@@ -63,9 +63,7 @@ public class ZipFile {
         let fm = FileManager.default
         let subpaths = try fm.subpathsOfDirectory(atPath: sourceDirectoryName)
         
-        guard let zip = ZipArchive(path: destinationArchiveFileName, mode: .create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            throw ZipError.io
-        }
+        let zip = try ZipArchive(path: destinationArchiveFileName, mode: .create, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
         defer {
             zip.dispose()
         }
@@ -79,10 +77,7 @@ public class ZipFile {
             if includeBaseDirectory {
                 entryName = baseDirectoryName.appendingPathComponent(entryName)
             }
-            let entry = zip.createEntryFromFile(sourceFileName: fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
-            if entry == nil {
-                throw ZipError.io
-            }
+            let entry = try zip.createEntryFromFile(sourceFileName: fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
         }
     }
     
@@ -95,9 +90,7 @@ public class ZipFile {
     }
     
     private class func extractToDirectory(sourceArchiveFileName: String, destinationDirectoryName: String, entryNameEncoding: String.Encoding, password: String, passwordEncoding: String.Encoding) throws {
-        guard let unzip = ZipArchive(path: sourceArchiveFileName, mode: .read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding) else {
-            throw ZipError.io
-        }
+        let unzip = try ZipArchive(path: sourceArchiveFileName, mode: .read, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
         defer {
             unzip.dispose()
         }
@@ -105,16 +98,16 @@ public class ZipFile {
         try unzip.extractToDirectory(destinationDirectoryName: destinationDirectoryName, password: password)
     }
     
-    public class func openRead(archiveFileName: String) -> ZipArchive? {
-        return open(archiveFileName: archiveFileName, mode: .read, entryNameEncoding: .utf8)
+    public class func openRead(archiveFileName: String) throws -> ZipArchive {
+        return try open(archiveFileName: archiveFileName, mode: .read, entryNameEncoding: .utf8)
     }
     
-    public class func open(archiveFileName: String, mode: ZipArchiveMode) -> ZipArchive? {
-        return open(archiveFileName: archiveFileName, mode: mode, entryNameEncoding: .utf8)
+    public class func open(archiveFileName: String, mode: ZipArchiveMode) throws -> ZipArchive {
+        return try open(archiveFileName: archiveFileName, mode: mode, entryNameEncoding: .utf8)
     }
     
-    public class func open(archiveFileName: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding = .ascii) -> ZipArchive? {
-        return ZipArchive(path: archiveFileName, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
+    public class func open(archiveFileName: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding = .ascii) throws -> ZipArchive {
+        return try ZipArchive(path: archiveFileName, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
     }
     
 }

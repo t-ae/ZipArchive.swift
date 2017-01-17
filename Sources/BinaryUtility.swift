@@ -1,6 +1,6 @@
 //
 //  BinaryUtility.swift
-//  ZeroFormatter
+//  ZipArchive
 //
 //  Created by Yasuhiro Hatta on 2016/12/14.
 //  Copyright © 2016 yaslab. All rights reserved.

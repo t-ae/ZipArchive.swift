@@ -35,7 +35,12 @@ public class ZipArchive {
 
     private var disposed: Bool = false
 
-    public init?(stream: IOStream, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
+    public init(
+        stream: IOStream,
+        mode: ZipArchiveMode,
+        entryNameEncoding: String.Encoding,
+        passwordEncoding: String.Encoding) throws {
+        
         self.stream = stream
         self.mode = mode
         self.entryNameEncoding = entryNameEncoding
@@ -44,26 +49,18 @@ public class ZipArchive {
         switch mode {
         case .read:
             if !stream.canRead {
-                // ERROR
-                return nil
+                // stream can not read
+                throw ZipError.argument
             }
-            if let unzip = Unzip(stream: stream) {
-                self.unzip = unzip
-                guard readEntries(unzip: unzip) else {
-                    return nil
-                }
-            }
+            let unzip = try Unzip(stream: stream)
+            try readEntries(unzip: unzip)
+            self.unzip = unzip
         case .create:
             if !stream.canWrite {
-                // ERROR
-                return nil
+                // stream can not write
+                throw ZipError.argument
             }
             self.zip = Zip(stream: stream)
-        }
-
-        if zip == nil && unzip == nil {
-            // ERROR
-            return nil
         }
     }
 
@@ -87,60 +84,44 @@ public class ZipArchive {
         disposed = true
     }
 
-    public func createEntry(entryName: String) -> ZipArchiveEntry? {
-        return createEntry(entryName: entryName, compressionLevel: .default)
-    }
-
-    public func createEntry(entryName: String, compressionLevel: CompressionLevel) -> ZipArchiveEntry? {
+    public func createEntry(entryName: String, compressionLevel: CompressionLevel = .default) throws -> ZipArchiveEntry {
         if zip == nil || entryName == "" {
-            return nil
+            throw ZipError.argument
         }
-        guard let entry = ZipArchiveEntry(owner: self, entryName: entryName, compressionLevel: compressionLevel) else {
-            return nil
-        }
+        let entry = ZipArchiveEntry(owner: self, entryName: entryName, compressionLevel: compressionLevel)
         _entries.append(entry)
         return entry
     }
 
-    public func getEntry(entryName: String) -> ZipArchiveEntry? {
+    public func getEntry(entryName: String) throws -> ZipArchiveEntry {
         if entryName == "" {
-            return nil
+            throw ZipError.argument
         }
         for entry in entries {
             if entry.fullName == entryName {
                 return entry
             }
         }
-        return nil
+        throw ZipError.argument
     }
 
-    private func readEntries(unzip: Unzip) -> Bool {
+    private func readEntries(unzip: Unzip) throws {
         for centralDirectoryHeader in unzip.centralDirectoryHeaders {
-            guard let entry = ZipArchiveEntry(owner: self, centralDirectoryHeader: centralDirectoryHeader) else {
-                return false
-            }
+            let entry = try ZipArchiveEntry(owner: self, centralDirectoryHeader: centralDirectoryHeader)
             _entries.append(entry)
         }
-        return true
     }
 
 }
 
 public extension ZipArchive {
 
-    public convenience init?(path: String) {
-        self.init(path: path, mode: .read, entryNameEncoding: .utf8, passwordEncoding: .ascii)
-    }
-
-    public convenience init?(path: String, mode: ZipArchiveMode) {
-        self.init(path: path, mode: mode, entryNameEncoding: .utf8, passwordEncoding: .ascii)
-    }
-
-    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding) {
-        self.init(path: path, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: .ascii)
-    }
-
-    public convenience init?(path: String, mode: ZipArchiveMode, entryNameEncoding: String.Encoding, passwordEncoding: String.Encoding) {
+    public convenience init(
+        path: String,
+        mode: ZipArchiveMode = .read,
+        entryNameEncoding: String.Encoding = .utf8,
+        passwordEncoding: String.Encoding = .ascii) throws {
+        
         var stream: IOStream? = nil
         switch mode {
         case .read:
@@ -149,17 +130,18 @@ public extension ZipArchive {
             }
         case .create:
             let fm = FileManager.default
-            if !fm.fileExists(atPath: path) {
-                fm.createFile(atPath: path, contents: nil, attributes: nil)
+            if fm.fileExists(atPath: path) {
+                throw ZipError.io
             }
+            fm.createFile(atPath: path, contents: nil, attributes: nil)
             if let fileHandle = FileHandle(forWritingAtPath: path) {
                 stream = ZipArchiveFileStream(fileHandle: fileHandle, closeOnDealloc: true)
             }
         }
         if stream == nil {
-            return nil
+            throw ZipError.io
         }
-        self.init(stream: stream!, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
+        try self.init(stream: stream!, mode: mode, entryNameEncoding: entryNameEncoding, passwordEncoding: passwordEncoding)
     }
 
 }

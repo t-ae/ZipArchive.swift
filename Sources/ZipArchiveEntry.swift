@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Czlib
 
 public class ZipArchiveEntry {
 
@@ -30,41 +29,45 @@ public class ZipArchiveEntry {
     public var fileType: FileType
 
     // For unzip
-    internal init?(owner: ZipArchive, centralDirectoryHeader: CentralDirectoryHeader) {
+    internal init(owner: ZipArchive, centralDirectoryHeader: CentralDirectoryHeader) throws {
         self.archive = owner
         self.centralDirectoryHeader = centralDirectoryHeader
 
         let fileNameInZip = centralDirectoryHeader.fileName
         guard let fullName = String(cString: fileNameInZip, encoding: owner.entryNameEncoding) else {
-            return nil
+            throw ZipError.stringEncodingMismatch
         }
         self.fullName = fullName
         self.name = (fullName as NSString).lastPathComponent
 
-        var compressionLevel = Z_DEFAULT_COMPRESSION
-        var isNotSupportedCompressionMethod = false
-        switch Int32(centralDirectoryHeader.compressionMethod) {
-        case 0: // Stored
-            compressionLevel = Z_NO_COMPRESSION
-        case Z_DEFLATED:
+        let compressionMethod = CompressionMethod(rawValue: Int(centralDirectoryHeader.compressionMethod))
+
+        var compressionLevel: CompressionLevel = .optimal
+        
+        if compressionMethod == .store {
+            compressionLevel = .noCompression
+        } else if compressionMethod == .deflate {
             let level = (centralDirectoryHeader.generalPurposeBitFlag & 0x06) >> 1
             if level == 0 {
-                compressionLevel = Z_NO_COMPRESSION
+                compressionLevel = .noCompression
             }
             else if level == 1 {
-                compressionLevel = Z_BEST_COMPRESSION
+                compressionLevel = .optimal
             }
-            else if level == 2 || level == 3 {
-                // 2:fast, 3:extra fast
-                compressionLevel = Z_BEST_SPEED
+            else if level == 2 {
+                // 2:fast
+                compressionLevel = .default
             }
-        default:
-            isNotSupportedCompressionMethod = true
+            else if level == 3 {
+                // 3:extra fast
+                compressionLevel = .fastest
+            }
+        } else {
+            // Not Supported
+            throw ZipError.notSupported
         }
-        if isNotSupportedCompressionMethod {
-            return nil
-        }
-        self.compressionLevel = CompressionLevel.fromRawValue(rawValue: compressionLevel)
+        
+        self.compressionLevel = compressionLevel
 
         self.lastWriteTime = ZipUtility.convertDateTime(date: centralDirectoryHeader.lastModFileDate, time: centralDirectoryHeader.lastModFileTime)
 
@@ -73,12 +76,12 @@ public class ZipArchiveEntry {
         self.fileType = FileType.fromRawValue(rawValue: mode)
 
         if self.fileType == .unknown {
-            return nil
+            throw ZipError.invalidData
         }
     }
 
     // For zip
-    internal init?(owner: ZipArchive, entryName: String, compressionLevel: CompressionLevel) {
+    internal init(owner: ZipArchive, entryName: String, compressionLevel: CompressionLevel) {
         self.archive = owner
 
         self.fullName = entryName
@@ -96,24 +99,22 @@ public class ZipArchiveEntry {
     /// - parameter crc32:
     /// - parameter isLargeFile:
     /// - returns:
-    public func open(password: String? = nil, crc32: UInt32 = 0, isLargeFile: Bool = false) -> ZipArchiveEntryStream? {
+    public func open(password: String? = nil, crc32: UInt32 = 0, isLargeFile: Bool = false) throws -> ZipArchiveEntryStream {
         guard let archive = archive else {
-            return nil
+            throw ZipError.objectDisposed
         }
 
-        var stream: ZipArchiveEntryStream?
+        var stream: ZipArchiveEntryStream
         switch archive.mode {
         case .read:
             guard let unzip = archive.unzip else {
-                return nil
+                throw ZipError.objectDisposed
             }
             guard let centralDirectoryHeader = centralDirectoryHeader else {
-                return nil
+                throw ZipError.objectDisposed
             }
 
-            guard let (localFileHeader, _) = unzip.openFile(centralDirectoryHeader: centralDirectoryHeader) else {
-                return nil
-            }
+            let (localFileHeader, _) = try unzip.openFile(centralDirectoryHeader: centralDirectoryHeader)
             
             // TODO: Validate localFileHeader, centralDirectoryHeader
             // ...
@@ -122,35 +123,37 @@ public class ZipArchiveEntry {
             
             if let password = password {
                 guard let cstr = password.cString(using: archive.passwordEncoding) else {
-                    return nil
+                    throw ZipError.stringEncodingMismatch
                 }
                 tmpStream = ZipCryptoStream(stream: archive.stream, password: cstr, crc32ForCrypting: crc32, crc32Table: getCRCTable())
             } else {
                 tmpStream = archive.stream
             }
             
-            switch Int32(centralDirectoryHeader.compressionMethod) {
-            case 0: // Store
+            let compressionMethod = CompressionMethod(rawValue: Int(centralDirectoryHeader.compressionMethod))
+            
+            switch compressionMethod {
+            case CompressionMethod.store:
                 stream = StoreStream(stream: tmpStream, uncompressedSize: centralDirectoryHeader.uncompressedSize) {
                     unzip.closeFile()
                 }
-            case Z_DEFLATED:
+            case CompressionMethod.deflate:
                 stream = DeflateStream(stream: tmpStream, mode: .decompress, leaveOpen: true) { (crc32, _, _) in
                     unzip.closeFile()
                 }
             default:
-                return nil
+                throw ZipError.notSupported
             }
-            
+                        
         case .create:
             guard let zip = archive.zip else {
-                return nil
+                throw ZipError.objectDisposed
             }
             
             let (date, time) = ZipUtility.convertDateTime(date: lastWriteTime)
             
             guard let fileName = fullName.cString(using: archive.entryNameEncoding) else {
-                return nil
+                throw ZipError.stringEncodingMismatch
             }
             let fileNameLength = UInt16(strlen(fileName))
             
@@ -181,7 +184,7 @@ public class ZipArchiveEntry {
             
             // TODO: remove crypt
             guard zip.openNewFile(localFileHeader: localFileHeader) == true else {
-                return nil
+                throw ZipError.io
             }
             
             var mode = filePermissions
@@ -192,7 +195,7 @@ public class ZipArchiveEntry {
             
             if let password = password {
                 guard let cstr = password.cString(using: archive.passwordEncoding) else {
-                    return nil
+                    throw ZipError.stringEncodingMismatch
                 }
                 let zipCryptoStream = ZipCryptoStream(stream: archive.stream, password: cstr, crc32ForCrypting: crc32, crc32Table: getCRCTable())
                 tmpStream = zipCryptoStream

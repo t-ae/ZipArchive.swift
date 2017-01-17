@@ -57,7 +57,7 @@ extension ZipArchive {
 //        return createEntryFromFile(sourceFileName, entryName: entryName, compressionLevel: compressionLevel, password: nil)
 //    }
 
-    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .default, password: String? = nil) -> ZipArchiveEntry? {
+    public func createEntryFromFile(sourceFileName: String, entryName: String, compressionLevel: CompressionLevel = .default, password: String? = nil) throws -> ZipArchiveEntry {
         
         //let url = NSURL(fileURLWithPath: sourceFileName)
         //guard let fileWrapper = try? NSFileWrapper(URL: url, options: NSFileWrapperReadingOptions(rawValue: 0)) else {
@@ -67,20 +67,20 @@ extension ZipArchive {
         let fm = FileManager.default
         guard let fileAttributes = try? fm.attributesOfItem(atPath: sourceFileName) else {
             // ERROR
-            return nil
+            throw ZipError.io
         }
 
         guard let fileDate = fileAttributes[FileAttributeKey.modificationDate] as? Date else {
             // ERROR
-            return nil
+            throw ZipError.io
         }
         guard let filePermissions = fileAttributes[FileAttributeKey.posixPermissions] as? NSNumber else {
             // ERROR
-            return nil
+            throw ZipError.io
         }
         guard let nsFileType = fileAttributes[FileAttributeKey.type] as? String else {
             // ERROR
-            return nil
+            throw ZipError.io
         }
         let fileType = FileType.fromNSFileType(fileType: FileAttributeType(rawValue: nsFileType))
 
@@ -102,12 +102,7 @@ extension ZipArchive {
         else if fileType == .regular {
             if let password = password {
                 if !password.isEmpty {
-                    do {
-                        crc32 = try crc32__(withFilePath: sourceFileName)
-                    }
-                    catch {
-                        return nil
-                    }
+                    crc32 = try crc32__(withFilePath: sourceFileName)
                 }
             }
             if let fileSize = fileAttributes[FileAttributeKey.size] as? NSNumber {
@@ -118,22 +113,16 @@ extension ZipArchive {
         }
         else {
             // Not supported
-            return nil
+            throw ZipError.notSupported
         }
 
-        guard let entry = createEntry(entryName: name, compressionLevel: level) else {
-            // ERROR
-            return nil
-        }
+        let entry = try createEntry(entryName: name, compressionLevel: level)
         entry.lastWriteTime = fileDate
         entry.filePermissions = filePermissions.uint16Value
         entry.fileType = fileType
-        guard let zipStream = entry.open(password: password, crc32: crc32, isLargeFile: isLargeFile) else {
-            // ERROR
-            return nil
-        }
+        let zipStream = try entry.open(password: password, crc32: crc32, isLargeFile: isLargeFile)
         defer {
-            _ = zipStream.close()
+            zipStream.close()
         }
 
         if fileType == .directory {
@@ -143,10 +132,7 @@ extension ZipArchive {
             let _ = zipStream.write(buffer: &len, maxLength: Int(len))
         }
         else if fileType == .symbolicLink {
-            guard let destination = try? fm.destinationOfSymbolicLink(atPath: sourceFileName) else {
-                // ERROR
-                return nil
-            }
+            let destination = try fm.destinationOfSymbolicLink(atPath: sourceFileName)
 
 //            guard let destination = fileWrapper.symbolicLinkDestinationURL?.relativeString else {
 //                // ERROR
@@ -163,13 +149,13 @@ extension ZipArchive {
             }
             if err < 0 {
                 // ERROR
-                return nil
+                throw ZipError.io
             }
         }
         else if fileType == .regular {
             guard let fileInputStream = InputStream(fileAtPath: sourceFileName) else {
                 // ERROR
-                return nil
+                throw ZipError.io
             }
             fileInputStream.open()
             var buffer = [UInt8](repeating: 0, count: kZipArchiveDefaultBufferSize)
@@ -193,7 +179,7 @@ extension ZipArchive {
             let err = zipStream.write(buffer: buffer, maxLength: 0) // flash
             if err < 0 {
                 // ERROR
-                return nil
+                throw ZipError.io
             }
             fileInputStream.close()
         }
@@ -251,9 +237,7 @@ extension ZipArchive {
 
         for entry in symbolicLinks {
             let fullPath = directory.appendingPathComponent(entry.fullName)
-            guard let data = entry.extractToData() else {
-                throw ZipError.io
-            }
+            let data = try entry.extractToData()
             guard let destination = String(data: data, encoding: .utf8) else {
                 throw ZipError.io
             }
