@@ -22,8 +22,8 @@ struct LocalFileHeader {
     let fileNameLength: UInt16
     let extraFieldLength: UInt16
     
-    let fileName: [CSignedChar]
-    let extraField: [CSignedChar]
+    let fileName: Data
+    let extraField: [ExtraField]
     
 }
 
@@ -56,9 +56,9 @@ struct CentralDirectoryHeader {
     let externalFileAttributes: UInt32 // *
     let relativeOffsetOfLocalHeader: UInt32 // *
     
-    let fileName: [CSignedChar]
-    let extraField: [CSignedChar]
-    let fileComment: [CSignedChar] // *
+    let fileName: Data
+    let extraField: [ExtraField]
+    let fileComment: Data // *
     
 }
 
@@ -72,6 +72,14 @@ struct EndOfCentralDirectoryRecord {
     let sizeOfTheCentralDirectory: UInt32
     let offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber: UInt32
     let zipFileCommentLength: UInt16
-    let zipFileComment: [CSignedChar]
+    let zipFileComment: Data
+    
+}
+
+struct ExtraField {
+    
+    let headerID: UInt16
+    let dataSize: UInt16
+    let data: Data
     
 }

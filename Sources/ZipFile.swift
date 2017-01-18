@@ -77,7 +77,7 @@ public class ZipFile {
             if includeBaseDirectory {
                 entryName = baseDirectoryName.appendingPathComponent(entryName)
             }
-            let entry = try zip.createEntryFromFile(sourceFileName: fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
+            let entry = try zip.createEntryFrom(filePath: fullpath, entryName: entryName, compressionLevel: compressionLevel, password: password)
         }
     }
     
@@ -95,7 +95,7 @@ public class ZipFile {
             unzip.dispose()
         }
         
-        try unzip.extractToDirectory(destinationDirectoryName: destinationDirectoryName, password: password)
+        try unzip.extractTo(directoryPath: destinationDirectoryName, password: password)
     }
     
     public class func openRead(archiveFileName: String) throws -> ZipArchive {

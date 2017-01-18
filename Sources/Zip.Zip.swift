@@ -41,7 +41,7 @@ class Zip {
         _ = BinaryUtility.serialize(data, localFileHeader.uncompressedSize) // 0
         _ = BinaryUtility.serialize(data, localFileHeader.fileNameLength)
         _ = BinaryUtility.serialize(data, localFileHeader.extraFieldLength)
-        data.append(localFileHeader.fileName, length: Int(localFileHeader.fileNameLength))
+        data.append(localFileHeader.fileName)
         data.append(localFileHeader.extraField, length: Int(localFileHeader.extraFieldLength))
         
         guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
@@ -117,7 +117,7 @@ class Zip {
             relativeOffsetOfLocalHeader: UInt32(currentFileOffset),
             fileName: localFileHeader.fileName,
             extraField: localFileHeader.extraField,
-            fileComment: [])
+            fileComment: Data())
         centralDirectoryHeaders.append(centralDirectoryHeader)
         
         return true
@@ -150,9 +150,9 @@ class Zip {
             _ = BinaryUtility.serialize(data, centralDirectoryHeader.internalFileAttributes)
             _ = BinaryUtility.serialize(data, centralDirectoryHeader.externalFileAttributes)
             _ = BinaryUtility.serialize(data, centralDirectoryHeader.relativeOffsetOfLocalHeader)
-            data.append(centralDirectoryHeader.fileName, length: Int(centralDirectoryHeader.fileNameLength))
+            data.append(centralDirectoryHeader.fileName)
             data.append(centralDirectoryHeader.extraField, length: Int(centralDirectoryHeader.extraFieldLength))
-            data.append(centralDirectoryHeader.fileComment, length: Int(centralDirectoryHeader.fileCommentLength))
+            data.append(centralDirectoryHeader.fileComment)
             
             guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
                 return false
@@ -170,7 +170,7 @@ class Zip {
             sizeOfTheCentralDirectory: centralDirectorySize,
             offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber: centralDirectoryOffset,
             zipFileCommentLength: 0,
-            zipFileComment: [])
+            zipFileComment: Data())
         
         let data = NSMutableData()
         _ = BinaryUtility.serialize(data, EndOfCentralDirectoryRecord.signature)
@@ -181,7 +181,7 @@ class Zip {
         _ = BinaryUtility.serialize(data, endOfCentralDirectoryRecord.sizeOfTheCentralDirectory)
         _ = BinaryUtility.serialize(data, endOfCentralDirectoryRecord.offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber)
         _ = BinaryUtility.serialize(data, endOfCentralDirectoryRecord.zipFileCommentLength)
-        data.append(endOfCentralDirectoryRecord.zipFileComment, length: endOfCentralDirectoryRecord.zipFileComment.count)
+        data.append(endOfCentralDirectoryRecord.zipFileComment)
         
         guard stream.write(buffer: data.bytes, maxLength: data.length) == data.length else {
             return false

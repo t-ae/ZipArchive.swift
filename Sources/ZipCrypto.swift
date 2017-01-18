@@ -6,19 +6,19 @@
 //  Copyright © 2017 yaslab. All rights reserved.
 //
 
-//import Foundation
+import Foundation
 
 public class ZipCrypto {
     
     let headerSize = 12
     
     private let crc32Table: [UInt32]
-    private var keys = [UInt32]()
-    //private(set) var header: [UInt8]!
+    private var key0: UInt32 = 0
+    private var key1: UInt32 = 0
+    private var key2: UInt32 = 0
     
     init(crc32Table: [UInt32]) {
         self.crc32Table = crc32Table
-        //self.header = makeHeader(password: password, crc32ForCrypting: crc32ForCrypting)
     }
     
     private func crc32(_ c: UInt32, _ b: UInt32) -> UInt32 {
@@ -27,24 +27,22 @@ public class ZipCrypto {
     }
 
     private func decryptByte() -> UInt8 {
-        //let temp = UInt16(truncatingBitPattern: (keys[2] & 0xffff) | 2)
-        let temp = (keys[2] & 0xffff) | 2
+        let temp = (key2 & 0xffff) | 2
         let temp2 = ((temp &* (temp ^ 1)) >> 8) & 0xff
         return UInt8(truncatingBitPattern: temp2)
     }
     
     private func updateKeys(_ c: UInt8) {
-        keys[0] = crc32(keys[0], UInt32(c))
-        keys[1] += (keys[0] & 0xff)
-        keys[1] = (keys[1] &* 134775813) &+ 1
-        keys[2] = crc32(keys[2], keys[1] >> 24)
+        key0 = crc32(key0, UInt32(c))
+        key1 = key1 + (key0 & 0xff)
+        key1 = (key1 &* 134775813) &+ 1
+        key2 = crc32(key2, key1 >> 24)
     }
     
     fileprivate func initKeys(password: [CChar]) {
-        keys.removeAll()
-        keys.append(305419896)
-        keys.append(591751049)
-        keys.append(878082192)
+        key0 = 305419896
+        key1 = 591751049
+        key2 = 878082192
         
         for c in password {
             if c == 0 {
@@ -66,30 +64,16 @@ public class ZipCrypto {
         return t ^ c
     }
     
-//    private func random() -> UInt8 {
-//        return UInt8(truncatingBitPattern: arc4random() & 0xff)
-//    }
-    
     fileprivate func makeHeader(password: [CChar], crc32ForCrypting: UInt32) -> [UInt8] {
-        //let headerSize = 12
-        
-//        initKeys(password: password)
         var header = [UInt8]()
-//        for _ in 0 ..< (headerSize - 2) {
-//            header.append(encode(UInt8(truncatingBitPattern: (arc4random() >> 7) & 0xff)))
-//        }
-        
         initKeys(password: password)
-        for i in 0 ..< (headerSize - 1) {
-            //header[i] = encode(header[i])
+        for _ in 0 ..< (headerSize - 1) {
             let val = encode(UInt8(truncatingBitPattern: arc4random()))
             header.append(val)
         }
         
-        //let a = UInt8(truncatingBitPattern: (crc32ForCrypting >> 16) & 0xff)
-        let b = UInt8(truncatingBitPattern: (crc32ForCrypting >> 24) & 0xff)
-        //header.append(encode(a))
-        header.append(encode(b))
+        let a = UInt8(truncatingBitPattern: (crc32ForCrypting >> 24) & 0xff)
+        header.append(encode(a))
         
         return header
     }

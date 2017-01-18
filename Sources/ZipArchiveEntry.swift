@@ -32,9 +32,8 @@ public class ZipArchiveEntry {
     internal init(owner: ZipArchive, centralDirectoryHeader: CentralDirectoryHeader) throws {
         self.archive = owner
         self.centralDirectoryHeader = centralDirectoryHeader
-
-        let fileNameInZip = centralDirectoryHeader.fileName
-        guard let fullName = String(cString: fileNameInZip, encoding: owner.entryNameEncoding) else {
+        
+        guard let fullName = String.init(data: centralDirectoryHeader.fileName, encoding: owner.entryNameEncoding) else {
             throw ZipError.stringEncodingMismatch
         }
         self.fullName = fullName
@@ -152,10 +151,10 @@ public class ZipArchiveEntry {
             
             let (date, time) = ZipUtility.convertDateTime(date: lastWriteTime)
             
-            guard let fileName = fullName.cString(using: archive.entryNameEncoding) else {
+            // TODO: check max length (16bit)
+            guard let fileName = fullName.data(using: archive.entryNameEncoding) else {
                 throw ZipError.stringEncodingMismatch
             }
-            let fileNameLength = UInt16(strlen(fileName))
             
             var generalPurposeBitFlag: UInt16 = 0
             if let _ = password {
@@ -176,7 +175,7 @@ public class ZipArchiveEntry {
                 crc32: 0,
                 compressedSize: 0,
                 uncompressedSize: 0,
-                fileNameLength: fileNameLength,
+                fileNameLength: UInt16(fileName.count),
                 extraFieldLength: 0,
                 fileName: fileName,
                 extraField: [])

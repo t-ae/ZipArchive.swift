@@ -10,17 +10,10 @@ import Foundation
 
 extension ZipArchiveEntry {
 
-//    public func extractToFile(destinationFileName: String) throws {
-//        try extractToFile(destinationFileName, overwrite: false, password: "")
-//    }
-//    
-//    public func extractToFile(destinationFileName: String, overwrite: Bool) throws {
-//        try extractToFile(destinationFileName, overwrite: overwrite, password: "")
-//    }
-    
-    public func extractToFile(destinationFileName: String, overwrite: Bool = false, password: String? = nil) throws {
-        let fm = FileManager.default
-        if fm.fileExists(atPath: destinationFileName) {
+    public func extractTo(filePath: String, overwrite: Bool = false, password: String? = nil) throws {
+        let fileManager = FileManager.default
+        
+        if fileManager.fileExists(atPath: filePath) {
             if !overwrite {
                 throw ZipError.io
             }
@@ -31,7 +24,7 @@ extension ZipArchiveEntry {
             unzipStream.close()
         }
         
-        guard let fileOutputStream = OutputStream(toFileAtPath: destinationFileName, append: false) else {
+        guard let fileOutputStream = OutputStream(toFileAtPath: filePath, append: false) else {
             throw ZipError.io
         }
         fileOutputStream.open()
@@ -39,10 +32,13 @@ extension ZipArchiveEntry {
             fileOutputStream.close()
         }
         
-        var buffer = [UInt8].init(repeating: 0, count: kZipArchiveDefaultBufferSize)
+        let buffer = malloc(kZipArchiveDefaultBufferSize).assumingMemoryBound(to: UInt8.self)
+        defer {
+            free(buffer)
+        }
         
         while true {
-            let len = unzipStream.read(buffer: &buffer, maxLength: kZipArchiveDefaultBufferSize)
+            let len = unzipStream.read(buffer: buffer, maxLength: kZipArchiveDefaultBufferSize)
             if len < 0 {
                 throw ZipError.io
             }
@@ -50,7 +46,7 @@ extension ZipArchiveEntry {
                 // END
                 break
             }
-            let err = fileOutputStream.write(&buffer, maxLength: len)
+            let err = fileOutputStream.write(buffer, maxLength: len)
             if err < 0 {
                 throw ZipError.io
             }

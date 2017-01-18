@@ -103,8 +103,7 @@ final class Unzip {
             fatalError()
         }
         
-        var zipFileComment = [CSignedChar](repeating: 0, count: Int(zipFileCommentLength) + 1)
-        memcpy(&zipFileComment, buffer + byteSize, Int(zipFileCommentLength))
+        let zipFileComment = Data(bytes: buffer + byteSize, count: Int(zipFileCommentLength))
         
         return EndOfCentralDirectoryRecord(
             numberOfThisDisk: numberOfThisDisk,
@@ -115,6 +114,38 @@ final class Unzip {
             offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber: offsetOfStartOfCentralDirectoryWithRespectToTheStartingDiskNumber,
             zipFileCommentLength: zipFileCommentLength,
             zipFileComment: zipFileComment)
+    }
+    
+    private static func makeExtraFieldArray(extraFieldData: Data) -> [ExtraField] {
+        let data = NSData(data: extraFieldData)
+        
+        var extraFieldArray = [ExtraField]()
+        var offset = 0
+        while offset < data.length {
+            if (offset + 4) > data.length {
+                break
+            }
+            
+            var byteSize = 0
+            let headerID: UInt16 = BinaryUtility.deserialize(data, offset, &byteSize)
+            offset += byteSize
+            
+            byteSize = 0
+            let dataSize: UInt16 = BinaryUtility.deserialize(data, offset, &byteSize)
+            offset += byteSize
+            
+            if (offset + Int(dataSize)) > data.length {
+                break
+            }
+            
+            extraFieldArray.append(ExtraField(
+                headerID: headerID,
+                dataSize: dataSize,
+                data: data.subdata(with: NSRange(location: offset, length: Int(dataSize)))))
+            offset += Int(dataSize)
+        }
+        
+        return extraFieldArray
     }
     
     static func makeCentralDirectoryHeader(buffer: UnsafeMutablePointer<UInt8>, offset: Int, length: Int, byteSize: inout Int) -> CentralDirectoryHeader {
@@ -146,17 +177,14 @@ final class Unzip {
         let externalFileAttributes: UInt32 = BinaryUtility.deserialize(data, offset + byteSize, &byteSize)
         let relativeOffsetOfLocalHeader: UInt32 = BinaryUtility.deserialize(data, offset + byteSize, &byteSize)
         
-        var fileName = [CSignedChar](repeating: 0, count: Int(fileNameLength) + 1)
-        data.getBytes(&fileName, range: NSRange(location: offset + byteSize, length: Int(fileNameLength)))
-        byteSize += Int(fileNameLength)
+        let fileName = data.subdata(with: NSRange(location: offset + byteSize, length: Int(fileNameLength)))
+        byteSize += fileName.count
         
-        var extraField = [CSignedChar](repeating: 0, count: Int(extraFieldLength) + 1)
-        data.getBytes(&extraField, range: NSRange(location: offset + byteSize, length: Int(extraFieldLength)))
-        byteSize += Int(extraFieldLength)
-        
-        var fileComment = [CSignedChar](repeating: 0, count: Int(fileCommentLength) + 1)
-        data.getBytes(&fileComment, range: NSRange(location: offset + byteSize, length: Int(fileCommentLength)))
-        byteSize += Int(fileCommentLength)
+        let extraField = data.subdata(with: NSRange(location: offset + byteSize, length: Int(extraFieldLength)))
+        byteSize += extraField.count
+
+        let fileComment = data.subdata(with: NSRange(location: offset + byteSize, length: Int(fileCommentLength)))
+        byteSize += fileComment.count
         
         return CentralDirectoryHeader(
             versionMadeBy: versionMadeBy,
@@ -176,18 +204,18 @@ final class Unzip {
             externalFileAttributes: externalFileAttributes,
             relativeOffsetOfLocalHeader: relativeOffsetOfLocalHeader,
             fileName: fileName,
-            extraField: extraField,
+            extraField: makeExtraFieldArray(extraFieldData: extraField),
             fileComment: fileComment)
     }
     
     var isOpen: Bool = false
     
-    func openFile(fileName: [CSignedChar]) throws -> (LocalFileHeader, Int) {
-        guard let centralDirectoryHeader = centralDirectoryHeaders.filter({ strcmp($0.fileName, fileName) == 0 }).first else {
-            throw ZipError.argument
-        }
-        return try openFile(centralDirectoryHeader: centralDirectoryHeader)
-    }
+//    func openFile(fileName: Data) throws -> (LocalFileHeader, Int) {
+//        guard let centralDirectoryHeader = centralDirectoryHeaders.filter({ $0.fileName == fileName }).first else {
+//            throw ZipError.argument
+//        }
+//        return try openFile(centralDirectoryHeader: centralDirectoryHeader)
+//    }
 
     func openFile(centralDirectoryHeader: CentralDirectoryHeader) throws -> (LocalFileHeader, Int) {
         if isOpen {
@@ -234,18 +262,22 @@ final class Unzip {
         let fileNameLength: UInt16 = BinaryUtility.deserialize(data, byteSize, &byteSize)
         let extraFieldLength: UInt16 = BinaryUtility.deserialize(data, byteSize, &byteSize)
         
-        var fileName = [CSignedChar](repeating: 0, count: Int(fileNameLength) + 1)
-        guard stream.read(buffer: &fileName, maxLength: Int(fileNameLength)) == Int(fileNameLength) else {
+        var len = Int(fileNameLength)
+        var ptr = malloc(len)!
+        let fileName = Data(bytesNoCopy: ptr, count: len, deallocator: .free)
+        guard stream.read(buffer: ptr, maxLength: len) == len else {
             throw ZipError.io
         }
-        byteSize += Int(fileNameLength)
+        byteSize += len
         
         // NOTE: central と local とで長さが違うことがある
-        var extraField = [CSignedChar](repeating: 0, count: Int(extraFieldLength) + 1)
-        guard stream.read(buffer: &extraField, maxLength: Int(extraFieldLength)) == Int(extraFieldLength) else {
+        len = Int(extraFieldLength)
+        ptr = malloc(len)!
+        let extraField = Data(bytesNoCopy: ptr, count: len, deallocator: .free)
+        guard stream.read(buffer: ptr, maxLength: len) == len else {
             throw ZipError.io
         }
-        byteSize += Int(extraFieldLength)
+        byteSize += len
         
         let localFileHeader = LocalFileHeader(
             versionNeededToExtract: versionNeededToExtract,
@@ -259,7 +291,7 @@ final class Unzip {
             fileNameLength: fileNameLength,
             extraFieldLength: extraFieldLength,
             fileName: fileName,
-            extraField: extraField)
+            extraField: Unzip.makeExtraFieldArray(extraFieldData: extraField))
         
         return (localFileHeader, localHeaderSize)
     }

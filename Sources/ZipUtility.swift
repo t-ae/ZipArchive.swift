@@ -25,11 +25,11 @@ enum ZipUtility {
         
         components.year     = Int((date & 0b1111_1110_0000_0000) >> 9) + 1980
         components.month    = Int((date & 0b0000_0001_1110_0000) >> 5)
-        components.day      = Int(date & 0b0000_0000_0001_1111)
+        components.day      = Int( date & 0b0000_0000_0001_1111)
         
         components.hour     = Int((time & 0b1111_1000_0000_0000) >> 11)
         components.minute   = Int((time & 0b0000_0111_1110_0000) >> 5)
-        components.second   = Int(time & 0b0000_0000_0001_1111) * 2
+        components.second   = Int( time & 0b0000_0000_0001_1111) * 2
         
         guard let date = Calendar.current.date(from: components) else {
             return Date(timeIntervalSince1970: 0)
